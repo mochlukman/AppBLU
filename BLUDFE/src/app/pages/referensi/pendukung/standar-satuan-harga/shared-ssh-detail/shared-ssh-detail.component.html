@@ -1,0 +1,9 @@
+<div class="row mt-2" *ngIf="sshselected">
+  <div class="col-md-12">
+    <p-tabView [activeIndex]="tabIndex" (onChange)="onChangeTab($event)">
+      <p-tabPanel header="Mapping Rekening Standar Harga">
+        <app-shared-ssh-mapping-rek [tabIndex]="tabIndex" [sshselected]="sshselected"></app-shared-ssh-mapping-rek>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</div>

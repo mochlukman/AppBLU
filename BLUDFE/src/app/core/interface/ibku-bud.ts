@@ -1,0 +1,57 @@
+export interface IBkud {
+  datecreate: null;
+  dateupdate: null;
+  diterima: number;
+  idbend: number;
+  idbkas: number;
+  idbkud: number;
+  idkas: number;
+  idsts: number;
+  idttd: number;
+  idunit: number;
+  idxkode: number;
+  idxttd: number;
+  kdstatus: string;
+  nmbkas: string;
+  nobbantu: string;
+  nobukas: string;
+  nobukti: string;
+  nosts: string;
+  penerimaan: number;
+  potongan: number;
+  tgl1: string;
+  tgl2: string;
+  tglkas: string;
+  tglsts: string;
+  tglvalid: null;
+  uraian: string;
+}
+export interface IBkuk {
+  datecreate: null;
+  dateupdate: null;
+  dibayar: number;
+  idbend: number;
+  idbkas: number;
+  idbkuk: number;
+  idkas: number;
+  idsp2d: number;
+  idttd: number;
+  idunit: number;
+  idxkode: number;
+  idxttd: number;
+  kdstatus: string;
+  nmbkas: string;
+  nobbantu: string;
+  nobukas: string;
+  nobukti: string;
+  nosp2d: string;
+  pajak: number;
+  potongan: number;
+  afektasi: number;
+  tgl1: string;
+  tgl2: string;
+  tglkas: string;
+  tglsts: string;
+  tglvalid: null;
+  uraian: string;
+}

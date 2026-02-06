@@ -1,0 +1,12 @@
+<div class="row mt-2" *ngIf="spjSelected">
+  <div class="col-md-12">
+    <p-tabView [activeIndex]="tabIndex" (onChange)="onChangeTab($event)">
+      <p-tabPanel header="Rincian Jurnal">
+        <app-jurnal-belanja-up-detail-rincian-jurnal [tabIndex]="tabIndex" [spjSelected]="spjSelected"></app-jurnal-belanja-up-detail-rincian-jurnal>
+      </p-tabPanel>
+      <p-tabPanel header="Rincian Belanja">
+        <app-jurnal-belanja-up-detail-belanja [tabIndex]="tabIndex" [spjSelected]="spjSelected"></app-jurnal-belanja-up-detail-belanja>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</div>

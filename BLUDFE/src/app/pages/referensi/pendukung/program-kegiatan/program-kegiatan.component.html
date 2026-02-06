@@ -1,0 +1,94 @@
+<div class="container-fluid">
+  <div class="row mt-2 p-2">
+    <div class="card col-md-12">
+      <div class="card-title">
+        <span class="d-inline-block mt-2 mr-2"><i [attr.data-feather]="'home'" appFeatherIcon class="svg-size-custom"></i></span>
+<label class="position-absolute title-font-custom">{{title}}</label>
+      </div>
+      <div class="card-body">
+        <fieldset class="border p-2">
+          <legend  class="w-auto">Filter</legend>
+          <div class="row">
+            <div class="col-md-1 text-center p-2">
+              <label for="">Urusan</label>
+            </div>
+            <div class="col-md-2">
+              <input type="text" class="form-control" [pTooltip]="uiUrus.kode" placeholder="Kode" [(ngModel)]="uiUrus.kode" readonly/>
+            </div>
+            <div class="col-md-6">
+              <input type="text" class="form-control" [pTooltip]="uiUrus.nama" placeholder="Uraian" [(ngModel)]="uiUrus.nama" readonly/>
+            </div>
+            <div class="col-md-3">
+                <button type="button" class="btn btn-outline-info" (click)="lookUrus()"><i class="fa fa-search mr-1"></i>Cari Data</button>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+  </div>
+  <div class="row p-2">
+    <div class="card col-md-12">
+      <div class="card-body">
+        <p-table [value]="listdata" [lazy]="true" #dt (onLazyLoad)="gets($event)" [paginator]="true" [rowHover]="true"
+                  [rows]="12" [totalRecords]="totalRecords" [loading]="loading">
+          <ng-template pTemplate="caption">
+            <div class="row">
+              <div class="col-md-6 col-sm-12 text-left">
+                <button *ngIf="userInfo.Insert === 'True'" [disabled]="!formFilter.valid" type="button" class="btn btn-raised btn-outline-primary btn-sm" (click)="add()"><i class="fa fa-plus mr-1"></i>Tambah</button>
+              </div>
+              <div class="col-md-6 col-sm-12 text-right pr-0">
+                <div class="ui-inputgroup col-md-6 col-sm-12" style="float: right">
+                  <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1.25;"></i></span>
+                  <input type="text" class="w-100" pInputText placeholder="Cari Data" (input)="dt.filterGlobal($event.target.value, 'contains')">
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 15%;text-align: center" [pSortableColumn]="'nuprgrm'">Kode
+                <span style="float: right">
+                  <p-sortIcon [field]="'nuprgrm'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </span>
+              </th>
+              <th style="width: 73%;text-align: center" [pSortableColumn]="'nmprgrm'">Program
+                <span style="float: right">
+                  <p-sortIcon [field]="'nmprgrm'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </span>
+              </th>
+              <th style="width: 12%; text-align: center">Pilihan</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-data>
+            <tr class="ui-selectable-row"
+            [style.fontWeight]="data.idprgrm === (dataSelected ? dataSelected.idprgrm : '') ? 'bold' : ''"
+            [style.color]="data.idprgrm === (dataSelected ? dataSelected.idprgrm : '') ? '#228B22' : '#000000'">
+              <td style="text-align: center" (click)="onClick(data)">
+                <span style="text-decoration: underline; cursor: pointer;">
+                  {{data.nuprgrm ? data.nuprgrm : '' }}
+                </span>
+              </td>
+              <td style="text-align: left">{{data.nmprgrm}}</td>
+              <td style="text-align: center">
+                <button *ngIf="userInfo.Update === 'True'" type="button" class="btn btn-raised btn-outline-warning btn-sm mr-1" (click)="edit(data)"><i class="fa fa-edit"></i></button>
+                <button *ngIf="userInfo.Delete === 'True'" type="button" class="btn btn-raised btn-outline-danger btn-sm" (click)="delete(data)"><i class="fa fa-trash"></i></button>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage" let-columns>
+            <tr>
+                <td [attr.colspan]="3" style="text-align: center;">
+                  Data tidak Tersedia
+                </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+  <div class="row p-2" *ngIf="dataSelected">
+    <app-kegiatan-list [mpgrmSelected]="dataSelected"></app-kegiatan-list>
+  </div>
+</div>
+<app-look-dafturus (callBack)="callbackUrus($event)"></app-look-dafturus>
+<app-program-form (callBack)="callback($event)"></app-program-form>

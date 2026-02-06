@@ -1,0 +1,140 @@
+<div class="row">
+  <div class="col-md-12">
+    <fieldset class="border p-2">
+      <legend  class="w-auto">Filter</legend>
+      <div class="row">
+        <div class="col-md-1">
+          <label for="">SKPD</label>
+        </div>
+        <div class="col-md-2">
+          <input type="text" class="form-control" placeholder="Kode" [(ngModel)]="uiUnit.kode" readonly/>
+        </div>
+        <div class="col-md-6">
+          <input type="text" class="form-control" placeholder="Uraian" [(ngModel)]="uiUnit.nama" readonly/>
+        </div>
+        <div class="col-md-3" [hidden]="userInfo.Idunit != 0">
+          <button type="button" class="btn btn-outline-info" (click)="lookDaftunit()"><i class="fa fa-search mr-1"></i>Cari Data</button>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-md-1">
+          <label for="">Sub Kegiatan</label>
+        </div>
+        <div class="col-md-2">
+          <input type="text" class="form-control" placeholder="Kode" [(ngModel)]="uiKeg.kode" readonly/>
+        </div>
+        <div class="col-md-6">
+          <input type="text" class="form-control" placeholder="Uraian" [(ngModel)]="uiKeg.nama" readonly/>
+        </div>
+        <div class="col-md-3">
+          <button type="button" [disabled]="!unitSelected" class="btn btn-outline-info" (click)="lookKegiatan()"><i class="fa fa-search mr-1"></i>Cari Data</button>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <p-table [value]="listdata" [lazy]="true" #dt (onLazyLoad)="gets($event)" [paginator]="true" [rowHover]="true"
+              [rows]="12" [totalRecords]="totalRecords" [loading]="loading">
+      <ng-template pTemplate="caption">
+        <div class="row p-2">
+          <div class="ui-g-6" style="text-align: left">
+
+          </div>
+          <div class="col-lg-6 col-md-12 text-right pr-0 pl-0">
+            <div class="ui-inputgroup col-lg-6 col-md-12" style="float: right;">
+              <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1.25;"></i></span>
+              <input type="text" class="w-100" pInputText placeholder="Cari Data" (input)="dt.filterGlobal($event.target.value, 'contains')">
+            </div>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="text-align: center" [pSortableColumn]="'notagihan'">No. Tagihan
+            <span style="float: right">
+              <p-sortIcon [field]="'notagihan'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th style="text-align: center" [pSortableColumn]="'tgltagihan'">Tgl. Tagihan
+            <span style="float: right">
+              <p-sortIcon [field]="'tgltagihan'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th style="text-align: center" [pSortableColumn]="'uraiantagihan'">Uraian
+            <span style="float: right">
+              <p-sortIcon [field]="'uraiantagihan'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th style="text-align: center" [pSortableColumn]="'idkontrakNavigation.nokontrak'">No. Kontrak
+            <span style="float: right">
+              <p-sortIcon [field]="'idkontrakNavigation.nokontrak'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th style="text-align: center" [pSortableColumn]="'kdstatusNavigation.lblstatus'">Status
+            <span style="float: right">
+              <p-sortIcon [field]="'kdstatusNavigation.lblstatus'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th style="text-align: center" [pSortableColumn]="'tglvalid'">Tgl Sah
+            <span style="float: right">
+              <p-sortIcon [field]="'tglvalid'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th style="width: 10%; text-align: center">Pilihan</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-data>
+        <tr class="ui-selectable-row"
+            [style.fontWeight]="data.idtagihan === (dataSelected ? dataSelected.idtagihan : '') ? 'bold' : ''"
+            [style.color]="data.idtagihan === (dataSelected ? dataSelected.idtagihan : '') ? '#228B22' : '#000000'"
+        >
+          <td style="text-align: center" (click)="dataKlick(data)">
+            <span style="text-decoration: underline; cursor: pointer;">
+              {{data.notagihan ? data.notagihan : '' }}
+            </span>
+          </td>
+          <td style="text-align: center">{{data.tgltagihan | date: 'dd/MM/yyy'}}</td>
+          <td>{{data.uraiantagihan}}</td>
+          <td>{{data.idkontrakNavigation ?  data.idkontrakNavigation.nokontrak : ''}}</td>
+          <td>{{data.kdstatusNavigation ?  data.kdstatusNavigation.lblstatus : ''}}</td>
+          <td style="text-align: center">
+            <div *ngIf="data.valid != null; else notvalid">
+              <div class="row">
+                <div class="col-md-12">
+                  <span [style.color]="data.valid ? 'green' : 'red' ">
+                    {{ data.valid ? 'Diterima' : 'Ditolak' }}
+                  </span>
+                </div>
+                <div class="col-md-12">
+                  {{ data.tglvalid | date: 'mediumDate'}}
+                </div>
+              </div>
+            </div>
+            <ng-template #notvalid>
+              Belum Disahakan
+            </ng-template>
+          </td>
+          <td style="text-align: center">
+            <button type="button" class="btn btn-info btn-sm mr-1" (click)="print(data)"><i class="fa fa-print"></i></button>
+            <button *ngIf="userInfo.Update === 'True'" type="button" class="btn btn-warning btn-sm mr-1" (click)="update(data)" [pTooltip]="'Pengesahan'"><i class="fa fa-edit"></i></button>
+            <button *ngIf="userInfo.Delete === 'True'" type="button" class="btn btn-danger btn-sm" (click)="delete(data)" [pTooltip]="'Batalkan Pengesahan'"><i class="fa fa-trash"></i></button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage" let-columns>
+        <tr>
+          <td [attr.colspan]="7" style="text-align: center;">
+            Data tidak Tersedia
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+<app-tagihan-pengesahan-detail [tagihanSelected]="dataSelected"></app-tagihan-pengesahan-detail>
+<app-look-daftunit-dpa (callBack)="callBackDaftunit($event)"></app-look-daftunit-dpa>
+<app-look-dpakegiatan (callBack)="callBackKegiatan($event)"></app-look-dpakegiatan>
+<app-report-modal (callBack)="callBackTanggal($event)"></app-report-modal>
+<app-tagihan-pengesahan-form (callBack)="callback($event)"></app-tagihan-pengesahan-form>

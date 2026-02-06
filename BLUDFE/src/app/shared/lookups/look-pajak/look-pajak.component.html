@@ -1,0 +1,75 @@
+<p-dialog [(visible)]="showThis" [style]="{width: '50vw'}" [modal]="true" (onHide)="onHide()" [draggable]="false">
+  <p-header>
+    {{title}}
+  </p-header>
+  <div class="row">
+    <div class="col-md-12">
+      <p-table [value]="listData" [paginator]="true" [rows]="10" [rowHover]="true" #dt [globalFilterFields]="['kdpajak','nmpajak','uraian','rumuspajak']" [loading]="loading">
+        <ng-template pTemplate="caption">
+          <div class="row p-2">
+            <div class="ui-g-6" style="text-align: left">
+             
+            </div>
+            <div class="col-lg-6 col-md-12 text-right pr-0 pl-0">
+              <div class="ui-inputgroup col-lg-6 col-md-12" style="float: right;">
+                <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1.25;"></i></span>
+                <input type="text" class="w-100" pInputText placeholder="Cari Data" (input)="dt.filterGlobal($event.target.value, 'contains')">         
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+              <th style="width: 20%;text-align: center;" [pSortableColumn]="'kdpajak'"> Kode
+                <span style="float: right">
+                  <p-sortIcon [field]="'kdpajak'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </span>
+              </th>
+              <th style="width: 20%;text-align: center;" [pSortableColumn]="'nmpajak'"> Nama
+                <span style="float: right">
+                  <p-sortIcon [field]="'nmpajak'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </span>
+              </th>
+              <th style="width: 25%;text-align: center;" [pSortableColumn]="'uraian'"> Uraian
+                <span style="float: right">
+                  <p-sortIcon [field]="'uraian'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </span>
+              </th>
+              <th style="width: 25%;text-align: center;" [pSortableColumn]="'rumuspajak'"> Rumus
+                <span style="float: right">
+                  <p-sortIcon [field]="'rumuspajak'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </span>
+              </th>
+              <th style="width: 10%; text-align: center">Pilih</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data>
+          <tr class="ui-selectable-row">
+              <td>{{data.kdpajak}}</td>
+              <td>{{data.nmpajak}}</td>
+              <td>{{data.uraian}}</td>
+              <td>{{data.rumuspajak}}</td>
+              <td style="text-align: center">
+                  <button type="button" class="btn btn-outline-primary btn-sm" (click)="pilih(data); dt.reset()"><i class="fa fa-check mr-1"></i>Pilih</button>
+              </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage" let-columns>
+          <tr>
+              <td [attr.colspan]="5" style="text-align: center;">
+                Data tidak Tersedia
+              </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <p-messages [(value)]="msg"></p-messages>
+    </div>
+  </div>
+  <p-footer>
+    <button type="button" class="btn btn-soft-secondary btn-sm" (click)="onHide();"><i class="fa fa-close"></i>&nbsp;Kembali</button>
+  </p-footer>
+</p-dialog>

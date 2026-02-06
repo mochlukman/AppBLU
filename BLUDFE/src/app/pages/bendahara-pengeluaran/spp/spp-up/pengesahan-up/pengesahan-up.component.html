@@ -1,0 +1,108 @@
+<div class="row">
+  <div class="col-md-12">
+    <fieldset class="border p-2">
+      <legend  class="w-auto">Filter</legend>
+      <div class="row">
+        <div class="col-md-1 text-left p-2">
+          <label for="">Unit Organisasi</label>
+        </div>
+        <div class="col-md-2">
+          <input type="text" class="form-control" placeholder="Kode" [(ngModel)]="uiUnit.kode" readonly/>
+        </div>
+        <div class="col-md-6">
+          <input type="text" class="form-control" placeholder="Uraian" [(ngModel)]="uiUnit.nama" readonly/>
+        </div>
+        <div class="col-md-3" [hidden]="userInfo.Idunit != 0">
+            <button type="button" class="btn btn-outline-info" (click)="lookDaftunit()"><i class="fa fa-search"></i>&nbsp;Cari Data</button>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <p-table [loading]="loading" [value]="listdata" [paginator]="true" [rowHover]="true" [rows]="10" #dt [globalFilterFields]="['nospp','tglspp', 'idspdNavigation.nospd', 'noreg', 'keperluan', 'verifikasi','keperluan']">
+      <ng-template pTemplate="caption">
+        <div class="row p-2">
+          <div class="ui-g-6" style="text-align: left">
+          </div>
+          <div class="col-lg-6 col-md-12 text-right pr-0 pl-0">
+            <div class="ui-inputgroup col-lg-6 col-md-12" style="float: right;">
+              <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1.25;"></i></span>
+              <input type="text" class="w-100" pInputText placeholder="Cari Data" (input)="dt.filterGlobal($event.target.value, 'contains')">
+            </div>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 20%; text-align: center" [pSortableColumn]="'nospp'">No S-PPD
+            <span style="float: right">
+              <p-sortIcon [field]="'nospp'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th style="width: 10%;text-align: center" [pSortableColumn]="'tglspp'">Tanggal S-PPD
+            <span style="float: right">
+              <p-sortIcon [field]="'tglspp'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th style="width: 10%;text-align: center" [pSortableColumn]="'noreg'">Reg S-PPD
+            <span style="float: right">
+              <p-sortIcon [field]="'noreg'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th style="width: 25%;text-align: center" [pSortableColumn]="'keperluan'">{{ formFilter.value.kdstatus == '21' ? 'Nilai' : 'Keperluan' }}
+            <span style="float: right">
+              <p-sortIcon [field]="'keperluan'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th style="width: 13%;text-align: center" [pSortableColumn]="'valid'">Status
+            <span style="float: right">
+              <p-sortIcon [field]="'valid'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th style="width: 13%; text-align: center">Pilihan</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-data>
+        <tr class="ui-selectable-row">
+          <td style="text-align: center">{{data.nospp ? data.nospp : '' }}</td>
+          <td style="text-align: center">{{data.tglspp | date: 'dd/MM/yyy'}}</td>
+          <td style="text-align: center">{{data.noreg}}</td>
+          <td style="text-align: center">
+            <span class="d-block" *ngIf="data.kdstatus.trim() == '21'">{{data.nilaiup  | currency: 'IDR':'Rp. ': '0.2-4'}}</span>
+            {{ data.keperluan }}
+          </td>
+          <td style="text-align: center">
+              <span *ngIf="data.valid == null" style="color: #A9A9A9;">Belum Sahkan</span>
+              <span *ngIf="data.valid == true" class="text-success">
+                Disetujui
+                <br>
+                {{data.tglvalid | date: 'dd/MM/yyy'}}
+              </span>
+              <span *ngIf="data.valid == false" class="text-danger">Tidak Disetujui</span>
+          </td>
+          <td style="text-align: center">
+            <button type="button" class="btn btn-info btn-sm mr-1" (click)="print(data)"><i class="fa fa-print"></i></button>
+            <span *ngIf="userInfo.GroupId == '1' || ( userInfo.Kdgroup == 'ppk-skpd' && userInfo.Stchecker == 'True')">
+              <button *ngIf="userInfo.Update === 'True'" [pTooltip]="'Pengesahan Data'" type="button" class="btn btn-warning btn-sm mr-1" (click)="update(data)"><i class="fa fa-check"></i></button>
+              <button [pTooltip]="'Check List Dokumen'" type="button" class="btn btn-primary btn-sm mr-1" (click)="lookCheck(data)"><i class="fa fa-list"></i></button>
+              <button *ngIf="userInfo.Delete === 'True' && !data.status" [pTooltip]="'Batalkan Pengesahan'" type="button" class="btn btn-danger btn-sm" (click)="delete(data)"><i class="fa fa-close"></i></button>
+            </span>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage" let-columns>
+        <tr>
+            <td [attr.colspan]="6" style="text-align: center;">
+              Data tidak Tersedia
+            </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+<app-look-daftunit (callBack)="callBackDaftunit($event)"></app-look-daftunit>
+<app-pengesahan-up-form (callback)="callback($event)"></app-pengesahan-up-form>
+<app-pengesahan-up-check></app-pengesahan-up-check>
+<app-report-modal (callBack)="callBackTanggal($event)"></app-report-modal>

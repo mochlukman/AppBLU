@@ -1,0 +1,159 @@
+[
+  {
+    "roleId": "02.00.",
+    "menuId": "200",
+    "parentId": null,
+    "label": "Dashboard",
+    "icon": "network_check",
+    "routerLink": "dashboard",
+    "items": []
+  },
+  {
+    "roleId": "02.01.",
+    "menuId": "201",
+    "parentId": null,
+    "label": "Rekenan & Kontrak",
+    "icon": "dashboard",
+    "routerLink": null,
+    "items": [
+      {
+        "roleId": "02.01.01.",
+        "menuId": "20101",
+        "parentId": "201",
+        "label": "Daftar Rekenanan",
+        "icon": "assignment",
+        "routerLink": null,
+        "items": []
+      },
+      {
+        "roleId": "02.01.02.",
+        "menuId": "20102",
+        "parentId": "201",
+        "label": "Daftar Kontrak",
+        "icon": "assignment",
+        "routerLink": null,
+        "items": []
+      },
+      {
+        "roleId": "02.01.04.",
+        "menuId": "20104",
+        "parentId": "201",
+        "label": "Daftar Adendum",
+        "icon": "assignment",
+        "routerLink": null,
+        "items": []
+      }
+    ]
+  },
+  {
+    "roleId": "02.02.",
+    "menuId": "202",
+    "parentId": null,
+    "label": "Tagihan",
+    "icon": "attach_money",
+    "routerLink": null,
+    "items": [
+      {
+        "roleId": "02.02.01.",
+        "menuId": "20201",
+        "parentId": "202",
+        "label": "Uang Muka",
+        "icon": "assignment",
+        "routerLink": null,
+        "items": []
+      },
+      {
+        "roleId": "02.02.02.",
+        "menuId": "20202",
+        "parentId": "202",
+        "label": "Belanja Non Modal",
+        "icon": "assignment",
+        "routerLink": null,
+        "items": []
+      },
+      {
+        "roleId": "02.02.03.",
+        "menuId": "20203",
+        "parentId": "202",
+        "label": "Belanja Modal",
+        "icon": "assignment",
+        "routerLink": null,
+        "items": []
+      }
+    ]
+  },
+  {
+    "roleId": "02.03.",
+    "menuId": "203",
+    "parentId": null,
+    "label": "SPP",
+    "icon": "assignment",
+    "routerLink": null,
+    "items": [
+      {
+        "roleId": "02.03.00.",
+        "menuId": "20300",
+        "parentId": "203",
+        "label": "UP",
+        "icon": "library_books",
+        "routerLink": null,
+        "items": []
+      },
+      {
+        "roleId": "02.03.01.",
+        "menuId": "20301",
+        "parentId": "203",
+        "label": "GU",
+        "icon": "import_contacts",
+        "routerLink": null,
+        "items": []
+      },
+      {
+        "roleId": "02.03.02.",
+        "menuId": "20302",
+        "parentId": "203",
+        "label": "TU",
+        "icon": "perm_media",
+        "routerLink": null,
+        "items": []
+      }
+    ]
+  },
+  {
+    "roleId": "02.04.",
+    "menuId": "204",
+    "parentId": null,
+    "label": "SPM",
+    "icon": "assignment_turned_in",
+    "routerLink": null,
+    "items": [
+      {
+        "roleId": "02.04.00.",
+        "menuId": "20400",
+        "parentId": "204",
+        "label": "UP",
+        "icon": "receipt",
+        "routerLink": null,
+        "items": []
+      },
+      {
+        "roleId": "02.04.01.",
+        "menuId": "20401",
+        "parentId": "204",
+        "label": "Data Master",
+        "icon": "GU",
+        "routerLink": null,
+        "items": []
+      },
+      {
+        "roleId": "02.04.02.",
+        "menuId": "20402",
+        "parentId": "204",
+        "label": "Set Data Master",
+        "icon": "TU",
+        "routerLink": null,
+        "items": []
+      }
+    ]
+  }
+]

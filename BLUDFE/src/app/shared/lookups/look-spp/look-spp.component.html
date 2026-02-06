@@ -1,0 +1,180 @@
+<!--<p-dialog
+  [(visible)]="showThis"
+  [style]="{width: '80vw'}"
+  [modal]="true"
+  (onHide)="onHide()"
+  [maximizable]="true"
+  [draggable]="false">
+  <p-header>
+    {{title}}
+  </p-header>
+  <div class="row">
+    <div class="col-md-12">
+      <p-table [value]="listdata" [lazy]="true" #dt (onLazyLoad)="gets($event)" [paginator]="true" [rowHover]="true"
+               [rows]="12" [totalRecords]="totalRecords" [loading]="loading">
+        <ng-template pTemplate="caption">
+          <div class="row p-2">
+            <div class="ui-g-6" style="text-align: left">
+
+            </div>
+            <div class="col-lg-6 col-md-12 text-right pr-0 pl-0">
+              <div class="ui-inputgroup col-lg-6 col-md-12" style="float: right;">
+                <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1.25;"></i></span>
+                <input type="text" class="w-100" pInputText placeholder="Cari Data" (input)="dt.filterGlobal($event.target.value, 'contains')">
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 20%; text-align: center" [pSortableColumn]="'nospp'">No SPP
+              <span style="float: right">
+                <p-sortIcon [field]="'nospp'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+              </span>
+            </th>
+            <th style="width: 15%;text-align: center" [pSortableColumn]="'tglspp'">Tanggal SPP
+              <span style="float: right">
+                <p-sortIcon [field]="'tglspp'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+              </span>
+            </th>
+            <th style="width: 20%;text-align: center" [pSortableColumn]="'noreg'">Reg SPP
+              <span style="float: right">
+                <p-sortIcon [field]="'noreg'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+              </span>
+            </th>
+            <th style="width: 20%;text-align: center" [pSortableColumn]="'keperluan'">Keperluan
+              <span style="float: right">
+                <p-sortIcon [field]="'keperluan'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+              </span>
+            </th>
+            <th style="width: 15%;text-align: center" [pSortableColumn]="'verifikasi'">Verifikasi
+              <span style="float: right">
+                <p-sortIcon [field]="'verifikasi'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+              </span>
+            </th>
+            <th style="width: 9%; text-align: center">Pilihan</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data>
+          <tr class="ui-selectable-row">
+            <td style="text-align: center">{{data.nospp ? data.nospp : '' }}</td>
+            <td style="text-align: center">{{data.tglspp | date: 'dd/MM/yyy'}}</td>
+            <td style="text-align: center">{{data.noreg}}</td>
+            <td style="text-align: left">{{data.keperluan}}</td>
+            <td style="text-align: center">{{data.verifikasi}} <br> <span *ngIf="data.tglvalid">Tanggal : {{data.tglvalid | date: 'dd/MM/yyy'}}</span></td>
+            <td style="text-align: center">
+              <button type="button" class="btn btn-outline-primary btn-sm" (click)="pilih(data); dt.reset()"><i class="fa fa-check"></i>&nbsp;Pilih</button>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage" let-columns>
+          <tr>
+              <td [attr.colspan]="6" style="text-align: center;">
+                Data tidak Tersedia
+              </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <p-messages [(value)]="msg"></p-messages>
+    </div>
+  </div>
+  <p-footer>
+    <button type="button" class="btn btn-soft-secondary btn-sm" (click)="onHide();"><i class="fa fa-close"></i>&nbsp;Kembali</button>
+  </p-footer>
+</p-dialog>-->
+
+<p-dialog
+  [(visible)]="showThis"
+  [style]="{width: '80vw'}"
+  [modal]="true"
+  (onHide)="onHide()"
+  (onShow)="onShow()"
+  [maximizable]="true"
+  [draggable]="false">
+  <p-header>
+    {{title}}
+  </p-header>
+  <div class="row">
+    <div class="col-md-12">
+      <p-table [value]="listdata" [lazy]="true" #dt (onLazyLoad)="gets($event)" [paginator]="true" [rowHover]="true"
+               [rows]="12" [totalRecords]="totalRecords" [loading]="loading">
+        <ng-template pTemplate="caption">
+          <div class="row p-2">
+            <div class="ui-g-6" style="text-align: left">
+
+            </div>
+            <div class="col-lg-6 col-md-12 text-right pr-0 pl-0">
+              <div class="ui-inputgroup col-lg-6 col-md-12" style="float: right;">
+                <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1.25;"></i></span>
+                <input type="text" class="w-100" pInputText placeholder="Cari Data" (input)="dt.filterGlobal($event.target.value, 'contains')">
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 20%; text-align: center" [pSortableColumn]="'nospm'">Nomor S-PPD
+              <span style="float: right">
+                <p-sortIcon [field]="'nospp'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+              </span>
+            </th>
+            <th style="text-align: center" [pSortableColumn]="'tglspm'">Tanggal S-PPD
+              <span style="float: right">
+                <p-sortIcon [field]="'tglspp'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+              </span>
+            </th>
+            <th style="text-align: center" [pSortableColumn]="'noreg'">Reg SPP
+              <span style="float: right">
+                <p-sortIcon [field]="'noreg'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+              </span>
+            </th>
+            <th style="text-align: center" [pSortableColumn]="'keperluan'">Keperluan
+              <span style="float: right">
+                <p-sortIcon [field]="'keperluan'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+              </span>
+            </th>
+            <th style="text-align: center" [pSortableColumn]="'tglvalid'">Verifikasi
+              <span style="float: right">
+                <p-sortIcon [field]="'tglvalid'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+              </span>
+            </th>
+            <th style="width: 10%; text-align: center">Pilihan</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data>
+           <tr class="ui-selectable-row">
+            <td style="text-align: center">{{data.nospp ? data.nospp : '' }}</td>
+            <td style="text-align: center">{{data.tglspp | date: 'dd/MM/yyy'}}</td>
+            <td style="text-align: center">{{data.noreg}}</td>
+            <td style="text-align: left">{{data.keperluan}}</td>
+            <td style="text-align: center">{{data.verifikasi}} <br> <span *ngIf="data.tglvalid">Tanggal : {{data.tglvalid | date: 'dd/MM/yyy'}}</span></td>
+            <td style="text-align: center">
+              <button type="button" class="btn btn-outline-primary btn-sm" (click)="pilih(data); dt.reset()"><i class="fa fa-check"></i>&nbsp;Pilih</button>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage" let-columns>
+          <tr>
+              <td [attr.colspan]="6" style="text-align: center;">
+                Data tidak Tersedia
+              </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <p-messages [(value)]="msg"></p-messages>
+    </div>
+  </div>
+  <p-footer>
+    <button type="button" class="btn btn-soft-secondary btn-sm" (click)="onHide();"><i class="fa fa-close"></i>&nbsp;Kembali</button>
+  </p-footer>
+</p-dialog>
+
+

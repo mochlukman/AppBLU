@@ -1,0 +1,101 @@
+<p-dialog class="forCalender" [(visible)]="showThis" (onShow)="onShow()" [style]="{width: '40vw'}" [modal]="true"
+  (onHide)="onHide()" [draggable]="false">
+  <app-ui-preloader [display]="loading_post"></app-ui-preloader>
+  <p-header>
+    {{title}}
+  </p-header>
+  <div class="row">
+    <div class="col-md-12">
+      <form [formGroup]="forms">
+        <div class="row mb-2">
+          <div class="col-md-3">
+            Kode
+          </div>
+          <div class="col-md-9">
+            <input type="text" placeholder="Kode" class="form-control" formControlName="kdunit" />
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-3">
+            Uraian
+          </div>
+          <div class="col-md-9">
+            <textarea type="text" formControlName="nmunit" placeholder="Uraian" class="form-control" ></textarea>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-3">
+            Urusan
+          </div>
+          <div class="col-md-9">
+            <p-dropdown
+              [options]="listUrus"
+              [(ngModel)]="urusSelected"
+              [style]="{'width': '100%'}"
+              [filter]="true"
+              (onChange)="changeUrus($event)"
+              [ngModelOptions]="{standalone: true}">
+            </p-dropdown>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-3">
+            Akronim
+          </div>
+          <div class="col-md-9">
+            <input type="text" placeholder="Akornim" class="form-control" formControlName="akrounit" />
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-3">
+            Struktur
+          </div>
+          <div class="col-md-5">
+            <p-dropdown
+              [options]="listStruktur"
+              [(ngModel)]="struunitSelected"
+              [style]="{'width': '100%'}"
+              [filter]="true"
+              (onChange)="changeStruunit($event)"
+              [ngModelOptions]="{standalone: true}">
+            </p-dropdown>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-3">
+            Alamat
+          </div>
+          <div class="col-md-9">
+            <textarea type="text" formControlName="alamat" placeholder="Alamat" class="form-control" ></textarea>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-3">
+            Telepon
+          </div>
+          <div class="col-md-9">
+            <input type="text" placeholder="Telepon" class="form-control" formControlName="telepon" />
+          </div>
+        </div>
+        <div class="row mb-4 mt-4">
+          <div class="col-md-3">
+            Type
+          </div>
+          <div class="col-md-9">
+            <p-radioButton name="type" [value]="'H'" label="Header" formControlName="type" inputId="opt1" class="mr-2"></p-radioButton>
+            <p-radioButton name="type" [value]="'D'" label="Detail" formControlName="type" inputId="opt2"></p-radioButton>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <p-messages [(value)]="msg"></p-messages>
+    </div>
+  </div>
+  <p-footer>
+    <button type="button" [disabled]="!forms.valid || loading_post" class="btn btn-success btn-sm mr-1" (click)="simpan()"><i class="fa fa-save mr-1"></i>Simpan</button>
+    <button type="button" [disabled]="loading_post" class="btn btn-secondary btn-sm" (click)="onHide()"><i class="fa fa-close mr-1"></i>Kembali</button>
+  </p-footer>
+</p-dialog>

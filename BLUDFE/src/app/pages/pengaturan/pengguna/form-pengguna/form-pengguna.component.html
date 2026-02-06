@@ -1,0 +1,143 @@
+<p-dialog class="forCalender" 
+    [(visible)]="showThis"
+    (onShow)="onShow()"
+    [style]="{width: '40vw'}"
+    [modal]="true"
+    (onHide)="onHide()"
+    [draggable]="false">
+    <app-ui-preloader [display]="loading_post"></app-ui-preloader>
+    <p-header>
+        {{title}} Pengguna
+    </p-header>
+    <div class="row">
+      <div class="col-md-12">
+        <form [formGroup]="forms">
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Group User
+            </div>
+            <div class="col-md-9">
+              <p-dropdown
+                [options]="listGroup"
+                (onChange)="changeGroup($event)" 
+                [(ngModel)]="groupSelected"
+                [style]="{'width': '100%'}"
+                [filter]="true"
+                [ngModelOptions]="{standalone: true}">
+              </p-dropdown>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Skpd
+            </div>
+            <div class="col-md-3">
+              <input type="text" class="form-control" placeholder="Kode" [(ngModel)]="uiUnit.kode" readonly [ngModelOptions]="{standalone: true}"/>
+            </div>
+            <div class="col-md-5">
+              <input type="text" class="form-control" placeholder="Uraian" [(ngModel)]="uiUnit.nama" readonly [ngModelOptions]="{standalone: true}"/>
+            </div>
+            <div class="col-md-1">
+                <button type="button" class="btn btn-outline-info" (click)="lookDaftunit()"><i class="fa fa-search"></i></button>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Nip
+            </div>
+            <div class="col-md-3">
+              <input type="text" class="form-control" placeholder="Nip" [(ngModel)]="uiPeg.kode" readonly [ngModelOptions]="{standalone: true}"/>
+            </div>
+            <div class="col-md-5">
+              <input type="text" class="form-control" placeholder="Nama" [(ngModel)]="uiPeg.nama" readonly [ngModelOptions]="{standalone: true}"/>
+            </div>
+            <div class="col-md-1">
+                <button type="button" class="btn btn-outline-info" (click)="lookPegawai()"><i class="fa fa-search"></i></button>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Tahapan
+            </div>
+            <div class="col-md-9">
+              <p-dropdown
+                [options]="listTahap"
+                (onChange)="changeTahap($event)" 
+                [(ngModel)]="tahapSelected"
+                [style]="{'width': '100%'}"
+                [filter]="true"
+                [ngModelOptions]="{standalone: true}">
+              </p-dropdown>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              User ID
+            </div>
+            <div class="col-md-6">
+              <input type="text" placeholder="User ID" class="form-control" formControlName="userid"/>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Nama
+            </div>
+            <div class="col-md-6">
+              <input type="text" placeholder="nama" class="form-control" formControlName="nama"/>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Email
+            </div>
+            <div class="col-md-6">
+              <input type="text" placeholder="Email" class="form-control" formControlName="email"/>
+            </div>
+          </div>
+          <div class="row mb-2" [hidden]="mode == 'edit'">
+            <div class="col-md-3">
+              Password
+            </div>
+            <div class="col-md-6">
+              <input type="password" placeholder="Password" class="form-control" formControlName="pwd"/>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Keterangan
+            </div>
+            <div class="col-md-6">
+              <textarea type="text" placeholder="Keterangan" class="form-control" formControlName="ket"></textarea>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Otorisasi
+            </div>
+            <div class="col-md-5">
+              <p-radioButton name="otorisasi" inputId="stmaker" #r1 value="true" (onClick)="clickOtor(r1)" label="Pembuat (Maker)" formControlName="stmaker"></p-radioButton><br>
+              <p-radioButton name="otorisasi" inputId="stchecker" #r2 value="true" (onClick)="clickOtor(r2)" label="Pemerikasa (Checker)" formControlName="stchecker"></p-radioButton><br>
+              <p-radioButton name="otorisasi" inputId="staproval" #r3 value="true" (onClick)="clickOtor(r3)" label="Persetujuan (Aproval)" formControlName="staproval"></p-radioButton><br>
+              <p-radioButton name="otorisasi" inputId="stlegitimator" #r4 value="true" (onClick)="clickOtor(r4)" label="Pengesahan (Legitimator)" formControlName="stlegitimator"></p-radioButton>
+            </div>
+            <div class="col-md-4">
+              <p-checkbox name="stinsert" value="1" label="Tambah" #ck1 [formControl]="forms.controls['stinsert']" binary="true" [readonly]="true"></p-checkbox><br>
+              <p-checkbox name="stupdate" value="1" label="Ubah" #ck2 [formControl]="forms.controls['stupdate']" binary="true" [readonly]="true"></p-checkbox><br>
+              <p-checkbox name="stdelete" value="1" label="Hapus" #ck3 [formControl]="forms.controls['stdelete']" binary="true" [readonly]="true"></p-checkbox>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <p-messages [(value)]="msg"></p-messages>
+      </div>
+    </div>
+    <p-footer>
+      <button type="button" [disabled]="!forms.valid || loading_post" class="btn btn-success btn-sm" (click)="simpan()"><i class="fa fa-save"></i>&nbsp;Simpan</button>
+      <button type="button" [disabled]="loading_post" class="btn btn-secondary btn-sm" (click)="onHide()"><i class="fa fa-close"></i>&nbsp;Kembali</button>
+    </p-footer>
+</p-dialog>
+<app-look-pegawai (callback)="callbackPegawai($event)"></app-look-pegawai>
+<app-look-daftunit (callBack)="callbackDaftunit($event)"></app-look-daftunit>

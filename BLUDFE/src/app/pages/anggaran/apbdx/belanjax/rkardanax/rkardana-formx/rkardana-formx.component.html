@@ -1,0 +1,58 @@
+<p-dialog class="forCalender" 
+    [(visible)]="showThis"
+    (onShow)="onShow()"
+    [style]="{width: '40vw'}"
+    [modal]="true"
+    (onHide)="onHide()"
+    [draggable]="false">
+    <app-ui-preloader [display]="loading_post"></app-ui-preloader>
+    <p-header>
+        {{title}}
+    </p-header>
+    <div class="row">
+      <div class="col-md-12">
+        <form [formGroup]="forms">
+          <div class="row mb-2">
+            <div class="col-md-2">
+              Sumber Dana
+            </div>
+            <div class="col-md-2">
+              <input type="text" class="form-control" placeholder="Kode" [pTooltip]="uiJdana.kode" [(ngModel)]="uiJdana.kode" readonly [ngModelOptions]="{standalone: true}"/>
+            </div>
+            <div class="col-md-7">
+              <input type="text" class="form-control" placeholder="Nama" [pTooltip]="uiJdana.nama"  [(ngModel)]="uiJdana.nama" readonly [ngModelOptions]="{standalone: true}"/>
+            </div>
+            <div class="col-md-1 pl-0">
+                <button type="button" *ngIf="mode == 'add'" class="btn btn-outline-info" (click)="lookJdana()"><i class="fa fa-search"></i></button>
+            </div>
+          </div>
+          <div class="row mb-2" *ngIf="nilaix != 0 && mode == 'edit'">
+            <div class="col-md-2">
+              Nilai Murni
+            </div>
+            <div class="col-md-10">
+              <input type="text" appInputRupiah placeholder="Nilai" class="form-control" formControlName="nilaix"/>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-2">
+              {{ nilaix != 0 ? 'Nilai Perubahan' : 'Nilai' }}
+            </div>
+            <div class="col-md-10">
+              <input type="text" appInputRupiah placeholder="Nilai" class="form-control" formControlName="nilai"/>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <p-messages [(value)]="msg"></p-messages>
+      </div>
+    </div>
+    <p-footer>
+      <button type="button" [disabled]="!forms.valid || loading_post" class="btn btn-success btn-sm" (click)="simpan()"><i class="fa fa-save"></i>&nbsp;Simpan</button>
+      <button type="button" [disabled]="loading_post" class="btn btn-secondary btn-sm" (click)="onHide()"><i class="fa fa-close"></i>&nbsp;Kembali</button>
+    </p-footer>
+  </p-dialog>
+  <app-look-jdana (callBack)="callbackJdana($event)"></app-look-jdana>

@@ -1,0 +1,9 @@
+<div class="card">
+  <p-tabView>
+    <p-tabPanel header="Rincian" leftIcon="pi pi-list" [cache]="false">
+      <ng-template pTemplate="content">
+        <app-anggaran-rincian [BktmemSelected]="BktmemSelected"></app-anggaran-rincian>
+      </ng-template>
+    </p-tabPanel>
+  </p-tabView>
+</div>

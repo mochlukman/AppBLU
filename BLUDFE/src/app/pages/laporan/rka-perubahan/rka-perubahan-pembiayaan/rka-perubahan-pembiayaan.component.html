@@ -1,0 +1,64 @@
+<div class="container-fluid">
+    <div class="row mt-2 p-2">
+      <div class="card col-md-12">
+        <div class="card-title">
+          <span class="d-inline-block mt-2 mr-2"><i [attr.data-feather]="'home'" appFeatherIcon class="svg-size-custom"></i></span>
+  <label class="position-absolute title-font-custom">Laporan / Anggaran / RBA Perubahan / RBAP Pembiayaan</label>
+        </div>
+      </div>
+    </div>
+    <div class="row p-2">
+        <div class="card col-md-12">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <fieldset class="border p-2">
+                  <legend  class="w-auto">Filter</legend>
+                    <div class="row">
+                        <div class="col-md-1 text-left p-2">
+                            <label for="">SKPD</label>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="text" class="form-control" placeholder="Kode" [(ngModel)]="uiUnit.kode" readonly/>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" placeholder="Uraian" [(ngModel)]="uiUnit.nama" readonly/>
+                        </div>
+                        <div class="col-md-3" [hidden]="userInfo.Idunit != 0">
+                            <button type="button" class="btn btn-outline-info" (click)="lookDaftunit()"><i class="fa fa-search"></i>&nbsp;Cari Data</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1 text-left p-2">
+                            <label for="">Tahapan</label>
+                        </div>
+                        <div class="col-md-2">
+                            <p-dropdown [options]="optionTahap"
+                                [(ngModel)]="tahapSelected"
+                                placeholder="Pilih Tahapan"
+                                [filter]="true"
+                                [ngModelOptions]="{standalone: true}"
+                                [style]="{'width': '100%'}">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1 text-left p-2">
+                            <label for=""></label>
+                        </div>
+                        <div class="col-md-2">
+                            <p-splitButton label="Cetak"
+                            icon="fa fa-print"
+                            [model]="itemPrints"
+                            [menuStyle]="{'width':'8em'}"
+                            styleClass="ui-button-info"></p-splitButton>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+
+    </div>
+</div>
+<app-look-daftunit (callBack)="callBackDaftunit($event)"></app-look-daftunit>
+<app-report-modal (callBack)="callBackTanggal($event)"></app-report-modal>

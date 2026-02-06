@@ -1,0 +1,8 @@
+<p-dropdown
+  [options]="selectitem"
+  (onChange)="changedata($event)" 
+  [(ngModel)]="dataselected"
+  [style]="{'width': '100%'}"
+  [filter]="true"
+  [ngModelOptions]="{standalone: true}">
+</p-dropdown>

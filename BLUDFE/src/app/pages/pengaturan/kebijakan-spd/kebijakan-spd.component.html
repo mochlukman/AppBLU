@@ -1,0 +1,30 @@
+<div class="container-fluid">
+  <div class="row mt-2 p-2">
+    <div class="card col-md-12">
+      <div class="card-title">
+        <span class="d-inline-block mt-2 mr-2"><i [attr.data-feather]="'home'" appFeatherIcon class="svg-size-custom"></i></span>
+<label class="position-absolute title-font-custom">{{title}}</label>
+      </div>
+    </div>
+  </div>
+  <div class="row p-2">
+    <div class="card col-md-12">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <fieldset class="border p-2">
+              <legend  class="w-auto">Kebijakan SPD</legend>
+              <div class="row">
+                <div class="col-md-6 flex p-2">
+                  <p-radioButton name="kebijakan" class="mr-2" inputId="Bulanan" #r1 value="B" (onClick)="clickKebijakan()" label="Bulanan" [(ngModel)]="kebijakan" [ngModelOptions]="{standalone: true}"></p-radioButton> &nbsp;
+                  <p-radioButton name="kebijakan" class="mr-2" inputId="Triwulan" #r2 value="T" (onClick)="clickKebijakan()" label="Triwulan" [(ngModel)]="kebijakan" [ngModelOptions]="{standalone: true}"></p-radioButton>
+                  <p-radioButton name="kebijakan" class="mr-2" inputId="Semester" #r3 value="S" (onClick)="clickKebijakan()" label="Semester" [(ngModel)]="kebijakan" [ngModelOptions]="{standalone: true}"></p-radioButton>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+<p-dialog class="forCalender" [(visible)]="showThis" (onShow)="onShow()" [style]="{width: '40vw'}" [modal]="true"
+          (onHide)="onHide()" [draggable]="false">
+  <app-ui-preloader [display]="loading_post"></app-ui-preloader>
+  <p-header>
+    {{title}}
+  </p-header>
+  <div class="row">
+    <div class="col-md-12">
+      <form [formGroup]="forms">
+        <div class="row mb-2">
+          <div class="col-md-3">
+            Kode
+          </div>
+          <div class="col-md-9">
+            <input type="text" placeholder="Kode" class="form-control" formControlName="kdjnspajak" required/>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-3">
+            Jenis Pajak / Potongan
+          </div>
+          <div class="col-md-9">
+            <input type="text" placeholder="Nama" class="form-control" formControlName="nmjnspajak" />
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <p-messages [(value)]="msg"></p-messages>
+    </div>
+  </div>
+  <p-footer>
+    <button type="button" [disabled]="!forms.valid || loading_post" class="btn btn-success btn-sm mr-1" (click)="simpan()"><i class="fa fa-save mr-1"></i>Simpan</button>
+    <button type="button" [disabled]="loading_post" class="btn btn-secondary btn-sm" (click)="onHide()"><i class="fa fa-close mr-1"></i>Kembali</button>
+  </p-footer>
+</p-dialog>

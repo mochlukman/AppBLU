@@ -1,0 +1,155 @@
+<div class="container-fluid">
+  <div class="row mt-2 p-2">
+    <div class="card col-md-12">
+      <div class="card-title">
+        <span class="d-inline-block mt-2 mr-2"><i [attr.data-feather]="'home'" appFeatherIcon class="svg-size-custom"></i></span>
+<label class="position-absolute title-font-custom">{{title}}</label>
+      </div>
+    </div>
+  </div>
+  <div class="row p-2">
+    <div class="card col-md-12">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <fieldset class="border p-2">
+              <legend  class="w-auto">Filter</legend>
+              <div class="row">
+                <div class="col-md-1 text-center p-2">
+                  <label for="">SKPD</label>
+                </div>
+                <div class="col-md-2">
+                  <input type="text" class="form-control" placeholder="Kode" [(ngModel)]="uiUnit.kode" readonly/>
+                </div>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" placeholder="Uraian" [(ngModel)]="uiUnit.nama" readonly/>
+                </div>
+                <div class="col-md-3" [hidden]="userInfo.Idunit != 0">
+                    <button type="button" class="btn btn-outline-info" (click)="lookDaftunit()"><i class="fa fa-search"></i>&nbsp;Cari Data</button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-1 text-center p-2">
+                  <label for="">Kegiatan</label>
+                </div>
+                <div class="col-md-2">
+                  <input type="text" class="form-control" placeholder="Kode" [(ngModel)]="uiKeg.kode" readonly/>
+                </div>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" placeholder="Uraian" [(ngModel)]="uiKeg.nama" readonly/>
+                </div>
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-outline-info" (click)="lookKegiatan()"><i class="fa fa-search"></i>&nbsp;Cari Data</button>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-md-12">
+            <p-table [value]="listdata" [lazy]="true" #dt (onLazyLoad)="gets($event)" [paginator]="true" [rowHover]="true" editMode="row" dataKey="idrkar"
+                        [rows]="12" [totalRecords]="totalRecords" [loading]="loading">
+                <ng-template pTemplate="caption">
+                  <div class="row">
+                    <div class="col-md-6 col-sm-12 text-left">
+                      <span [hidden]="isvalid">
+                        <button *ngIf="userInfo.Insert === 'True'" [disabled]="!formFilter.valid" type="button" class="btn btn-primary btn-sm" (click)="add()"><i class="fa fa-plus"></i>&nbsp;Tambah</button>
+                      </span>
+                    </div>
+                    <div class="col-md-6 col-sm-12 text-right pr-0">
+                      <div class="ui-inputgroup col-md-6 col-sm-12" style="float: right;display: block;">
+                        <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1.25;"></i></span>
+                        <input type="text" pInputText placeholder="Cari Data" (input)="dt.filterGlobal($event.target.value, 'contains')">
+                      </div>
+                    </div>
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th style="width: 20%; text-align: center" [pSortableColumn]="'idrekNavigation.kdper'">Kode
+                      <span style="float: right">
+                        <p-sortIcon [field]="'idrekNavigation.kdper'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                      </span>
+                    </th>
+                    <th style="width: 32%; text-align: center" [pSortableColumn]="'idrekNavigation.nmper'">Uraian
+                      <span style="float: right">
+                        <p-sortIcon [field]="'idrekNavigation.nmper'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                      </span>
+                    </th>
+                    <th style="width: 18%; text-align: center" [pSortableColumn]="'rkarx.nilai'">Nilai Murni
+                      <span style="float: right">
+                        <p-sortIcon [field]="'rkarx.nilai'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                      </span>
+                    </th>
+                    <th style="width: 18%; text-align: center" [pSortableColumn]="'nilai'">Nilai Perubahan
+                      <span style="float: right">
+                        <p-sortIcon [field]="'nilai'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                      </span>
+                    </th>
+                    <th style="width: 12%; text-align: center">Pilihan</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-data let-editing="editing" let-ri="rowIndex">
+                  <tr class="ui-selectable-row" [pEditableRow]="data"
+                  [style.fontWeight]="data.idrkar === (dataSelected ? dataSelected.idrkar : '') ? 'bold' : ''"
+                  [style.color]="data.idrkar === (dataSelected ? dataSelected.idrkar : '') ? '#228B22' : '#000000'"
+                  >
+                    <td style="text-align: center; cursor: pointer;" (click)="dataKlick(data)" >
+                      <span style="text-decoration: underline;">
+                        {{data.idrekNavigation ? data.idrekNavigation.kdper : '' }}
+                      </span>
+                    </td>
+                    <td>{{data.idrekNavigation ? data.idrekNavigation.nmper : ''}}</td>
+                    <td style="text-align: right;">{{(data.rkarx ? data.rkarx.nilai : 0) | currency: 'IDR':'Rp. ': '0.2-4'}}</td>
+                    <td style="text-align: right;">
+                      <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input appInputRupiah type="text" class="form-control" [(ngModel)]="data.nilai">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                          {{data.nilai | currency: 'IDR':'Rp. ': '0.2-4'}}
+                        </ng-template>
+                    </p-cellEditor>
+                    </td>
+                    <td style="text-align: center">
+                      <button type="button" *ngIf="userInfo.Insert == 'True' && data.idkegNavigation.type.trim() == 'D' && !editing" class="btn btn-sm btn-raised btn-outline-info mr-1" [pTooltip]="'Sumber Dana'" (click)="getSumberDana(data)"><i class="fa fa-money"></i></button>
+                      <span [hidden]="isvalid">
+                        <button type="button" *ngIf="userInfo.Update == 'True' && !editing" pInitEditableRow class="btn btn-sm btn-raised btn-outline-warning mr-1" (click)="onRowEditInit(data)"><i class="fa fa-edit"></i></button>
+                        <button type="button" *ngIf="editing" pSaveEditableRow class="btn btn-sm btn-raised btn-outline-primary mr-1" (click)="onRowEditSave(data)"><i class="fa fa-save"></i></button>
+                        <button type="button" *ngIf="editing" pCancelEditableRow class="btn btn-sm btn-raised btn-outline-danger mr-1" (click)="onRowEditCancel(data,ri)"><i class="fa fa-close"></i></button>
+                        <button type="button" *ngIf="!editing" class="btn btn-sm btn-raised btn-outline-danger mr-1" (click)="delete(data)"><i class="fa fa-trash"></i></button>
+                      </span>
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage" let-columns>
+                  <tr>
+                      <td [attr.colspan]="5" style="text-align: center;">
+                        Data tidak Tersedia
+                      </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="footer" let-data>
+                  <tr>
+                    <td colspan="3" style="text-align: right;font-weight: bold;">Sub Total</td>
+                    <td style="text-align: right;font-weight: bold;">{{subTotal() | currency: 'IDR':'Rp. ': '0.2-4'}}</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td colspan="3" style="text-align: right;font-weight: bold;">Total</td>
+                    <td style="text-align: right;font-weight: bold;">{{totalNilai | currency: 'IDR':'Rp. ': '0.2-4'}}</td>
+                    <td></td>
+                  </tr>
+                </ng-template>
+              </p-table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-rka-rpenjabaranx [isvalid]="isvalid" [rkaSelected]="dataSelected" (callbackChild)="callbackChild($event)"></app-rka-rpenjabaranx>
+</div>
+<app-look-daftunit (callBack)="callBackDaftunit($event)"></app-look-daftunit>
+<app-look-mkegiatan-by-kegunit (callBack)="callBackKegiatan($event)"></app-look-mkegiatan-by-kegunit>
+<app-rkar-formx (callback)="callback($event)"></app-rkar-formx>
+<app-rkardanax></app-rkardanax>

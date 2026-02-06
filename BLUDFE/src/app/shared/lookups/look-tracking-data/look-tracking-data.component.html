@@ -1,0 +1,41 @@
+<p-dialog class="forCalender" 
+    [(visible)]="showThis"
+    (onShow)="onShow()"
+    [style]="{width: '60vw'}"
+    [modal]="true"
+    (onHide)="onHide()"
+    [maximizable]="true"
+    [draggable]="false">
+    <app-ui-preloader [display]="loading_post"></app-ui-preloader>
+    <p-header>
+        {{title}}
+    </p-header>
+    <div class="row mt-4 mb-4">
+      <div class="col-md-12">
+        <div style="display:inline-block;width:100%;overflow-y:auto;">
+          <ul class="timeline2 timeline2-horizontal">
+            <li class="timeline2-item" *ngFor="let x of listdata">
+              <div class="timeline2-badge" [ngClass]="x.done != 1 ? 'primary' : 'primary-before'"><i class="fa" [ngClass]="x.done != 1 ? 'fa-check' : 'fa-close'"></i></div>
+              <div class="timeline2-panel">
+                <div class="timeline2-heading">
+                  <h4 class="timeline2-title" [style.color]="x.done != 1 ? 'rgba(0, 0, 0, 1)' : 'rgba(0, 0, 0, 0.3)'">{{ x.title }}</h4>
+                  <!-- <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> 11 hours ago via Twitter</small></p> -->
+                </div>
+                <div class="timeline2-body">
+                  <p [style.color]="x.done != 1 ? 'rgba(0, 0, 0, 1)' : 'rgba(0, 0, 0, 0.3)'">{{ x.desc }}</p>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <p-messages [(value)]="msg"></p-messages>
+      </div>
+    </div>
+    <p-footer>
+      <button type="button" [disabled]="loading_post" class="btn btn-secondary btn-sm" (click)="onHide()"><i class="fa fa-close mr-1"></i>Kembali</button>
+    </p-footer>
+  </p-dialog>

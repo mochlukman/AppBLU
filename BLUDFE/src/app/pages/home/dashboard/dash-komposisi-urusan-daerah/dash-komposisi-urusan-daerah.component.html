@@ -1,0 +1,9 @@
+<app-ui-preloader [display]="loading_post"></app-ui-preloader>
+<fieldset class="border p-2">
+  <legend  class="w-auto">Komposisi Sumber Dana</legend>
+  <div class="row">
+    <div class="col-md-12 col-sm-12">
+      <app-pie-chart title="Komposisi Sumber Dana" [data]="data" [disposisiLegend]="true"></app-pie-chart>
+    </div>
+  </div>
+</fieldset>

@@ -1,0 +1,64 @@
+<div class="row mt-2 mb-2">
+  <div class="col-md-12">
+    <p-table [loading]="loading" [value]="listdata" [rowHover]="true" [paginator]="true" [rows]="10" #dt [globalFilterFields]="['idsp2dNavigation.nosp2d','daftunit.nmunit','idsp2dNavigation.tglsp2d','idsp2dNavigation.keperluan']">
+      <ng-template pTemplate="caption">
+        <div class="row p-2">
+          <div class="ui-g-6" style="text-align: left">
+            <button *ngIf="userInfo.Insert === 'True'" type="button" class="btn btn-primary btn-sm" (click)="add()"><i class="fa fa-plus"></i>&nbsp;Tambah</button>
+          </div>
+          <div class="col-lg-6 col-md-12 text-right pr-0 pl-0">
+            <!-- <div class="ui-inputgroup col-lg-6 col-md-12" style="float: right;">
+              <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1.25;"></i></span>
+              <input type="text" class="w-100" pInputText placeholder="Cari Data" (input)="dt.filterGlobal($event.target.value, 'contains')">         
+            </div> -->
+            <span *ngIf="dpSelected">Detail DP : {{dpSelected.nodp}} - {{ dpSelected.uraian }}</span>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 25%; text-align: center" [pSortableColumn]="'idsp2dNavigation.nosp2d'">No SP2D
+            <span style="float: right">
+              <p-sortIcon [field]="'idsp2dNavigation.nosp2d'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th style="width: 25%;text-align: center" [pSortableColumn]="'daftunit.nmunit'">Perangkat Daerah
+            <span style="float: right">
+              <p-sortIcon [field]="'daftunit.nmunit'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th style="width: 15%;text-align: center" [pSortableColumn]="'idsp2dNavigation.tglsp2d'">Tanggal SP2D
+            <span style="float: right">
+              <p-sortIcon [field]="'idsp2dNavigation.tglsp2d'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th style="width: 25%;text-align: center" [pSortableColumn]="'idsp2dNavigation.keperluan'">Keperluan
+            <span style="float: right">
+              <p-sortIcon [field]="'idsp2dNavigation.keperluan'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th style="width: 10%; text-align: center">Pilihan</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-data>
+        <tr class="ui-selectable-row">
+          <td style="text-align: left">{{data.idsp2dNavigation ? data.idsp2dNavigation.nosp2d : '' }}</td>
+          <td style="text-align: left">{{data.daftunit ? data.daftunit.nmunit : '' }}</td>
+          <td style="text-align: center">{{data.idsp2dNavigation.tglsp2d | date: 'dd/MM/yyy' }}</td>
+          <td style="text-align: left">{{data.idsp2dNavigation ? data.idsp2dNavigation.keperluan : '' }}</td>
+          <td style="text-align: center">
+            <button *ngIf="userInfo.Delete === 'True'" type="button" class="btn btn-danger btn-sm" (click)="delete(data)"><i class="fa fa-trash"></i></button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage" let-columns>
+        <tr>
+            <td [attr.colspan]="5" style="text-align: center;">
+              Data tidak Tersedia
+            </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+<app-daftar-penguji-detail-form (callback)="callback($event)"></app-daftar-penguji-detail-form>

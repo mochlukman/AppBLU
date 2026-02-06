@@ -1,0 +1,15 @@
+<p-autoComplete 
+    [(ngModel)]="data"
+    [style]="{'width':'100%'}"
+    [inputStyle]="{'width':'100%'}"
+    (onSelect)="onSelectData($event)"
+    (onClear)="onClearData($event)"
+    field="combine"
+    [suggestions]="listData"
+    [ngModelOptions]="{standalone: true}"
+    emptyMessage="Data tidak ditemukan"
+    (completeMethod)="searchData($event)">
+    <ng-template let-unit pTemplate="item">
+      <span> {{ unit.kdunit }} - {{ unit.nmunit }}</span>
+    </ng-template>
+  </p-autoComplete>

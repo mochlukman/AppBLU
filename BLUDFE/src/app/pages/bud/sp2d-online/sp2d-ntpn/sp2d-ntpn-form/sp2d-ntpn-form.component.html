@@ -1,0 +1,83 @@
+<p-dialog class="forCalender" 
+    [(visible)]="showThis"
+    (onShow)="onShow()"
+    [style]="{width: '50vw'}"
+    [modal]="true"
+    (onHide)="onHide()"
+    [maximizable]="true"
+    [draggable]="false">
+    <app-ui-preloader [display]="loading_post"></app-ui-preloader>
+    <p-header>
+        {{title}}
+    </p-header>
+    <div class="row">
+      <div class="col-md-12">
+        <form [formGroup]="forms">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="row mb-2">
+                <div class="col-md-3">
+                  SP2D
+                </div>
+                <div class="col-md-9">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <input type="text" class="form-control" placeholder="Kode" [pTooltip]="uiSp2d.kode" tooltipPosition="top" [(ngModel)]="uiSp2d.kode" [ngModelOptions]="{standalone: true}" readonly/>
+                    </div>
+                    <div class="col-md-8">
+                      <input type="text" class="form-control" placeholder="Uraian" [pTooltip]="uiSp2d.nama" tooltipPosition="top" [(ngModel)]="uiSp2d.nama" [ngModelOptions]="{standalone: true}" readonly/>
+                    </div>
+                    <div class="col-md-1 pl-0">
+                        <button *ngIf="mode == 'add'" type="button" class="btn btn-outline-info" (click)="lookSp2d()"><i class="fa fa-search"></i></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-md-3">
+                  Nomor NTPN
+                </div>
+                <div class="col-md-9">
+                  <input type="text" formControlName="ntpn" placeholder="No. NTPN" class="form-control"/>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-md-3">
+                  Tanggal
+                </div>
+                <div class="col-md-5">
+                  <p-calendar 
+                    formControlName="tglntpn"
+                    [showIcon]="true" 
+                    [locale]="indoKalender"
+                    [monthNavigator]="true"
+                    yearRange="2000:2030"
+                    showButtonBar="true"
+                    [style]="{'width': '100%'}"
+                    [yearNavigator]="true"></p-calendar>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-md-3">
+                  ID BILLING
+                </div>
+                <div class="col-md-9">
+                  <input type="text" formControlName="idbilling" placeholder="ID BILLING" class="form-control"/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <p-messages [(value)]="msg"></p-messages>
+      </div>
+    </div>
+    <p-footer>
+      <button type="button" [disabled]="!forms.valid || loading_post" class="btn btn-success btn-sm mr-1" (click)="simpan()"><i class="fa fa-save mr-1"></i>Simpan</button>
+      <button type="button" [disabled]="loading_post" class="btn btn-secondary btn-sm" (click)="onHide()"><i class="fa fa-close mr-1"></i>Kembali</button>
+    </p-footer>
+  </p-dialog>
+  <app-look-sp2d (callback)="callBacSp2d($event)"></app-look-sp2d>

@@ -1,0 +1,15 @@
+<p-autoComplete 
+    [(ngModel)]="data"
+    [style]="{'width':'100%'}"
+    [inputStyle]="{'width':'100%'}"
+    (onSelect)="onSelectData($event)"
+    (onClear)="onClearData($event)"
+    field="combine"
+    [suggestions]="listData"
+    [ngModelOptions]="{standalone: true}"
+    emptyMessage="Data tidak ditemukan"
+    (completeMethod)="searchData($event)">
+    <ng-template let-data pTemplate="item">
+      <span> {{ data.idpegNavigation.nip.trim() }} - {{ data.idpegNavigation.nama.trim() }}</span>
+    </ng-template>
+  </p-autoComplete>

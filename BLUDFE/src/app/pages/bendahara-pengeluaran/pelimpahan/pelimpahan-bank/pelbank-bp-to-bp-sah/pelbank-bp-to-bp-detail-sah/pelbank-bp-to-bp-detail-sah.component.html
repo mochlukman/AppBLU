@@ -1,0 +1,9 @@
+<div class="row mt-2" *ngIf="TbpSelected">
+  <div class="col-md-12">
+    <p-tabView [activeIndex]="tabIndex" (onChange)="onChangeTab($event)">
+      <p-tabPanel header="Penerima">
+        <app-pelbank-bp-to-bp-detail-penerima-sah [TbpSelected]="TbpSelected"></app-pelbank-bp-to-bp-detail-penerima-sah>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</div>

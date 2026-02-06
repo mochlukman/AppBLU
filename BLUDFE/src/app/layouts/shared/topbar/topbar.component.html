@@ -1,0 +1,60 @@
+<!-- Topbar Start -->
+<div class="navbar navbar-expand flex-column flex-md-row navbar-custom">
+  <div class="container-fluid">
+    <!-- LOGO -->
+    <a routerLink="/" class="navbar-brand mr-0 mr-md-2 logo">
+      <span class="logo-lg">
+        <img src="assets/images/logo.png" alt="" height="35" />
+        <!-- <span class="d-inline h5 ml-1 text-logo ml-2">TUKD</span> -->
+      </span>
+      <span class="logo-sm">
+        <img src="assets/images/logo.png" alt="" height="30">
+      </span>
+    </a>
+
+    <ul class="navbar-nav bd-navbar-nav flex-row list-unstyled menu-left mb-0">
+      <li class="">
+        <button class="button-menu-mobile open-left disable-btn" (click)="toggleMobileMenu($event)">
+          <i [attr.data-feather]="'menu'" class="menu-icon" appFeatherIcon></i>
+          <i [attr.data-feather]="'x'" class="close-icon" appFeatherIcon></i>
+        </button>
+      </li>
+    </ul>
+
+    <ul class="navbar-nav bd-navbar-nav flex-row list-unstyled menu-left mb-0" style="padding-left: 1rem !important;">
+      <li class="">
+        <div class="d-flex">
+          <div class="flex-column">
+            <img src="assets/images/logopemda.png" alt="" style="height: 4.5rem;"/>
+          </div>
+          <div class="flex-column">
+            <span class="d-inline text-logo ml-2"></span><br>
+            <span class="d-inline h5 text-logo ml-2">{{nama_pemda}}</span><br>
+            <span class="d-inline text-logo ml-2">Tahun Anggaran {{ userInfo.NmTahun.trim() }}</span>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <ul class="navbar-nav flex-row ml-auto d-flex list-unstyled topnav-menu float-right mb-0">
+      <li class="dropdown notification-list">
+        <a href="javascript:void(0);" class="nav-link">
+          Login Sebagai <b>{{userInfo.given_name}}</b>
+        </a>
+      </li>
+      <li class="dropdown notification-list" placement="left" ngbTooltip="Keluar">
+        <a href="javascript:void(0);" class="nav-link" (click)="logout()">
+          <i [attr.data-feather]="'log-out'" class="" appFeatherIcon></i> Keluar
+        </a>
+      </li>
+      <li class="dropdown notification-list" placement="left" ngbTooltip="Ubah Password">
+        <a href="javascript:void(0);" class="nav-link" (click)="changePassword()">
+          <i [attr.data-feather]="'lock'" class="" appFeatherIcon></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+</div>
+<app-look-ubah-sandi></app-look-ubah-sandi>
+<!-- end Topbar -->

@@ -1,0 +1,76 @@
+<p-dialog class="forCalender" 
+    [(visible)]="showThis"
+    (onShow)="onShow()"
+    [style]="{width: '40vw'}"
+    [modal]="true"
+    (onHide)="onHide()"
+    [maximizable]="true"
+    [draggable]="false">
+    <app-ui-preloader [display]="loading_post"></app-ui-preloader>
+    <p-header>
+        {{title}}
+    </p-header>
+    <div class="row">
+      <div class="col-md-12">
+        <form [formGroup]="forms">
+          <div class="row mb-2">
+            <div class="col-md-2 text-left">
+              Nomor BKU
+            </div>
+            <div class="col-md-10">
+              <input type="text" formControlName="nobku" placeholder="No. BKU" class="form-control"/>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-2 text-left">
+              Tanggal BKU
+            </div>
+            <div class="col-md-5">
+              <p-calendar 
+                formControlName="tglbku"
+                [showIcon]="true" 
+                [locale]="indoKalender"
+                [monthNavigator]="true"
+                yearRange="2000:2030"
+                showButtonBar="true"
+                [style]="{'width': '100%'}"
+                [yearNavigator]="true"></p-calendar>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-2 text-left">
+              No. Bukti
+            </div>
+            <div class="col-md-4">
+              <input type="text" class="form-control" placeholder="Kode" [pTooltip]="uiRef.kode" [(ngModel)]="uiRef.kode" [ngModelOptions]="{standalone: true}" readonly/>
+            </div>
+            <div class="col-md-4">
+              <input type="text" class="form-control" placeholder="Uraian" [pTooltip]="uiRef.nama" [(ngModel)]="uiRef.nama" [ngModelOptions]="{standalone: true}" readonly/>
+            </div>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-outline-info" (click)="lookRef()"><i class="fa fa-search"></i></button>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-2 text-left">
+              Uraian
+            </div>
+            <div class="col-md-10">
+              <textarea type="text" formControlName="uraian" placeholder="Uraian" class="form-control" ></textarea>
+            </div>
+          </div>
+          
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <p-messages [(value)]="msg"></p-messages>
+      </div>
+    </div>
+    <p-footer>
+      <button type="button" [disabled]="!forms.valid || loading_post" class="btn btn-success btn-sm" (click)="simpan()"><i class="fa fa-save"></i>&nbsp;Simpan</button>
+      <button type="button" [disabled]="loading_post" class="btn btn-secondary btn-sm" (click)="onHide()"><i class="fa fa-close"></i>&nbsp;Kembali</button>
+    </p-footer>
+  </p-dialog>
+  <app-look-bkpajak (callback)="callbackRef($event)"></app-look-bkpajak>

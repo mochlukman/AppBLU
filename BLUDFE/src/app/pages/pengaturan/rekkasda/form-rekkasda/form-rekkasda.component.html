@@ -1,0 +1,89 @@
+<p-dialog class="forCalender"
+    [(visible)]="showThis"
+    (onShow)="onShow()"
+    [style]="{width: '40vw'}"
+    [modal]="true"
+    (onHide)="onHide()"
+    [draggable]="false">
+    <app-ui-preloader [display]="loading_post"></app-ui-preloader>
+    <p-header>
+        {{title}} Rekening Kas BLUD
+    </p-header>
+    <div class="row">
+      <div class="col-md-12">
+        <form [formGroup]="forms">
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Kode
+            </div>
+            <div class="col-md-6">
+              <input type="text" placeholder="Kode" class="form-control" formControlName="nobbantu" [readOnly]="mode == 'edit'"/>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Nama Buku
+            </div>
+            <div class="col-md-6">
+              <input type="text" placeholder="Nama Buku" class="form-control" formControlName="nmbkas"/>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Nama Bank
+            </div>
+            <div class="col-md-9">
+              <p-dropdown
+                [options]="bank"
+                (onChange)="changeBank($event)"
+                [(ngModel)]="bankSelected"
+                [style]="{'width': '100%'}"
+                [filter]="true"
+                [ngModelOptions]="{standalone: true}">
+              </p-dropdown>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              No. Rekening
+            </div>
+            <div class="col-md-6">
+              <input type="text" placeholder="No. Rekening" class="form-control" formControlName="norek"/>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Rek. Neraca
+            </div>
+            <div class="col-md-3">
+              <input type="text" class="form-control" placeholder="Kode" [(ngModel)]="uiRek.kode" readonly [ngModelOptions]="{standalone: true}"/>
+            </div>
+            <div class="col-md-5">
+              <input type="text" class="form-control" placeholder="Uraian" [(ngModel)]="uiRek.nama" readonly [ngModelOptions]="{standalone: true}"/>
+            </div>
+            <div class="col-md-1">
+                <button type="button" class="btn btn-outline-info" (click)="lookRek()"><i class="fa fa-search"></i></button>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Saldo
+            </div>
+            <div class="col-md-6">
+              <input type="text" appInputRupiah placeholder="Saldo" class="form-control" formControlName="saldo"/>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <p-messages [(value)]="msg"></p-messages>
+      </div>
+    </div>
+    <p-footer>
+      <button type="button" [disabled]="!forms.valid || loading_post" class="btn btn-success btn-sm" (click)="simpan()"><i class="fa fa-save"></i>&nbsp;Simpan</button>
+      <button type="button" [disabled]="loading_post" class="btn btn-secondary btn-sm" (click)="onHide()"><i class="fa fa-close"></i>&nbsp;Kembali</button>
+    </p-footer>
+</p-dialog>
+<app-look-daftrek-bykode (callback)="callbackRek($event)"></app-look-daftrek-bykode>

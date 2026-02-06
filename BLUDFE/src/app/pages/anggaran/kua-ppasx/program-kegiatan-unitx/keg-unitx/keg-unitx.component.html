@@ -1,0 +1,91 @@
+<div class="row p-2">
+  <div class="card col-md-12">
+    <div class="card-title">
+      <h5>Kegiatan</h5>
+    </div>
+    <div class="card-body">
+      <p-table [value]="listdata" [lazy]="true" #dt (onLazyLoad)="gets($event)" [paginator]="true" [rowHover]="true"
+        [rows]="12" [totalRecords]="totalRecords" [loading]="loading">
+        <ng-template pTemplate="caption">
+          <div class="row">
+            <div class="col-md-6 col-sm-12 text-left">
+              <span [hidden]="isvalid">
+                <button *ngIf="userInfo.Insert === 'True'" [disabled]="!pgrmunitSelected" type="button" class="btn btn-primary btn-sm" (click)="add()"><i class="fa fa-plus"></i>&nbsp;Tambah</button>
+              </span>
+            </div>
+            <div class="col-md-6 col-sm-12 text-right pr-0">
+              <div class="ui-inputgroup col-md-6 col-sm-12" style="float: right;display: block;">
+                <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1.25;"></i></span>
+                <input type="text" pInputText placeholder="Cari Data" (input)="dt.filterGlobal($event.target.value, 'contains')">         
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 12%;text-align: center" [pSortableColumn]="'nukeg'">Nomor
+              <span style="float: right">
+                <p-sortIcon [field]="'nukeg'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+              </span>
+            </th>
+            <th style="width:16%;text-align: center" [pSortableColumn]="'nmkegunit'">Kegiatan
+              <span style="float: right">
+                <p-sortIcon [field]="'nmkegunit'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+              </span>
+            </th>
+            <th style="width: 15%;text-align: center" [pSortableColumn]="'kegunitx.target'">Target Murni
+              <span style="float: right">
+                <p-sortIcon [field]="'kegunitx.target'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+              </span>
+            </th>
+            <th style="width: 15%;text-align: center" [pSortableColumn]="'target'">Target Perubahan
+              <span style="float: right">
+                <p-sortIcon [field]="'target'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+              </span>
+            </th>
+            <th style="width: 15%;text-align: center" [pSortableColumn]="'kegunitx.pagu'">Pagu Murni
+              <span style="float: right">
+                <p-sortIcon [field]="'kegunitx.pagu'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+              </span>
+            </th>
+            <th style="width: 15%;text-align: center" [pSortableColumn]="'pagu'">Pagu Perubuhan
+              <span style="float: right">
+                <p-sortIcon [field]="'pagi'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+              </span>
+            </th>
+            <th style="width: 12%; text-align: center">Pilihan</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data>
+          <tr class="ui-selectable-row">
+            <td style="text-align: letf" class="pl-5">{{data.nukeg}}</td>
+            <td style="text-align: left">{{data.nmkegunit}}</td>
+            <td style="text-align: center">{{data.kegunitx ? data.kegunitx.target : ''}}</td>
+            <td style="text-align: center">{{data.target}}</td>
+            <td style="text-align: right">{{(data.kegunitx ? data.kegunitx.pagu : 0) | currency: 'IDR':'Rp. ': '0.2-4'}}</td>
+            <td style="text-align: right">{{data.pagu | currency: 'IDR':'Rp. ': '0.2-4'}}</td>
+            <td style="text-align: center">
+              <button type="button" *ngIf="userInfo.Insert == 'True' && data.idkegNavigation.type.trim() == 'D'" class="btn btn-sm btn-raised btn-outline-info mr-1" [pTooltip]="'Sumber Dana'" (click)="getSumberDana(data)"><i class="fa fa-money"></i></button>
+              <span [hidden]="isvalid">
+                <button type="button" *ngIf="userInfo.Insert == 'True' && data.idkegNavigation.type.trim() == 'H'" class="btn btn-sm btn-raised btn-outline-secondary mr-1" [pTooltip]="'Tambah Sub Kegiatan'" (click)="addSub()"><i class="fa fa-arrow-down"></i></button>
+                <button type="button" *ngIf="userInfo.Update == 'True' && data.idkegNavigation.type.trim() == 'H'" class="btn btn-sm btn-raised btn-outline-warning mr-1" (click)="edit(data)"><i class="fa fa-edit"></i></button>
+                <button type="button" *ngIf="userInfo.Update == 'True' && data.idkegNavigation.type.trim() == 'D'" class="btn btn-sm btn-raised btn-outline-warning mr-1" (click)="editsub(data)"><i class="fa fa-edit"></i></button>
+                <button type="button" class="btn btn-sm btn-raised btn-outline-danger mr-1" (click)="delete(data)"><i class="fa fa-trash"></i></button>
+              </span>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage" let-columns>
+          <tr>
+            <td [attr.colspan]="6" style="text-align: center;">
+              Data tidak Tersedia
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>
+<app-keg-unit-formx (callBack)="callback($event)"></app-keg-unit-formx>
+<app-keg-unit-form-subkegx (callBack)="callback($event)"></app-keg-unit-form-subkegx>
+<app-keg-danax></app-keg-danax>

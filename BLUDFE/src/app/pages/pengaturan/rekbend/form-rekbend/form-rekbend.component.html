@@ -1,0 +1,132 @@
+<p-dialog class="forCalender" [(visible)]="showThis" (onShow)="onShow()" [style]="{width: '40vw'}" [modal]="true"
+  (onHide)="onHide()" [draggable]="false">
+  <app-ui-preloader [display]="loading_post"></app-ui-preloader>
+  <p-header>
+    {{title}} Rekening Bendahara
+  </p-header>
+  <div class="row">
+    <div class="col-md-12">
+      <form [formGroup]="forms">
+        <div class="row mb-2">
+          <div class="col-md-3">
+            Pegawai
+          </div>
+          <div class="col-md-3">
+            <input type="text" class="form-control" placeholder="Nip" [(ngModel)]="uiPeg.kode" readonly
+              [ngModelOptions]="{standalone: true}" />
+          </div>
+          <div class="col-md-5">
+            <input type="text" class="form-control" placeholder="Nama" [(ngModel)]="uiPeg.nama" readonly
+              [ngModelOptions]="{standalone: true}" />
+          </div>
+          <div class="col-md-1">
+            <button type="button" class="btn btn-outline-info" (click)="lookPegawai()"><i
+                class="fa fa-search"></i></button>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-3">
+            Jenis Bendahara
+          </div>
+          <div class="col-md-9">
+            <p-dropdown [options]="jenisBend" (onChange)="changeJbend($event)" [(ngModel)]="jenisbendSelected"
+              [style]="{'width': '100%'}" [filter]="true" [ngModelOptions]="{standalone: true}">
+            </p-dropdown>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-3">
+            Bank
+          </div>
+          <div class="col-md-9">
+            <p-dropdown [options]="bank" (onChange)="changeBank($event)" [(ngModel)]="bankSelected"
+              [style]="{'width': '100%'}" [filter]="true" [ngModelOptions]="{standalone: true}">
+            </p-dropdown>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-3">
+            Nama Bank
+          </div>
+          <div class="col-md-6">
+            <input type="text" placeholder="Nama Bank" class="form-control" formControlName="nmcabbank" />
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-3">
+            No. Rek Bendahara
+          </div>
+          <div class="col-md-6">
+            <input type="text" placeholder="No Rekening" class="form-control" formControlName="rekbend" />
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-3">
+            Kode BKU
+          </div>
+          <div class="col-md-6">
+            <input type="text" placeholder="Kode BKU" class="form-control" formControlName="jabbend" />
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-3">
+            NPWP
+          </div>
+          <div class="col-md-6">
+            <input type="text" placeholder="NPWP" class="form-control" formControlName="npwpbend" />
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-3">
+            Saldo Bank
+          </div>
+          <div class="col-md-9">
+            <div class="row">
+              <div class="col-md-1">UP</div>
+              <div class="col-md-5">
+                <input type="text" appInputRupiah placeholder="Saldo Bank UP" class="form-control"
+                  formControlName="saldobankup" />
+              </div>
+              <div class="col-md-1">Pajak</div>
+              <div class="col-md-5">
+                <input type="text" appInputRupiah placeholder="Saldo Bank Pajak" class="form-control"
+                  formControlName="saldobankpajak" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-3">
+            Saldo Tunai
+          </div>
+          <div class="col-md-9">
+            <div class="row">
+              <div class="col-md-1">UP</div>
+              <div class="col-md-5">
+                <input type="text" appInputRupiah placeholder="Saldo Tunai UP" class="form-control"
+                  formControlName="saldotunaiup" />
+              </div>
+              <div class="col-md-1">Pajak</div>
+              <div class="col-md-5">
+                <input type="text" appInputRupiah placeholder="Saldo Tunai Pajak" class="form-control"
+                  formControlName="saldotunaipajak" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <p-messages [(value)]="msg"></p-messages>
+    </div>
+  </div>
+  <p-footer>
+    <button type="button" [disabled]="!forms.valid || loading_post" class="btn btn-success btn-sm" (click)="simpan()"><i
+        class="fa fa-save"></i>&nbsp;Simpan</button>
+    <button type="button" [disabled]="loading_post" class="btn btn-secondary btn-sm" (click)="onHide()"><i
+        class="fa fa-close"></i>&nbsp;Kembali</button>
+  </p-footer>
+</p-dialog>
+<app-look-pegawai (callback)="callbackPegawai($event)"></app-look-pegawai>

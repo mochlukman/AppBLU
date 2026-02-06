@@ -1,0 +1,53 @@
+<nav id="home-header" [ngClass]="{'header-fixed': isFixed}" class="navbar navbar-expand-lg text-16 ">
+    <div class="container">
+
+
+        <div class="d-flex justify-content-between flex-grow-1 mobile_menu">
+
+            <!-- <a class="navbar-brand d-none d-lg-inline-block" href="#">
+    Navbar 6
+  </a> -->
+            <a class="navbar-brand-two    d-inline-block" href="#">
+                <img src="assets/landing/images/landing/lOGO_d/logo_white.png" alt="logo">
+            </a>
+            <div class=" text-right">
+                <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed"
+                    [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+                    <i class="eva eva-menu-outline text-30 text-white d-none d-md-block"></i>
+                    <span class="navbar-toggler-icon d-block d-md-none">
+                        <!-- <i class="eva eva-menu-outline text-30 text-white"></i> -->
+                    </span>
+                    <span class="navbar-toggler-icon d-block d-md-none">
+                        <!-- <i class="eva eva-menu-outline text-30 text-white"></i> -->
+                    </span>
+                    <span class="navbar-toggler-icon d-block d-md-none">
+                        <!-- <i class="eva eva-menu-outline text-30 text-white"></i> -->
+                    </span>
+
+                </button>
+            </div>
+        </div>
+        <div class="collapse  navbar-collapse flex-grow-1 text-right" id="collapseExample" [ngbCollapse]="isCollapsed">
+            <ul class="navbar-nav ml-auto flex-nowrap">
+                <li class="nav-item" (click)="hidemenu()">
+                    <a href="#" scrollTo="intro-wrap" class="nav-link m-2 menu-item nav-active">Beranda</a>
+                </li>
+                <li (click)="hidemenu()" class="nav-item">
+                    <a href="#" scrollTo="features-wrap" class="nav-link m-2 menu-item nav-active">Fitur</a>
+                </li>
+                <li (click)="hidemenu()" class="nav-item">
+                    <a href="#" scrollTo="services-wrap" class="nav-link m-2 menu-item">Layanan</a>
+                </li>
+                <li (click)="hidemenu()" class="nav-item">
+                    <a href="#" scrollTo="pricing-wrap" class="nav-link m-2 menu-item">Dasar Hukum</a>
+                </li>
+                <li (click)="hidemenu()" class="nav-item">
+                    <a href="#" scrollTo="contacts-wrap" class="nav-link m-2 menu-item">Kontak Kami</a>
+                </li>
+                <li (click)="login()" class="nav-item">
+                    <a href="javascript:void(0)" class="nav-link m-2 menu-item">Login</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

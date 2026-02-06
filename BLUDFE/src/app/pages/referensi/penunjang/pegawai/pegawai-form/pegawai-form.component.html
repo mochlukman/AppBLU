@@ -1,0 +1,64 @@
+<p-dialog class="forCalender" [(visible)]="showThis" (onShow)="onShow()" [style]="{width: '40vw'}" [modal]="true"
+  (onHide)="onHide()" [draggable]="false">
+  <app-ui-preloader [display]="loading_post"></app-ui-preloader>
+  <p-header>
+    {{title}}
+  </p-header>
+  <div class="row">
+    <div class="col-md-12">
+      <form [formGroup]="forms">
+        <div class="row mb-2">
+          <div class="col-md-3">
+            Nip
+          </div>
+          <div class="col-md-9">
+            <input type="text" placeholder="Nip" class="form-control" formControlName="nip" />
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-3">
+            Nama
+          </div>
+          <div class="col-md-9">
+            <input type="text" placeholder="Nama" class="form-control" formControlName="nama" />
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-3">
+            Golongan
+          </div>
+          <div class="col-md-6">
+            <p-dropdown [options]="golitems" (onChange)="changeGolongan($event)" [(ngModel)]="golselected"
+              [style]="{'width': '100%'}" [filter]="true" [ngModelOptions]="{standalone: true}">
+            </p-dropdown>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-3">
+            Jabatan
+          </div>
+          <div class="col-md-9">
+            <input type="text" placeholder="Jabatan" class="form-control" formControlName="jabatan" />
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-3">
+            Alamat
+          </div>
+          <div class="col-md-9">
+            <textarea type="text" formControlName="alamat" placeholder="Alamat" class="form-control" ></textarea>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <p-messages [(value)]="msg"></p-messages>
+    </div>
+  </div>
+  <p-footer>
+    <button type="button" [disabled]="!forms.valid || loading_post" class="btn btn-success btn-sm mr-1" (click)="simpan()"><i class="fa fa-save mr-1"></i>Simpan</button>
+    <button type="button" [disabled]="loading_post" class="btn btn-secondary btn-sm" (click)="onHide()"><i class="fa fa-close mr-1"></i>Kembali</button>
+  </p-footer>
+</p-dialog>

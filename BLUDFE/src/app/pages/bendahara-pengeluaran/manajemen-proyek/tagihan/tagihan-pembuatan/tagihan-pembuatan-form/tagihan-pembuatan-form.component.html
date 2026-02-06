@@ -1,0 +1,123 @@
+<p-dialog class="forCalender"
+          [(visible)]="showThis"
+          (onShow)="onShow()"
+          [style]="{width: '40vw'}"
+          [modal]="true"
+          (onHide)="onHide()"
+          [draggable]="false">
+  <app-ui-preloader [display]="loading_post"></app-ui-preloader>
+  <p-header>
+    {{title}}
+  </p-header>
+  <div class="row">
+    <div class="col-md-12">
+      <form [formGroup]="forms">
+        <div class="row mb-2">
+          <div class="col-md-3">
+            Status
+          </div>
+          <div class="col-md-9" [hidden]="this.mode == 'add'">
+            <input type="text" [(ngModel)]="jenisBukti" class="form-control" [ngModelOptions]="{standalone: true}" [readOnly]="true"/>
+          </div>
+          <div class="col-md-9" [hidden]="this.mode == 'edit'">
+            <p-dropdown
+              [options]="listStattrs"
+              (onChange)="changeStattrs($event)"
+              [(ngModel)]="stattrsSelected"
+              [style]="{'width': '100%'}"
+              [filter]="true"
+              [ngModelOptions]="{standalone: true}">
+            </p-dropdown>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-3">
+            No. Tagihan
+          </div>
+          <div class="col-md-4">
+            <input type="text" formControlName="notagihan" placeholder="No Tagihan" class="form-control"/>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-3">
+            Tgl. Tagihan
+          </div>
+          <div class="col-md-4">
+            <p-calendar
+              formControlName="tgltagihan"
+              [showIcon]="true"
+              [locale]="indoKalender"
+              [monthNavigator]="true"
+              yearRange="2000:2030"
+              [style]="{'width': '100%'}"
+              showButtonBar="true"
+              [yearNavigator]="true"></p-calendar>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-3">
+            Uraian
+          </div>
+          <div class="col-md-9">
+            <textarea type="text" formControlName="uraiantagihan" placeholder="Uraian" class="form-control" ></textarea>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-3">
+            Kontrak
+          </div>
+          <div class="col-md-4">
+            <input type="text" class="form-control" placeholder="No Kontrak" [(ngModel)]="uiKontrak.kode" readonly [ngModelOptions]="{standalone: true}"/>
+          </div>
+          <div class="col-md-4">
+            <input type="text" class="form-control" placeholder="Uraian" [(ngModel)]="uiKontrak.nama" readonly [ngModelOptions]="{standalone: true}"/>
+          </div>
+          <div class="col-md-1">
+            <button type="button" class="btn btn-outline-info" (click)="lookKontrak()"><i class="fa fa-search"></i></button>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-3">
+            Untuk Bulan
+          </div>
+          <div class="col-md-5">
+            <p-dropdown
+              [options]="listBulan"
+              (onChange)="changeBulan($event)"
+              [(ngModel)]="bulanSelected"
+              [style]="{'width': '100%'}"
+              [filter]="true"
+              [ngModelOptions]="{standalone: true}">
+            </p-dropdown>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-3">
+            Nomor Faktur
+          </div>
+          <div class="col-md-4">
+            <input type="text" formControlName="nofaktur" placeholder="Nofaktur" class="form-control"/>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-3">
+            Nilai PPN
+          </div>
+          <div class="col-md-4">
+            <input type="text" appInputRupiah placeholder="Nilaippn" class="form-control" formControlName="nilaippn"/>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <p-messages [(value)]="msg"></p-messages>
+    </div>
+  </div>
+  <p-footer>
+    <button type="button" [disabled]="!forms.valid || loading_post" class="btn btn-success btn-sm mr-1" (click)="simpan()"><i class="fa fa-save mr-1"></i>Simpan</button>
+    <button type="button" [disabled]="loading_post" class="btn btn-secondary btn-sm" (click)="onHide()"><i class="fa fa-close mr-1"></i>Kembali</button>
+  </p-footer>
+</p-dialog>
+<app-look-kontrak (callback)="callbackKontrak($event)"></app-look-kontrak>

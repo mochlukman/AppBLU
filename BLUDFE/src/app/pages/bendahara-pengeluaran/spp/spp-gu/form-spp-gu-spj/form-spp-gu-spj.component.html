@@ -1,0 +1,66 @@
+<p-dialog class="forCalender" 
+    [(visible)]="showThis"
+    (onShow)="onShow()"
+    [style]="{width: '50vw'}"
+    [modal]="true"
+    (onHide)="onHide()"
+    [maximizable]="true"
+    [draggable]="false">
+    <app-ui-preloader [display]="loading_post"></app-ui-preloader>
+    <p-header>
+        {{title}} SPJ
+    </p-header>
+    <div class="row">
+      <div class="col-md-12">
+        <form [formGroup]="forms">
+          <div class="row mb-2">
+            <div class="col-md-2">
+              Nomor SPJ
+            </div>
+            <div class="col-md-10">
+              <input type="text" formControlName="nospj" placeholder="Nomor SPJ" class="form-control" readonly/>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-2">
+              Tgl SPJ
+            </div>
+            <div class="col-md-5">
+              <input type="text" formControlName="tglspj" placeholder="Tanggal SPJ" class="form-control" readonly/>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-2">
+              Tgl Buku
+            </div>
+            <div class="col-md-5">
+              <input type="text" formControlName="tglbuku" placeholder="Tanggal Buku" class="form-control" readonly/>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-2">
+              Uraian
+            </div>
+            <div class="col-md-10">
+              <textarea type="text" formControlName="keterangan" placeholder="Keterangan" class="form-control" readonly></textarea>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-2">
+              <button class="btn btn-soft-primary btn-block" (click)="showSpj()"><i class="fa fa-check"></i>&nbsp;Pilih Data SPJ</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <p-messages [(value)]="msg"></p-messages>
+      </div>
+    </div>
+    <p-footer>
+      <button type="button" [disabled]="!forms.valid || loading_post" class="btn btn-success btn-sm" (click)="simpan()"><i class="fa fa-save"></i>&nbsp;Simpan</button>
+      <button type="button" [disabled]="loading_post" class="btn btn-secondary btn-sm" (click)="onHide()"><i class="fa fa-close"></i>&nbsp;Kembali</button>
+    </p-footer>
+</p-dialog>
+<app-look-spj-for-spp (callBack)="callbackSpj($event)"></app-look-spj-for-spp>

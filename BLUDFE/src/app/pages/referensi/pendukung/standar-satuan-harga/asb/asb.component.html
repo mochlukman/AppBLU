@@ -1,0 +1,83 @@
+<div class="container-fluid">
+  <div class="row mt-2 p-2">
+    <div class="card col-md-12">
+      <div class="card-title">
+        <span class="d-inline-block mt-2 mr-2"><i [attr.data-feather]="'home'" appFeatherIcon class="svg-size-custom"></i></span>
+<label class="position-absolute title-font-custom">{{title}}</label>
+      </div>
+    </div>
+  </div>
+  <div class="row p-2">
+    <div class="card col-md-12">
+      <div class="card-body">
+        <p-table [value]="listdata" [lazy]="true" #dt (onLazyLoad)="gets($event)" [paginator]="true" [rowHover]="true"
+          [rows]="10" [totalRecords]="totalRecords" [loading]="loading">
+          <ng-template pTemplate="caption">
+            <div class="row p-2">
+              <div class="col-md-6" style="text-align: left">
+                <button *ngIf="userInfo.Insert === 'True'" type="button" class="btn btn-primary btn-sm" (click)="add()"><i class="fa fa-plus mr-1"></i>Tambah</button>
+              </div>
+              <div class="col-lg-6 col-md-12 text-right pr-0 pl-0">
+                <div class="ui-inputgroup col-lg-6 col-md-12" style="float: right;">
+                  <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1.25;"></i></span>
+                  <input type="text" class="w-100" pInputText placeholder="Cari Data" (input)="dt.filterGlobal($event.target.value, 'contains')">
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 15%;text-align: center" [pSortableColumn]="'kdssh'">Kode
+                <span style="float: right">
+                  <p-sortIcon [field]="'kdssh'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </span>
+              </th>
+              <th style="width: 35%;text-align: center" [pSortableColumn]="'uraian'">Uraian
+                <span style="float: right">
+                  <p-sortIcon [field]="'uraian'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </span>
+              </th>
+              <th style="width: 20%;text-align: center" [pSortableColumn]="'spek'">Spek
+                <span style="float: right">
+                  <p-sortIcon [field]="'spek'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </span>
+              </th>
+              <th style="width: 28%;text-align: center" [pSortableColumn]="'harga'">Harga
+                <span style="float: right">
+                  <p-sortIcon [field]="'harga'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </span>
+              </th>
+              <th style="width: 12%; text-align: center">Pilihan</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-data>
+            <tr class="ui-selectable-row" [style.fontWeight]="data.idssh === (dataSelected ? dataSelected.idssh : '') ? 'bold' : ''"
+              [style.color]="data.idssh === (dataSelected ? dataSelected.idssh : '') ? '#228B22' : '#000000'">
+              <td style="text-align: center" (click)="dataClick(data)">
+                <span style="text-decoration: underline; cursor: pointer;">
+                  {{data.kdssh ? data.kdssh : '' }}
+                </span>
+              </td>
+              <td style="text-align: left">{{ data.uraian }}</td>
+              <td style="text-align: center">{{data.spek}}</td>
+              <td style="text-align: center">{{data.harga | currency: 'IDR':'Rp. ': '0.2-4'}}</td>
+              <td style="text-align: center">
+                <button type="button" *ngIf="userInfo.Update == 'True'" class="btn btn-sm btn-raised btn-outline-warning mr-1" (click)="edit(data)"><i class="fa fa-edit"></i></button>
+                <button type="button" class="btn btn-sm btn-raised btn-outline-danger mr-1" (click)="delete(data)"><i class="fa fa-trash"></i></button>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage" let-columns>
+            <tr>
+              <td [attr.colspan]="4" style="text-align: center;">
+                Data tidak Tersedia
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+  <app-shared-ssh-detail [sshselected]="dataSelected"></app-shared-ssh-detail>
+</div>
+<app-asb-form (callback)="callback($event)"></app-asb-form>

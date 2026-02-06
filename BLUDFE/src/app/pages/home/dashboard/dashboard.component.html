@@ -1,0 +1,100 @@
+<div class="container-fluid">
+  <div class="row mt-2 p-2">
+    <div class="card col-md-12">
+      <div class="card-title">
+        <span class="d-inline-block mt-2 mr-2"><i [attr.data-feather]="'home'" appFeatherIcon class="svg-size-custom"></i></span>
+        <label class="position-absolute title-font-custom">Dashboard</label>
+      </div>
+    </div>
+  </div>
+  <div class="row p-2">
+    <div class="card col-md-12">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <fieldset class="border p-2">
+              <legend  class="w-auto">Filter</legend>
+              <div class="row">
+                <div class="col-md-1 text-center pt-1">
+                  <label for="">Tahapan</label>
+                </div>
+                <div class="col-md-3">
+                  <p-dropdown
+                    [options]="listtahap"
+                    [style]="{'width': '100%'}"
+                    placeholder="Pilih Tahap"
+                    (onChange)="changeTahap($event.value)"
+                    optionLabel="uraian"
+                    filter="true"
+                    [(ngModel)]="tahapselected"
+                    [ngModelOptions]="{standalone: true}">
+                  </p-dropdown>
+                </div>
+                <div class="col-md-2 text-center pt-1">
+                  <label for="">Perangkat Daerah</label>
+                </div>
+                <div class="col-md-4">
+                  <p-dropdown
+                    [options]="listunit"
+                    [style]="{'width': '100%'}"
+                    placeholder="Pilih Unit Organisasi"
+                    (onChange)="changeUnit($event.value)"
+                    filter="true"
+                    optionLabel="nmunit"
+                    [(ngModel)]="unitselected"
+                    [readonly]="idunit != 0"
+                    [ngModelOptions]="{standalone: true}">
+                </p-dropdown>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row p-2">
+    <div class="card col-md-12">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <app-dash-apbd [tahap]="tahapselected" [unit]="unitselected"></app-dash-apbd>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row p-2">
+    <div class="card col-md-12">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <app-dash-komposisi-apbd [tahap]="tahapselected" [unit]="unitselected"></app-dash-komposisi-apbd>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row p-2">
+    <div class="card col-md-12">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <app-dash-komposisi-urusan-daerah [tahap]="tahapselected"></app-dash-komposisi-urusan-daerah>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row p-2">
+    <div class="card col-md-12">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <app-dash-belanja-perangkat-daerah [tahap]="tahapselected"></app-dash-belanja-perangkat-daerah>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

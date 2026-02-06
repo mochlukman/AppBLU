@@ -1,0 +1,101 @@
+<p-dialog class="forCalender" 
+    [(visible)]="showThis"
+    (onShow)="onShow()"
+    [style]="{width: '50vw'}"
+    [modal]="true"
+    (onHide)="onHide()"
+    [maximizable]="true"
+    [draggable]="false">
+    <app-ui-preloader [display]="loading_post"></app-ui-preloader>
+    <p-header>
+        {{title}}
+    </p-header>
+    <div class="row">
+      <div class="col-md-12">
+        <form [formGroup]="forms">
+          <div class="row mb-2" *ngIf="mode == 'add'">
+            <div class="col-md-12">
+              <p-table [value]="listdata" [paginator]="true" [rows]="10" #dt [globalFilterFields]="['idpegNavigation.nip','idpegNavigation.nama','jnsbendNavigation.jnsbend','jnsbendNavigation.uraibend','rekbend']">
+                <ng-template pTemplate="caption">
+                  <div class="row p-2">
+                    <div class="col-md-6" style="text-align: left">
+                      <button type="button" class="btn btn-soft-primary btn-sm" (click)="lookBendahara()"><i class="fa fa-plus"></i>&nbsp; Tambah Bendahara</button>
+                      &nbsp;
+                    </div>
+                    <div class="col-md-6" style="text-align: right">
+                    </div>
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th style="width: 20%; text-align: center" [pSortableColumn]="'idpegNavigation.nip'"> Nip
+                      <span style="float: right">
+                        <p-sortIcon [field]="'idpegNavigation.nip'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                      </span>
+                    </th>
+                    <th style="width: 20%; text-align: center" [pSortableColumn]="'idpegNavigation.nama'"> Nama
+                      <span style="float: right">
+                        <p-sortIcon [field]="'idpegNavigation.nama'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                      </span>
+                    </th>
+                    <th style="width: 12%; text-align: center" [pSortableColumn]="'jnsbendNavigation.jnsbend'"> Kode
+                      <span style="float: right">
+                        <p-sortIcon [field]="'jnsbendNavigation.jnsbend'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                      </span>
+                    </th>
+                    <th style="width: 20%; text-align: center" [pSortableColumn]="'jnsbendNavigation.uraibend'"> Uraian
+                      <span style="float: right">
+                        <p-sortIcon [field]="'jnsbendNavigation.uraibend'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                      </span>
+                    </th>
+                    <th style="width: 20%; text-align: center" [pSortableColumn]="'rekbend'"> Rekening
+                      <span style="float: right">
+                        <p-sortIcon [field]="'rekbend'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                      </span>
+                    </th>
+                      <th style="width: 8%; text-align: center">Pilih</th>
+                  </tr>
+                  <tr>
+                    <th *ngFor="let col of cols" [ngSwitch]="col.field">
+                      <span *ngSwitchCase="'pilih'"></span>
+                      <input *ngSwitchDefault type="text" class="form-control form-control-sm" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-data>
+                  <tr>
+                    <td>{{data.idpegNavigation ? data.idpegNavigation.nip : ''}}</td>
+                    <td>{{data.idpegNavigation ? data.idpegNavigation.nama : ''}}</td>
+                    <td style="text-align: center;">{{data.jnsbendNavigation ? data.jnsbendNavigation.jnsbend : ''}}</td>
+                    <td>{{data.jnsbendNavigation ? data.jnsbendNavigation.uraibend : ''}}</td>
+                    <td>{{data.rekbend}}</td>
+                      <td style="text-align: center">
+                          <button type="button" class="btn btn-outline-danger btn-sm" (click)="HapusBend(data); dt.reset()"><i class="fa fa-trash"></i></button>
+                      </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+          <div class="row mb-2" *ngIf="mode == 'edit'">
+            <div class="col-md-2">
+              Nilai
+            </div>
+            <div class="col-md-7">
+              <input type="text" appInputRupiah placeholder="Nilai" class="form-control" formControlName="nilai"/>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <p-messages [(value)]="msg"></p-messages>
+      </div>
+    </div>
+    <p-footer>
+      <button type="button" [disabled]="!forms.valid || loading_post" class="btn btn-success btn-sm" (click)="simpan()"><i class="fa fa-save"></i>&nbsp;Simpan</button>
+      <button type="button" [disabled]="loading_post" class="btn btn-secondary btn-sm" (click)="onHide()"><i class="fa fa-close"></i>&nbsp;Kembali</button>
+    </p-footer>
+</p-dialog>
+<app-look-bendahara-checkbox (callback)="callbackBendahara($event)"></app-look-bendahara-checkbox>

@@ -1,0 +1,42 @@
+<div class="container-fluid">
+  <div class="row mt-2 p-2">
+    <div class="card col-md-12">
+      <div class="card-title">
+        <span class="d-inline-block mt-2 mr-2"><i [attr.data-feather]="'home'" appFeatherIcon class="svg-size-custom"></i></span>
+        <label class="position-absolute title-font-custom">{{title}}</label>
+      </div>
+    </div>
+  </div>
+  <div class="row p-2">
+    <div class="card col-md-12">
+      <div class="card-body">
+        <p-tabView [activeIndex]="tabIndex" (onChange)="onChangeTab($event)">
+          <p-tabPanel header="BKU SKPD">
+            <app-bku-skpd></app-bku-skpd>
+          </p-tabPanel>
+          <p-tabPanel header="BKU Pergeseran">
+            <app-bku-pergeseran></app-bku-pergeseran>
+          </p-tabPanel>
+          <p-tabPanel header="BKU Pelimpahan">
+            <app-bku-pelimpahan></app-bku-pelimpahan>
+          </p-tabPanel>
+          <p-tabPanel header="BKU SPD">
+            <app-bku-sp2d></app-bku-sp2d>
+          </p-tabPanel>
+          <p-tabPanel header="BKU Belanja">
+            <app-bku-belanja></app-bku-belanja>
+          </p-tabPanel>
+          <p-tabPanel header="BKU Pajak">
+            <app-bku-pajak></app-bku-pajak>
+          </p-tabPanel>
+          <p-tabPanel header="BKU Panjar">
+            <app-bku-panjar></app-bku-panjar>
+          </p-tabPanel>
+          <p-tabPanel header="BKU Pengembalian">
+            <app-bku-pengembalian></app-bku-pengembalian>
+          </p-tabPanel>
+        </p-tabView>
+      </div>
+    </div>
+  </div>
+</div>

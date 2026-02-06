@@ -1,0 +1,178 @@
+<p-dialog class="forCalender" 
+    [(visible)]="showThis"
+    (onShow)="onShow()"
+    [style]="{width: '80vw'}"
+    [modal]="true"
+    (onHide)="onHide()"
+    [maximizable]="true"
+    [draggable]="false">
+    <app-ui-preloader [display]="loading_post"></app-ui-preloader>
+    <p-header>
+        {{title}}
+    </p-header>
+    <div class="row">
+      <div class="col-md-12">
+        <form [formGroup]="forms">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row mb-2">
+                <div class="col-md-3">
+                  Tanggal
+                </div>
+                <div class="col-md-5">
+                  <p-calendar 
+                    formControlName="tglbpk"
+                    [showIcon]="true" 
+                    [locale]="indoKalender"
+                    [monthNavigator]="true"
+                    yearRange="2000:2030"
+                    showButtonBar="true"
+                    [style]="{'width': '100%'}"
+                    [yearNavigator]="true"></p-calendar>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-md-3">
+                  Jenis Bukti
+                </div>
+                <div class="col-md-9" [hidden]="this.mode == 'add'">
+                  <input type="text" [(ngModel)]="jenisBukti" class="form-control" [ngModelOptions]="{standalone: true}" [readOnly]="true"/>
+                </div>
+                <div class="col-md-9" [hidden]="this.mode == 'edit'">
+                  <p-dropdown
+                    [options]="listStattrs"
+                    (onChange)="changeStattrs($event)" 
+                    [(ngModel)]="stattrsSelected"
+                    [style]="{'width': '100%'}"
+                    [filter]="true"
+                    [ngModelOptions]="{standalone: true}"
+                    [readonly]="true">
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-md-3">
+                  Nomor
+                </div>
+                <div class="col-md-9">
+                  <input type="text" formControlName="nobpk" placeholder="No. Bpk" class="form-control" readonly/>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-md-3">
+                  Jenis Pembayaran
+                </div>
+                <div class="col-md-9">
+                  <span *ngFor="let i of listJbayar">
+                    <p-radioButton name="jbayar" [label]="i.uraianbayar" [value]="i.idjbayar" formControlName="idjbayar" (onClick)="onClickBayar($event)"></p-radioButton> &nbsp;
+                  </span>
+                </div>
+              </div>
+              <div class="row mb-2" [hidden]="!isTransfer">
+                <div class="col-md-3">
+                  Jenis Transfer
+                </div>
+                <div class="col-md-9">
+                  <p-dropdown
+                    [options]="listJtransfer"
+                    (onChange)="changeJtransfer($event)" 
+                    [(ngModel)]="jtransferSelected"
+                    [style]="{'width': '100%'}"
+                    [filter]="true"
+                    [ngModelOptions]="{standalone: true}"
+                    [readonly]="true">
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="row mb-2" [hidden]="!isTU">
+                <div class="col-md-3">
+                  SP2D
+                </div>
+                <div class="col-md-5">
+                  <input type="text" class="form-control" placeholder="No. SP2D" [(ngModel)]="uiSp2d.kode" [pTooltip]="uiSp2d.kode" readonly [ngModelOptions]="{standalone: true}"/>
+                </div>
+                <div class="col-md-3">
+                  <input type="text" class="form-control" placeholder="Tgl. SP2D" [(ngModel)]="uiSp2d.nama" [pTooltip]="uiSp2d.nama" readonly [ngModelOptions]="{standalone: true}"/>
+                </div>
+                <div class="col-md-1 pl-0">
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-md-3">
+                  Penerima
+                </div>
+                <div class="col-md-9">
+                  <input type="text" formControlName="penerima" placeholder="Penerima" class="form-control" readonly/>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row mb-2">
+                <div class="col-md-3">
+                  Tagihan
+                </div>
+                <div class="col-md-3">
+                  <input type="text" class="form-control" placeholder="No. Tagihan" [(ngModel)]="uiTagihan.kode" [pTooltip]="uiTagihan.kode" readonly [ngModelOptions]="{standalone: true}"/>
+                </div>
+                <div class="col-md-5">
+                  <input type="text" class="form-control" placeholder="Tgl. Tagihan" [(ngModel)]="uiTagihan.nama" [pTooltip]="uiTagihan.nama" readonly [ngModelOptions]="{standalone: true}"/>
+                </div>
+                <div class="col-md-1 pl-0">
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-md-3">
+                  Uraian
+                </div>
+                <div class="col-md-9">
+                  <textarea type="text" formControlName="uraibpk" placeholder="Uraian" class="form-control" readonly></textarea>
+                </div>
+              </div>
+              <div class="row mb-4 mt-4">
+                <div class="col-md-3">
+                  Persetujuan
+                </div>
+                <div class="col-md-9">
+                  <p-radioButton name="type" [value]="true" label="Disetujui" formControlName="valid" inputId="opt1" class="mr-2"></p-radioButton>
+                  <p-radioButton name="type" [value]="false" label="Tidak Disetujui" formControlName="valid" inputId="opt2"></p-radioButton>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-md-3">
+                  Verifikasi
+                </div>
+                <div class="col-md-9">
+                  <textarea type="text" formControlName="verifikasi" placeholder="Verifikasi" class="form-control" ></textarea>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-md-3">
+                  Tanggal Validasi
+                </div>
+                <div class="col-md-5">
+                  <p-calendar 
+                    formControlName="tglvalid"
+                    [showIcon]="true" 
+                    [locale]="indoKalender"
+                    [monthNavigator]="true"
+                    yearRange="2000:2030"
+                    showButtonBar="true"
+                    [style]="{'width': '100%'}"
+                    [yearNavigator]="true"></p-calendar>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <p-messages [(value)]="msg"></p-messages>
+      </div>
+    </div>
+    <p-footer>
+      <button type="button" [disabled]="!forms.valid || loading_post" class="btn btn-success btn-sm mr-1" (click)="simpan()"><i class="fa fa-save mr-1"></i>Simpan</button>
+      <button type="button" [disabled]="loading_post" class="btn btn-secondary btn-sm" (click)="onHide()"><i class="fa fa-close mr-1"></i>Kembali</button>
+    </p-footer>
+  </p-dialog>

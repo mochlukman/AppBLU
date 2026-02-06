@@ -1,0 +1,16 @@
+<div class="card {{ bgcolor }}">
+  <div class="card-body p-0 text-center">
+    <span *ngIf="!multipleValue">
+      <span class="text-white font-size-12 font-weight-bold">{{ title }}</span>
+      <h5 class="mb-0 text-white">{{ value }}</h5>
+    </span>
+    <div *ngIf="multipleValue">
+      <div class="row">
+        <div class="col-md-6" *ngFor="let v of valueSub; index as i">
+          <span class="text-white font-size-12 font-weight-bold">{{ v }}</span>
+          <h5 class="mb-0 text-white">{{ value[i] }}</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

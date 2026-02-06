@@ -1,0 +1,86 @@
+<div class="account-pages my-5" *ngIf="visibelPage">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-xl-10">
+        <div class="card card-login">
+          <app-ui-preloader [display]="loading"></app-ui-preloader>
+          <div class="card-body p-0">
+            <div class="row">
+              <div class="col-md-6 p-5">
+                <div class="mx-auto mb-5">
+                  <a routerLink="/">
+                    <img src="assets/images/logo.png" alt="" height="50" />
+                    <!-- <h3 class="d-inline align-middle ml-1 text-logo">TUKD</h3> -->
+                  </a>
+                </div>
+                <h6 class="h5 mb-0 mt-4">Selamat Datang!</h6>
+                <p class="text-muted mt-1 mb-4">Silahkan Login Untuk mengakses Aplikasi.</p>
+                <form class="authentication-form" name="loginForm" [formGroup]="loginForm" (submit)="onSubmit()"
+                  novalidate>
+                  <ngb-alert type="danger" *ngIf="error" [dismissible]="false">{{ error }}</ngb-alert>
+                  <div class="form-group">
+                    <label class="form-control-label">User ID*</label>
+                    <input type="text" class="form-control" formControlName="userId" id="userid" placeholder="Masukan User ID" required />
+                  </div>
+
+                  <div class="form-group mt-4">
+                    <label class="form-control-label">Password*</label>
+                    <input type="password" class="form-control" formControlName="pwd" id="pwd" placeholder="Masukan Password" required />
+                  </div>
+                  <div class="form-group mt-4">
+                    <fieldset class="border p-2">
+                      <legend  class="w-auto">Tahun *</legend>
+                      <div class="row">
+                        <div class="col-md-12">
+                          <span *ngFor="let i of listTahun">
+                            <p-radioButton name="jbayar" [label]="i.nmtahun.trim()" [value]="i.kdtahun.trim()" formControlName="kdTahun" class="mr-2" (onClick)="onChangeTahun(i.nmtahun.trim())"></p-radioButton>
+                          </span>
+                        </div>
+                      </div>
+                    </fieldset>
+                  </div>
+                  <div class="form-group mb-0 text-center">
+                    <button class="btn btn-outline-primary btn-block" [disabled]="loginForm.invalid || loading" type="submit">
+                      <i class="fa fa-sign-in"></i>
+                      Masuk
+                    </button>
+                    <button class="btn btn-outline-secondary btn-block" type="button" (click)="backWeb()">
+                      <i class="fa fa-globe"></i>
+                      Website
+                    </button>
+                  </div>
+                </form>
+              </div>
+              <div class="col-lg-6 d-none d-md-inline-block">
+                <div class="auth-page-sidebar">
+                  <!-- <div class="overlay"></div> -->
+                  <div class="auth-user-testimonial">
+                    <p class="font-size-24 font-weight-bold text-white mb-1"></p>
+                    <p class="lead"></p>
+                    <p></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-12 text-center">
+              </div> <!-- end col -->
+            </div>
+            <div _ngcontent-pow-c9="" class="col-12 text-center" > 2024 © SIPKD BLUD v.20240702.1. Created with <i _ngcontent-pow-c9="" class="uil uil-heart text-danger font-size-12"></i> by <a _ngcontent-pow-c9="" href="http://www.usadi.co.id" target="_blank">Quantum Sistem Intermatika</a></div>
+          </div> <!-- end card-body -->
+        </div>
+        <div class="row mt-3">
+          <div class="col-12 text-center">
+          </div> <!-- end col -->
+        </div>
+      </div> <!-- end col -->
+    </div>
+  </div>
+</div>
+<div class="container-loader" *ngIf="!visibelPage">
+  <div class="loader-wrapper">
+    <div class="loader">
+      <div class="loader loader-inner"></div>
+    </div>
+  </div>
+</div>

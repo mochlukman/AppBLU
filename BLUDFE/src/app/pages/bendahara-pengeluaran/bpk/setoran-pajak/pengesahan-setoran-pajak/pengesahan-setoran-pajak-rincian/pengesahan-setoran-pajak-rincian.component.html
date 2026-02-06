@@ -1,0 +1,9 @@
+<div class="row mt-2" *ngIf="bpkpajakstrSelected">
+  <div class="col-md-12">
+    <p-tabView [activeIndex]="tabIndex" (onChange)="onChangeTab($event)">
+      <p-tabPanel header="Rincian Setoran Pajak">
+        <app-pengesahan-setoran-pajak-rincian-detail (callback)="callback($event)" [tabIndex]="tabIndex" [bpkpajakstrSelected]="bpkpajakstrSelected"></app-pengesahan-setoran-pajak-rincian-detail>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</div>

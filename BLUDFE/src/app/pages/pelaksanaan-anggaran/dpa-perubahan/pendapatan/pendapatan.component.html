@@ -1,0 +1,234 @@
+<div class="container-fluid">
+  <div class="row mt-2 p-2">
+    <div class="card col-md-12">
+      <div class="card-title">
+        <span class="d-inline-block mt-2 mr-2"><i [attr.data-feather]="'home'" appFeatherIcon class="svg-size-custom"></i></span>
+<label class="position-absolute title-font-custom">{{title}}</label>
+      </div>
+    </div>
+  </div>
+  <div class="row p-2">
+    <div class="card col-md-12">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <fieldset class="border p-2">
+          <legend  class="w-auto">Filter</legend>
+          <div class="row">
+            <div class="col-md-1 text-center p-2">
+              <label for="">SKPD</label>
+            </div>
+            <div class="col-md-2">
+              <input type="text" class="form-control" placeholder="Kode" [(ngModel)]="uiUnit.kode" readonly/>
+            </div>
+            <div class="col-md-6">
+              <input type="text" class="form-control" placeholder="Uraian" [(ngModel)]="uiUnit.nama" readonly/>
+            </div>
+            <div class="col-md-3" [hidden]="userInfo.Idunit != 0">
+                <button type="button" class="btn btn-outline-info" (click)="lookDaftunit()"><i class="fa fa-search mr-1"></i>Cari Data</button>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+  </div>
+  <div class="row p-2">
+    <div class="card col-md-12">
+      <div class="card-body">
+        <p-table [value]="listdata" [lazy]="true" #dt (onLazyLoad)="gets($event)" [paginator]="true" [rowHover]="true"
+                  [rows]="12" [totalRecords]="totalRecords" [loading]="loading_sk">
+          <ng-template pTemplate="caption">
+            <div class="row">
+              <div class="col-md-6 col-sm-12 text-left">
+              </div>
+              <div class="col-lg-6 col-md-12 text-right pr-0 pl-0">
+                <div class="ui-inputgroup col-lg-6 col-md-12" style="float: right;">
+                  <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1.25;"></i></span>
+                  <input type="text" class="w-100" pInputText placeholder="Cari Data" (input)="dt.filterGlobal($event.target.value, 'contains')">
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 20%; text-align: center" [pSortableColumn]="'nodpa'">No. DBA
+                <span style="float: right">
+                  <p-sortIcon [field]="'nodpa'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </span>
+              </th>
+              <th style="width: 15%;text-align: center" [pSortableColumn]="'pendapatan'">Pendapatan
+                <span style="float: right">
+                  <p-sortIcon [field]="'pendapatan'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </span>
+              </th>
+              <th style="width: 15%;text-align: center" [pSortableColumn]="'belanja'">Belanja
+                <span style="float: right">
+                  <p-sortIcon [field]="'belanja'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </span>
+              </th>
+              <th style="width: 15%;text-align: center" [pSortableColumn]="'pembiayaantr'">Pembiayaan Penerimaan
+                <span style="float: right">
+                  <p-sortIcon [field]="'pembiayaantr'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </span>
+              </th>
+              <th style="width: 15%;text-align: center" [pSortableColumn]="'pembiayaankr'">Pembiayaan Pengeluaran
+                <span style="float: right">
+                  <p-sortIcon [field]="'pembiayaankr'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </span>
+              </th>
+              <th style="width: 10%;text-align: center" [pSortableColumn]="'tglsah'" pTooltip="Pengesahan" tooltipPosition="top" tooltipEvent="hover">Sah
+                <span style="float: right">
+                  <p-sortIcon [field]="'tglsah'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </span>
+              </th>
+              <th style="width: 10%;text-align: center" [pSortableColumn]="'tglvalid'" pTooltip="Verifikasi" tooltipPosition="top" tooltipEvent="hover">Ver
+                <span style="float: right">
+                  <p-sortIcon [field]="'tglvalid'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </span>
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-data>
+            <tr class="ui-selectable-row"
+            [style.fontWeight]="data.iddpa == (skSelected ? skSelected.iddpa : '') ? 'bold' : ''"
+            [style.color]="data.iddpa === (skSelected ? skSelected.iddpa : '') ? '#228B22' : '#000000'"
+            >
+              <td style="text-align: center" (click)="skKlick(data)" >
+                <span style="text-decoration: underline; cursor: pointer;">
+                  {{data.nodpa ? data.nodpa : '' }}
+                </span>
+              </td>
+              <td style="text-align: right">{{data.pendapatan | currency: 'IDR':'Rp. ': '0.2-4'}}</td>
+              <td style="text-align: right">{{data.belanja | currency: 'IDR':'Rp. ': '0.2-4'}}</td>
+              <td style="text-align: right">{{data.pembiayaantr | currency: 'IDR':'Rp. ': '0.2-4'}}</td>
+              <td style="text-align: right">{{data.pembiayaankr | currency: 'IDR':'Rp. ': '0.2-4'}}</td>
+              <td style="text-align: center">
+                <span *ngIf="data.sah"><i class="fa fa-check text-success"></i><br></span>
+                <span *ngIf="!data.sah"><i class="fa fa-close text-danger"></i><br></span>
+                <span *ngIf="data.tglsah">Tanggal : {{data.tglsah | date: 'dd/MM/yyy'}}</span>
+              </td>
+              <td style="text-align: center">
+                <span *ngIf="data.valid"><i class="fa fa-check text-success"></i><br></span>
+                <span *ngIf="!data.valid"><i class="fa fa-close text-danger"></i><br></span>
+                <span *ngIf="data.tglvalid">Tanggal : {{data.tglvalid | date: 'dd/MM/yyy'}}</span>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage" let-columns>
+            <tr>
+                <td [attr.colspan]="8" style="text-align: center;">
+                  Data tidak Tersedia
+                </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+  <div class="row p-2" *ngIf="skSelected">
+    <div class="card col-md-12">
+      <div class="card-body">
+        <p-table [loading]="loading_rek" [value]="listrek" [rowHover]="true" [paginator]="true" [rows]="10" #dtrek [globalFilterFields]="['rekening.kdper','rekening.nmper', 'nilai']" editMode="row" dataKey="iddpad">
+          <ng-template pTemplate="caption">
+            <div class="row p-2">
+              <div class="ui-g-6" style="text-align: left">
+                Rekening DBA <span *ngIf="skSelected">: {{skSelected.nodpa}}</span>
+              </div>
+              <div class="col-lg-6 col-md-12 text-right pr-0 pl-0">
+                <div class="ui-inputgroup col-lg-6 col-md-12" style="float: right;">
+                  <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1.25;"></i></span>
+                  <input type="text" class="w-100" pInputText placeholder="Cari Data" (input)="dtrek.filterGlobal($event.target.value, 'contains')">
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 20%; text-align: center" [pSortableColumn]="'idrekNavigation.kdper'">Kode
+                <span style="float: right">
+                  <p-sortIcon [field]="'idrekNavigation.kdper'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </span>
+              </th>
+              <th style="width: 32%; text-align: center" [pSortableColumn]="'idrekNavigation.nmper'">Uraian
+                <span style="float: right">
+                  <p-sortIcon [field]="'idrekNavigation.nmper'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </span>
+              </th>
+              <th style="width: 18%; text-align: center" [pSortableColumn]="'dpadx.nilai'">Nilai Murni
+                <span style="float: right">
+                  <p-sortIcon [field]="'ket'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </span>
+              </th>
+              <th style="width: 18%; text-align: center" [pSortableColumn]="'nilai'">Nilai Perubahan
+                <span style="float: right">
+                  <p-sortIcon [field]="'ket'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </span>
+              </th>
+              <th style="width: 12%; text-align: center">Pilihan</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-data let-editing="editing" let-ri="rowIndex">
+            <tr class="ui-selectable-row" [pEditableRow]="data"
+            [style.fontWeight]="data.iddpad === (rekSelected ? rekSelected.iddpad : '') ? 'bold' : ''"
+            [style.color]="data.iddpad === (rekSelected ? rekSelected.iddpad : '') ? '#228B22' : '#000000'"
+            >
+              <td style="text-align: center" (click)="rekKlik(data)" >
+                <span style="text-decoration: underline; cursor: pointer;">
+                  {{data.idrekNavigation ? data.idrekNavigation.kdper : '' }}
+                </span>
+              </td>
+              <td>{{data.idrekNavigation ? data.idrekNavigation.nmper : ''}}</td>
+              <td style="text-align: right;">{{(data.dpadx ? data.dpadx.nilai : 0) | currency: 'IDR':'Rp. ': '0.2-4'}}</td>
+              <td style="text-align: right;">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                      <input appInputRupiah type="text" class="form-control" [(ngModel)]="data.nilai">
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{data.nilai | currency: 'IDR':'Rp. ': '0.2-4'}}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td style="text-align: center">
+                <span>
+                  <button type="button" *ngIf="userInfo.Update == 'True' && !editing" pInitEditableRow class="btn btn-sm btn-raised btn-outline-warning mr-1" (click)="onRowEditInit(data)"><i class="fa fa-edit"></i></button>
+                  <button type="button" *ngIf="editing" pSaveEditableRow class="btn btn-sm btn-raised btn-outline-primary mr-1" (click)="onRowEditSave(data)"><i class="fa fa-save"></i></button>
+                  <button type="button" *ngIf="editing" pCancelEditableRow class="btn btn-sm btn-raised btn-outline-danger mr-1" (click)="onRowEditCancel(data,ri)"><i class="fa fa-close"></i></button>
+                  <button type="button" *ngIf="!editing" class="btn btn-sm btn-raised btn-outline-danger mr-1" (click)="delete(data)"><i class="fa fa-trash"></i></button>
+                </span>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="footer">
+            <tr>
+              <td colspan="3" style="text-align: right;font-weight: bold;">Grand Total</td>
+              <td style="text-align: right;font-weight: bold;">{{totalNilai() | currency: 'IDR':'Rp. ': '0.2-4'}}</td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage" let-columns>
+            <tr>
+                <td [attr.colspan]="5" style="text-align: center;">
+                  Data tidak Tersedia
+                </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+  <div class="row p-2" *ngIf="rekSelected">
+    <div class="card col-md-12">
+      <div class="card-body">
+        <p-tabView [activeIndex]="tabIndex" (onChange)="onChangeTab($event)">
+          <p-tabPanel header="Penjabaran">
+            <app-skd-penjabaran [tabIndex]="tabIndex" [rekSelected]="rekSelected"></app-skd-penjabaran>
+          </p-tabPanel>
+          <p-tabPanel header="Anggaran Kas">
+            <app-skd-anggaran-kas [tabIndex]="tabIndex" [rekSelected]="rekSelected"></app-skd-anggaran-kas>
+          </p-tabPanel>
+        </p-tabView>
+      </div>
+    </div>
+  </div>
+</div>
+<app-look-daftunit-dpa (callBack)="callBackDaftunit($event)"></app-look-daftunit-dpa>

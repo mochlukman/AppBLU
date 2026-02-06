@@ -1,0 +1,89 @@
+<p-dialog class="forCalender" 
+    [(visible)]="showthis"
+    (onShow)="onShow()"
+    [style]="{width: '35vw'}"
+    [modal]="true"
+    (onHide)="onHide()"
+    [maximizable]="true"
+    [draggable]="false">
+    <app-ui-preloader [display]="loadingpost"></app-ui-preloader>
+    <p-header>
+        {{title}}
+    </p-header>
+    <div class="row">
+      <div class="col-md-12">
+        <fieldset class="border p-2">
+          <form [formGroup]="forms">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="row mb-2">
+                  <div class="col-md-12 mb-2 font-weight-bold">
+                    Jenis Bukti
+                  </div>
+                  <div class="col-md-12" [hidden]="this.mode == 'add'">
+                    <input type="text" [(ngModel)]="jenisbukti" class="form-control" [ngModelOptions]="{standalone: true}" [readOnly]="true"/>
+                  </div>
+                  <div class="col-md-12" [hidden]="this.mode == 'edit'">
+                    <app-dropdown-jenis-bukti-memorial 
+                      [kode]="'13'" 
+                      [get]="getjenisbukti" 
+                      (callback)="callbackJenisBukti($event)">
+                    </app-dropdown-jenis-bukti-memorial>
+                  </div>
+                </div>
+                <div class="row mb-2">
+                  <div class="col-md-12 mb-2 font-weight-bold">
+                    Nomor
+                  </div>
+                  <div class="col-md-12">
+                    <input type="text" formControlName="nobm" placeholder="No Memorial" class="form-control"/>
+                  </div>
+                </div>
+                <div class="row mb-2">
+                  <div class="col-md-12 mb-2 font-weight-bold">
+                    Tanggal
+                  </div>
+                  <div class="col-md-6">
+                    <p-calendar 
+                      formControlName="tglbm"
+                      [showIcon]="true" 
+                      [locale]="indoKalender"
+                      [monthNavigator]="true"
+                      yearRange="2000:2030"
+                      showButtonBar="true"
+                      [style]="{'width': '100%'}"
+                      [yearNavigator]="true"></p-calendar>
+                  </div>
+                </div>
+                <div class="row mb-2">
+                  <div class="col-md-12 mb-2 font-weight-bold">
+                    Referensi
+                  </div>
+                  <div class="col-md-12">
+                    <input type="text" formControlName="referensi" placeholder="Referensi" class="form-control"/>
+                  </div>
+                </div>
+                <div class="row mb-2">
+                  <div class="col-md-12 mb-2 font-weight-bold">
+                    Uraian
+                  </div>
+                  <div class="col-md-12">
+                    <textarea type="text" formControlName="uraian" placeholder="Uraian" class="form-control" ></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </fieldset>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <p-messages [(value)]="msg"></p-messages>
+      </div>
+    </div>
+    <p-footer>
+      <button type="button" [disabled]="!forms.valid || loadingpost" class="btn btn-success btn-sm mr-1" (click)="simpan()"><i class="fa fa-save mr-1"></i>Simpan</button>
+      <button type="button" [disabled]="loadingpost" class="btn btn-dark btn-sm" (click)="onHide()"><i class="fa fa-undo mr-1"></i>Kembali</button>
+    </p-footer>
+</p-dialog>

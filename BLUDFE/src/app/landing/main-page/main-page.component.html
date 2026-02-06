@@ -1,0 +1,25 @@
+<div class="landing_wrap " [ngClass]="[backgroundColor]" *ngIf="visibelPage">
+  <app-header></app-header>
+  <app-intro-six></app-intro-six>
+  <app-features></app-features>
+  <app-services></app-services>
+  <!--<app-works-carousel></app-works-carousel>-->
+  <!--<app-best></app-best>-->
+  <!--<app-left-image></app-left-image>-->
+  <!--<app-right-image></app-right-image>-->
+  <app-pricing-one></app-pricing-one>
+  <app-footer></app-footer>
+  <!--<app-team></app-team>-->
+  <!--<app-testimonial></app-testimonial>-->
+  <!--<app-news-two></app-news-two>-->
+  <!--<app-faqs></app-faqs>-->
+  <!--<app-contact-form></app-contact-form>-->
+  <app-footer></app-footer>
+</div>
+<div class="container-loader" *ngIf="!visibelPage">
+  <div class="loader-wrapper">
+    <div class="loader">
+      <div class="loader loader-inner"></div>
+    </div>
+  </div>
+</div>

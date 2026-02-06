@@ -1,0 +1,98 @@
+<app-ui-preloader [display]="loading_post"></app-ui-preloader>
+<p-dialog class="forCalender" 
+    [(visible)]="showThis"
+    (onShow)="onShow()"
+    [style]="{width: '40vw'}"
+    [modal]="true"
+    (onHide)="onHide()"
+    [draggable]="false">
+    <p-header>
+        {{title}} Kontrak
+    </p-header>
+    <div class="row">
+      <div class="col-md-12">
+        <form [formGroup]="forms">
+          <div class="row mb-2">
+            <div class="col-md-3">
+              No. Kontrak
+            </div>
+            <div class="col-md-4">
+              <input type="text" formControlName="nokontrak" placeholder="No Kontrak" class="form-control"/>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Pihak Ketiga
+            </div>
+            <div class="col-md-4">
+              <input type="text" class="form-control" placeholder="Nama" [(ngModel)]="uiPhk3.kode" readonly [ngModelOptions]="{standalone: true}"/>
+            </div>
+            <div class="col-md-4">
+              <input type="text" class="form-control" placeholder="Instansi" [(ngModel)]="uiPhk3.nama" readonly [ngModelOptions]="{standalone: true}"/>
+            </div>
+            <div class="col-md-1">
+                <button type="button" class="btn btn-outline-info" (click)="lookPhk3()"><i class="fa fa-search"></i></button>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Tgl. Kontrak
+            </div>
+            <div class="col-md-4">
+              <p-calendar 
+                formControlName="tglkontrak"
+                [showIcon]="true" 
+                [locale]="indoKalender"
+                [style]="{'width': '100%'}" 
+                [monthNavigator]="true"
+                yearRange="2000:2030"
+                showButtonBar="true"
+                [yearNavigator]="true"></p-calendar>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Tgl. Akhir Kontrak
+            </div>
+            <div class="col-md-4">
+              <p-calendar 
+                formControlName="tglakhirkontrak"
+                [showIcon]="true" 
+                [locale]="indoKalender"
+                [monthNavigator]="true"
+                yearRange="2000:2030"
+                [style]="{'width': '100%'}" 
+                showButtonBar="true"
+                [yearNavigator]="true"></p-calendar>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Uraian
+            </div>
+            <div class="col-md-9">
+              <textarea type="text" formControlName="uraian" placeholder="Uraian" class="form-control" ></textarea>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Nilai
+            </div>
+            <div class="col-md-4">
+              <input type="text" appInputRupiah placeholder="Nilai" class="form-control" formControlName="nilai"/>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <p-messages [(value)]="msg"></p-messages>
+      </div>
+    </div>
+    <p-footer>
+      <button type="button" [disabled]="!forms.valid" class="btn btn-success btn-sm" (click)="simpan()"><i class="fa fa-save"></i>&nbsp;Simpan</button>
+      <button type="button" class="btn btn-secondary btn-sm" (click)="onHide()"><i class="fa fa-close"></i>&nbsp;Kembali</button>
+    </p-footer>
+  </p-dialog>
+  <app-look-phk3 (callBack)="callbackPhk3($event)"></app-look-phk3>

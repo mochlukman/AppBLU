@@ -1,0 +1,52 @@
+<app-ui-preloader [display]="loading_post"></app-ui-preloader>
+<div class="container-fluid">
+    <div class="row mt-2 p-2"> 
+        <div class="card col-md-12">
+            <div class="card-title">
+                <h4>Laporan Anggaran Kas Pemda</h4>
+            </div>
+            <div class="card-body">
+                <fieldset class="border p-2">
+                  <legend  class="w-auto">Filter</legend>
+                    <div class="row">
+                        <div class="col-md-1 text-left p-2">
+                            <label for="">Level Rekening</label>
+                        </div>
+                        <div class="col-md-2">
+                            <p-dropdown [options]="optionKdlevel"
+                                [(ngModel)]="kdlevelSelected"
+                                placeholder="Pilih Level"
+                                [filter]="true"
+                                [ngModelOptions]="{standalone: true}"
+                                [style]="{'width': '100%'}">
+                            </p-dropdown>
+                        </div>
+                    </div>    
+                    <div class="row">
+                        <div class="col-md-1 text-left p-2">
+                            <label for="">Tahapan</label>
+                        </div>
+                        <div class="col-md-2">
+                            <p-dropdown [options]="optionTahap"
+                                [(ngModel)]="tahapSelected"
+                                placeholder="Pilih Tahapan"
+                                [filter]="true"
+                                [ngModelOptions]="{standalone: true}"
+                                [style]="{'width': '100%'}">
+                            </p-dropdown>
+                        </div>
+                        <div class="col-md-4">
+                            <p-splitButton label="Cetak"
+                            icon="fa fa-print"
+                            [model]="itemPrints"
+                            [menuStyle]="{'width':'8em'}"
+                            styleClass="ui-button-info"></p-splitButton>
+                        </div>
+                    </div> 
+                </fieldset>
+            </div>
+        </div>
+    
+    </div>
+</div>
+<app-report-modal (callBack)="callBackTanggal($event)"></app-report-modal>

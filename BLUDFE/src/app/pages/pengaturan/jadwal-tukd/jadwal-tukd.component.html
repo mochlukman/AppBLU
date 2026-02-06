@@ -1,0 +1,88 @@
+<div class="container-fluid">
+  <div class="row mt-2 p-2">
+    <div class="card col-md-12">
+      <div class="card-title">
+        <h4>Pengaturan - Jadwal Penatausahaan</h4>
+      </div>
+    </div>
+  </div>
+  <div class="row p-2">
+    <div class="card col-md-12">
+      <div class="card-body">
+        <p-table [value]="listdata" [lazy]="true" #dt (onLazyLoad)="gets($event)" [paginator]="true" [rowHover]="true"
+          [rows]="12" [totalRecords]="totalRecords" [loading]="loading">
+          <ng-template pTemplate="caption">
+            <div class="row p-2">
+              <div class="col-md-6" style="text-align: left">
+                <button *ngIf="userInfo.Insert === 'True'" type="button" class="btn btn-soft-primary  btn-sm" (click)="add()"><i class="fa fa-plus"></i>&nbsp;Tambah</button>
+                &nbsp;
+              </div>
+              <div class="col-lg-6 col-md-12 text-right pr-0 pl-0">
+                <div class="ui-inputgroup col-lg-6 col-md-12" style="float: right;">
+                  <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1.25;"></i></span>
+                  <input type="text" class="w-100" pInputText placeholder="Cari Data" (input)="dt.filterGlobal($event.target.value, 'contains')">         
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 8%;text-align: center" [pSortableColumn]="'kdtahap'">Kode
+                <span style="float: right">
+                  <p-sortIcon [field]="'kdtahap'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </span>
+              </th>
+              <th style="width: 25%;text-align: center" [pSortableColumn]="'uraian'">Jadwal
+                <span style="float: right">
+                  <p-sortIcon [field]="'uraian'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </span>
+              </th>
+              <th style="width: 15%;text-align: center" [pSortableColumn]="'startDate'">Tgl. Mulai
+                <span style="float: right">
+                  <p-sortIcon [field]="'startDate'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </span>
+              </th>
+              <th style="width: 15%;text-align: center" [pSortableColumn]="'endDate'">Tgl. Akhir
+                <span style="float: right">
+                  <p-sortIcon [field]="'endDate'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </span>
+              </th>
+              <th style="width: 15%;text-align: center" [pSortableColumn]="'tgltransfer'">Tgl. Transfer
+                <span style="float: right">
+                  <p-sortIcon [field]="'tgltransfer'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </span>
+              </th>
+              <th style="width: 12%;text-align: center" [pSortableColumn]="'ket'">Keterangan
+                <span style="float: right">
+                  <p-sortIcon [field]="'ket'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </span>
+              </th>
+              <th style="width: 10%; text-align: center">Kunci Jadwal</th>
+              <th style="width: 10%; text-align: center">Pilihan</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-data>
+            <tr class="ui-selectable-row">
+              <td style="text-align: center">{{data.kdtahap ? data.kdtahap.trim() : '' }}</td>
+              <td style="text-align: center">{{data.uraian}}</td>
+              <td style="text-align: center">{{data.startDate | date: 'dd/MM/yyy' }}<i *ngIf="!data.startDate" class="fa fa-question-circle"></i></td>
+              <td style="text-align: center">{{data.endDate | date: 'dd/MM/yyy' }}<i *ngIf="!data.endDate" class="fa fa-question-circle"></i></td>
+              <td style="text-align: center">{{data.tgltransfer | date: 'dd/MM/yyy' }}<i *ngIf="!data.tgltransfer" class="fa fa-question-circle"></i></td>
+              <td>{{data.ket}}</td>
+              <td style="text-align: center">
+                <button *ngIf="!data.lock && userInfo.Update === 'True'" pButton type="button" class="ui-button-secondary" icon="fa fa-unlock" (click)="lockTahap(data)"></button>
+                <button *ngIf="data.lock && userInfo.Update === 'True'" pButton type="button" class="ui-button-danger" icon="fa fa-lock" (click)="lockTahap(data)"></button>
+              </td>
+              <td style="text-align: center">
+                <button *ngIf="userInfo.Update === 'True'" type="button" class="btn btn-warning btn-sm" (click)="update(data)"><i class="fa fa-edit"></i></button>
+                &nbsp;
+                <button *ngIf="userInfo.Delete === 'True'" type="button" class="btn btn-danger btn-sm" (click)="delete(data)"><i class="fa fa-trash"></i></button> 
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+</div>
+<app-form-jadwal-tukd (callBack)="callback($event)"></app-form-jadwal-tukd>

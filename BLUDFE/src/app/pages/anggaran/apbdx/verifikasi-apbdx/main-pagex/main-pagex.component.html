@@ -1,0 +1,30 @@
+<div class="container-fluid">
+  <div class="row mt-2 p-2">
+    <div class="card col-md-12">
+      <div class="card-title">
+        <span class="d-inline-block mt-2 mr-2"><i [attr.data-feather]="'home'" appFeatherIcon class="svg-size-custom"></i></span>
+<label class="position-absolute title-font-custom">{{title}}</label>
+      </div>
+    </div>
+  </div>
+  <div class="row p-2">
+    <div class="card col-md-12">
+      <div class="card-body">
+        <p-tabView [activeIndex]="tabIndex" (onChange)="onChangeTab($event)">
+          <p-tabPanel header="Pendapatan">
+            <app-pendapatanx></app-pendapatanx>
+          </p-tabPanel>
+          <p-tabPanel header="Belanja">
+            <app-belanjax></app-belanjax>
+          </p-tabPanel>
+          <p-tabPanel header="Pembiayaan">
+            <app-pembiayaanx></app-pembiayaanx>
+          </p-tabPanel>
+          <p-tabPanel header="Pengesahan RKA">
+            <app-pengesahanx></app-pengesahanx>
+          </p-tabPanel>
+        </p-tabView>
+      </div>
+    </div>
+  </div>
+</div>

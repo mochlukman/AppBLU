@@ -1,0 +1,89 @@
+<p-dialog class="forCalender" 
+    [(visible)]="showThis"
+    (onShow)="onShow()"
+    [style]="{width: '40vw'}"
+    [modal]="true"
+    (onHide)="onHide()"
+    [draggable]="false">
+    <app-ui-preloader [display]="loading_post"></app-ui-preloader>
+    <p-header>
+        {{title}}
+    </p-header>
+    <div class="row">
+      <div class="col-md-12">
+        <form [formGroup]="forms">
+          <div class="row mb-2">
+            <div class="col-md-2">
+              Kegiatan
+            </div>
+            <div class="col-md-2">
+              <input type="text" class="form-control" placeholder="Kode" [pTooltip]="uiKeg.kode" [(ngModel)]="uiKeg.kode" readonly [ngModelOptions]="{standalone: true}"/>
+            </div>
+            <div class="col-md-7">
+              <input type="text" class="form-control" placeholder="Nama" [pTooltip]="uiKeg.nama"  [(ngModel)]="uiKeg.nama" readonly [ngModelOptions]="{standalone: true}"/>
+            </div>
+            <div class="col-md-1 pl-0">
+                <button type="button" *ngIf="mode == 'add'" class="btn btn-outline-info" (click)="lookMkegiatan()"><i class="fa fa-search"></i></button>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-2">
+              Sifat Keg
+            </div>
+            <div class="col-md-7">
+              <p-dropdown
+                [options]="listSifat"
+                (onChange)="changeSifat($event)" 
+                [(ngModel)]="sifatSelected"
+                [style]="{'width': '100%'}"
+                [filter]="true"
+                [ngModelOptions]="{standalone: true}">
+              </p-dropdown>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-2">
+              Keluaran
+            </div>
+            <div class="col-md-10">
+              <textarea type="text" formControlName="sasaran" placeholder="Keluaran" class="form-control" ></textarea>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-2">
+              Target
+            </div>
+            <div class="col-md-10">
+              <input type="text" placeholder="Target" class="form-control" formControlName="target"/>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-2">
+              Satuan
+            </div>
+            <div class="col-md-7">
+              <input type="text" placeholder="Satuan" class="form-control" formControlName="satuan"/>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-2">
+              Keterangan
+            </div>
+            <div class="col-md-10">
+              <textarea type="text" formControlName="ketkeg" placeholder="Keterangan" class="form-control" ></textarea>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <p-messages [(value)]="msg"></p-messages>
+      </div>
+    </div>
+    <p-footer>
+      <button type="button" [disabled]="!forms.valid || loading_post" class="btn btn-success btn-sm" (click)="simpan()"><i class="fa fa-save"></i>&nbsp;Simpan</button>
+      <button type="button" [disabled]="loading_post" class="btn btn-secondary btn-sm" (click)="onHide()"><i class="fa fa-close"></i>&nbsp;Kembali</button>
+    </p-footer>
+  </p-dialog>
+  <app-look-mkegiatan (callback)="callbackKegiatan($event)"></app-look-mkegiatan>

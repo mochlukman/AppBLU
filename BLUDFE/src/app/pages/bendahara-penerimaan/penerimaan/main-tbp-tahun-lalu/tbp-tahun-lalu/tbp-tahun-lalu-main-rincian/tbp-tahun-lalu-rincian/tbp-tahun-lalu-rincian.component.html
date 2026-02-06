@@ -1,0 +1,64 @@
+<div class="row mt-2" *ngIf="TbpSelected">
+  <div class="col-md-12">
+    <p-table [loading]="loading" [value]="listdata" [paginator]="true" [rowHover]="true" [rows]="10" #dt [globalFilterFields]="['idrekNavigation.kdper','idrekNavigation.nmper','nilai']">
+      <ng-template pTemplate="caption">
+        <div class="row p-2">
+          <div class="ui-g-6" style="text-align: left">
+            <button *ngIf="userInfo.Insert === 'True'" type="button" class="btn btn-primary btn-sm mr-1" (click)="add()"><i class="fa fa-plus mr-1"></i>Tambah</button>
+            <span *ngIf="TbpSelected">Detail TBP : {{TbpSelected.notbp}}</span>
+          </div>
+          <div class="col-lg-6 col-md-12 text-right pr-0 pl-0">
+            <div class="ui-inputgroup col-lg-6 col-md-12" style="float: right;">
+              <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1.25;"></i></span>
+              <input type="text" class="w-100" pInputText placeholder="Cari Data" (input)="dt.filterGlobal($event.target.value, 'contains')">
+            </div>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 20%; text-align: center" [pSortableColumn]="'idrekNavigation.kdper'">Kode Rekening
+            <span style="float: right">
+              <p-sortIcon [field]="'idrekNavigation.kdper'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th style="width: 53%;text-align: center" [pSortableColumn]="'idrekNavigation.nmper'">Nama Rekening
+            <span style="float: right">
+              <p-sortIcon [field]="'idrekNavigation.nmper'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th style="width: 15%;text-align: center" [pSortableColumn]="'nilai'">Nilai
+            <span style="float: right">
+              <p-sortIcon [field]="'nilai'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th style="width: 12%; text-align: center">Pilihan</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-data>
+        <tr class="ui-selectable-row">
+          <td style="text-align: center">{{data.idrekNavigation ? data.idrekNavigation.kdper : '' }}</td>
+          <td style="text-align: left">{{data.idrekNavigation ? data.idrekNavigation.nmper : '' }}</td>
+          <td style="text-align: right">{{data.nilai | currency: 'IDR':'Rp. ': '0.2-4'}}</td>
+          <td style="text-align: center">
+            <button *ngIf="userInfo.Update === 'True'" type="button" class="btn btn-warning btn-sm mr-1" (click)="update(data)"><i class="fa fa-edit"></i></button>
+            <button *ngIf="userInfo.Delete === 'True'" type="button" class="btn btn-danger btn-sm" (click)="delete(data)"><i class="fa fa-trash"></i></button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="4" style="text-align:center">Data Tidak Tersedia</td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="footer" let-data>
+        <tr>
+          <td colspan="2" style="text-align: right;font-weight: bold;">Nilai Total</td>
+          <td style="text-align: right;font-weight: bold;">{{subTotal() | currency: 'IDR':'Rp. ': '0.2-4'}}</td>
+          <td></td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+<app-tbp-tahun-lalu-rincian-form (callback)="callback($event)"></app-tbp-tahun-lalu-rincian-form>

@@ -1,0 +1,68 @@
+<p-dialog class="forCalender" 
+    [(visible)]="showThis"
+    (onShow)="onShow()"
+    [style]="{width: '30vw'}"
+    [modal]="true"
+    (onHide)="onHide()"
+    [draggable]="false">
+    <app-ui-preloader [display]="loading_post"></app-ui-preloader>
+    <p-header>
+        {{title}}
+    </p-header>
+    <div class="row">
+      <div class="col-md-12">
+        <form [formGroup]="forms">
+          <div class="row mb-2">
+            <div class="col-md-3">
+              User ID
+            </div>
+            <div class="col-md-9">
+              <input type="text" placeholder="User ID" class="form-control" formControlName="userid" [readOnly]="true"/>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Nama
+            </div>
+            <div class="col-md-9">
+              <input type="text" placeholder="nama" class="form-control" formControlName="nama" [readOnly]="true"/>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Kelompok
+            </div>
+            <div class="col-md-9">
+              <input type="text" placeholder="Kelompok" class="form-control" formControlName="kelompok" [readOnly]="true"/>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Otorisasi
+            </div>
+            <div class="col-md-9">
+              <input type="text" placeholder="Otorisasi" class="form-control" formControlName="otorisasi" [readOnly]="true"/>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Persetujuan (Approval)
+            </div>
+            <div class="col-md-9">
+              <p-radioButton name="approval" inputId="setuju" #r1 value="true" (onClick)="clickApprov(r1)" label="Disetujui" [(ngModel)]="setuju" [ngModelOptions]="{standalone: true}"></p-radioButton> &nbsp;
+              <p-radioButton name="approval" inputId="tidak" #r2 value="false" (onClick)="clickApprov(r2)" label="Tidak Disetujui" [(ngModel)]="tidak" [ngModelOptions]="{standalone: true}"></p-radioButton>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <p-messages [(value)]="msg"></p-messages>
+      </div>
+    </div>
+    <p-footer>
+      <button type="button" [disabled]="!forms.valid || loading_post" class="btn btn-success btn-sm" (click)="simpan()"><i class="fa fa-save"></i>&nbsp;Simpan</button>
+      <button type="button" [disabled]="loading_post" class="btn btn-secondary btn-sm" (click)="onHide()"><i class="fa fa-close"></i>&nbsp;Kembali</button>
+    </p-footer>
+</p-dialog>

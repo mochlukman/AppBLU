@@ -1,0 +1,9 @@
+<div class="row mt-2" *ngIf="spmSelected">
+  <div class="col-md-12">
+    <p-tabView [activeIndex]="tabIndex" (onChange)="onChangeTab($event)">
+      <p-tabPanel header="Pembebanan">
+        <app-pendapatan-verifikasi-pembebanan [spmSelected]="spmSelected" [sp2dSelected]="sp2dSelected"></app-pendapatan-verifikasi-pembebanan>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</div>

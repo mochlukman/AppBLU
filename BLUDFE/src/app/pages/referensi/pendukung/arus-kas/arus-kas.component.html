@@ -1,0 +1,84 @@
+<div class="container-fluid">
+  <div class="row mt-2 p-2">
+    <div class="card col-md-12">
+      <div class="card-title">
+        <span class="d-inline-block mt-2 mr-2"><i [attr.data-feather]="'home'" appFeatherIcon class="svg-size-custom"></i></span>
+        <label class="position-absolute title-font-custom">{{title}}</label>
+      </div>
+    </div>
+  </div>
+  <div class="row p-2">
+    <div class="card col-md-12">
+      <div class="card-body">
+        <div class="row mt-2">
+          <div class="col-md-12">
+            <p-table [value]="listdata" [paginator]="true" dataKey="idrek" editMode="row" [rowHover]="true" [rows]="20" #dt [globalFilterFields]="['kdper','nmper','nlakawal']" [loading]="loading">
+              <ng-template pTemplate="caption">
+                <div class="row p-2">
+                  <div class="ui-g-6" style="text-align: left">
+                  </div>
+                  <div class="col-lg-6 col-md-12 text-right pr-0 pl-0">
+                    <div class="ui-inputgroup col-lg-6 col-md-12" style="float: right;">
+                      <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1.25;"></i></span>
+                      <input type="text" class="w-100" pInputText placeholder="Cari Data" (input)="dt.filterGlobal($event.target.value, 'contains')">
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+                  <th style="width: 20%" [pSortableColumn]="'kdper'"> Kode Rekening
+                    <span style="float: right">
+                      <p-sortIcon [field]="'kdper'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </span>
+                  </th>
+                  <th style="" [pSortableColumn]="'nmper'"> Nama Rekening
+                    <span style="float: right">
+                      <p-sortIcon [field]="'nmper'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </span>
+                  </th>
+                  <th style="width: 20%; text-align: center" [pSortableColumn]="'nlakawal'"> Nilai
+                    <span style="float: right">
+                      <p-sortIcon [field]="'nlakawal'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </span>
+                  </th>
+                  <th style="width: 10%; text-align: center">Pilihan</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-data let-editing="editing" let-ri="rowIndex">
+                <tr class="ui-selectable-row"
+                    [style.fontWeight]="data.type.trim() === 'H' ? 'bold' : ''" [pEditableRow]="data">
+                  <td>{{data.kdper}}</td>
+                  <td>{{data.nmper}}</td>
+                  <td style="text-align: right" *ngIf="data.type.trim() == 'D'">
+                    <p-cellEditor>
+                      <ng-template pTemplate="input">
+                        <input appInputRupiah class="form-control" type="text" [(ngModel)]="data.nlakawal">
+                      </ng-template>
+                      <ng-template pTemplate="output">
+                        {{(data.nlakawal ? data.nlakawal : 0) | currency: 'IDR':'Rp. ': '0.2-4'}}
+                      </ng-template>
+                    </p-cellEditor>
+                  </td>
+                  <td *ngIf="data.type.trim() == 'H'"></td>
+                  <td style="text-align: center">
+                    <button type="button" *ngIf="!editing" pInitEditableRow class="btn btn-sm btn-raised btn-outline-warning mr-1" (click)="onRowEditInit(data)"><i class="fa fa-edit"></i></button>
+                    <button type="button" *ngIf="editing" pSaveEditableRow class="btn btn-sm btn-raised btn-outline-primary mr-1" (click)="onRowEditSave(data)"><i class="fa fa-save"></i></button>
+                    <button type="button" *ngIf="editing" pCancelEditableRow class="btn btn-sm btn-raised btn-outline-danger mr-1" (click)="onRowEditCancel(data,ri)"><i class="fa fa-close"></i></button>
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage" let-columns>
+                <tr>
+                  <td [attr.colspan]="3" style="text-align: center;">
+                    Data tidak Tersedia
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+<div class="row mt-2" *ngIf="sp2dSelected">
+  <div class="col-md-12">
+    <p-tabView [activeIndex]="tabIndex" (onChange)="onChangeTab($event)">
+      <p-tabPanel header="Rincian SPD">
+        <app-sp2d-gu-pembuatan-detail-rincian [sp2dSelected]="sp2dSelected"></app-sp2d-gu-pembuatan-detail-rincian>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</div>

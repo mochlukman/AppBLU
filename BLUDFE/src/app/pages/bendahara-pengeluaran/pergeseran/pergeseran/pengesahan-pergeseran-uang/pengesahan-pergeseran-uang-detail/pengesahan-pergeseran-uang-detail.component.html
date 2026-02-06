@@ -1,0 +1,9 @@
+<div class="row mt-2" *ngIf="BkbankSelected">
+  <div class="col-md-12">
+    <p-tabView [activeIndex]="tabIndex" (onChange)="onChangeTab($event)">
+      <p-tabPanel header="Rincian Pergeseran">
+        <app-pengesahan-pergeseran-uang-detail-rincian [tabIndex]="tabIndex" [BkbankSelected]="BkbankSelected"></app-pengesahan-pergeseran-uang-detail-rincian>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</div>

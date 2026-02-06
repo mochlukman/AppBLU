@@ -1,0 +1,101 @@
+<p-dialog class="forCalender" 
+    [(visible)]="showThis"
+    (onShow)="onShow()"
+    [style]="{width: '40vw'}"
+    [modal]="true"
+    (onHide)="onHide()"
+    [maximizable]="true"
+    [draggable]="false">
+  <app-ui-preloader [display]="loading_post"></app-ui-preloader>
+  <p-header>
+      {{title}}
+  </p-header>
+  <div class="row">
+    <div class="col-md-12">
+      <form [formGroup]="forms">
+        <div class="row mb-2">
+          <div class="col-md-2 text-left">
+            Nomor
+          </div>
+          <div class="col-md-10">
+            <input type="text" formControlName="nobukas" placeholder="No" class="form-control" [readOnly]="true"/>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-2 text-left">
+            Tanggal Kas
+          </div>
+          <div class="col-md-5">
+            <p-calendar 
+              formControlName="tglkas"
+              [showIcon]="true" 
+              [locale]="indoKalender"
+              [monthNavigator]="true"
+              yearRange="2000:2030"
+              showButtonBar="true"
+              [style]="{'width': '100%'}"
+              [yearNavigator]="true"></p-calendar>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-2 text-left">
+            No. SP2D
+          </div>
+          <div class="col-md-4">
+            <input type="text" class="form-control" placeholder="Kode" [pTooltip]="uiRef.kode" [(ngModel)]="uiRef.kode" [ngModelOptions]="{standalone: true}" readonly/>
+          </div>
+          <div class="col-md-5">
+            <input type="text" class="form-control" placeholder="Uraian" [pTooltip]="uiRef.nama" [(ngModel)]="uiRef.nama" [ngModelOptions]="{standalone: true}" readonly/>
+          </div>
+          <div class="col-md-1">
+              <button type="button" class="btn btn-outline-info" (click)="lookRef()"><i class="fa fa-search"></i></button>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-2">
+            Jenis Bukti
+          </div>
+          <div class="col-md-5" [hidden]="this.mode == 'add'">
+            <input type="text" [(ngModel)]="jenisBukti" class="form-control" [ngModelOptions]="{standalone: true}" [readOnly]="true"/>
+          </div>
+          <div class="col-md-5" [hidden]="this.mode == 'edit'">
+            <p-dropdown
+              [options]="listjbkas"
+              (onChange)="changeJbkas($event)" 
+              [(ngModel)]="jbkasSelected"
+              [style]="{'width': '100%'}"
+              [filter]="true"
+              [ngModelOptions]="{standalone: true}">
+            </p-dropdown>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-2 text-left">
+            No Bukti
+          </div>
+          <div class="col-md-5">
+            <input type="text" formControlName="nobukti" placeholder="No Bukti" class="form-control"/>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-2 text-left">
+            Uraian
+          </div>
+          <div class="col-md-10">
+            <textarea type="text" formControlName="uraian" placeholder="Uraian" class="form-control" ></textarea>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <p-messages [(value)]="msg"></p-messages>
+    </div>
+  </div>
+  <p-footer>
+    <button type="button" [disabled]="!forms.valid || loading_post" class="btn btn-success btn-sm" (click)="simpan()"><i class="fa fa-save"></i>&nbsp;Simpan</button>
+    <button type="button" [disabled]="loading_post" class="btn btn-secondary btn-sm" (click)="onHide()"><i class="fa fa-close"></i>&nbsp;Kembali</button>
+  </p-footer>
+</p-dialog>
+<app-look-sp2d-for-bku-bud (callback)="callbackRef($event)"></app-look-sp2d-for-bku-bud>

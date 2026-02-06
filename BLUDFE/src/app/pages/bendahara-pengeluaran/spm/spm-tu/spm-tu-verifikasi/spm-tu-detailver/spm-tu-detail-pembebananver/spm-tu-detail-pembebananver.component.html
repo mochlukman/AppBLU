@@ -1,0 +1,55 @@
+<div class="row mt-2" *ngIf="SpmSelected">
+  <div class="col-md-12">
+    <p-treeTable [value]="listdata" [paginator]="true" [rowHover]="true" [rows]="10" [loading]="loading" #dt [globalFilterFields]="['kode','uraian','nilai']">
+      <ng-template pTemplate="caption">
+        <div class="row p-2">
+          <div class="ui-g-6" style="text-align: left">
+            <span *ngIf="SpmSelected">Detail S-OPD : {{SpmSelected.nospm}}</span>
+          </div>
+          <div class="col-lg-6 col-md-12 text-right pr-0 pl-0">
+            <div class="ui-inputgroup col-lg-6 col-md-12" style="float: right;">
+              <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1.25;"></i></span>
+              <input type="text" class="w-100" pInputText placeholder="Cari Data" (input)="dt.filterGlobal($event.target.value, 'contains')">
+            </div>
+          </div>
+        </div>
+      </ng-template>a
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 17%; text-align: center" [ttSortableColumn]="'kode'">Kode
+            <span style="float: right">
+              <p-treeTableSortIcon [field]="'kode'"></p-treeTableSortIcon>
+            </span>
+          </th>
+          <th style="width: 71%; text-align: center" [ttSortableColumn]="'uraian'">Uraian
+            <span style="float: right">
+              <p-treeTableSortIcon [field]="'uraian'"></p-treeTableSortIcon>
+            </span>
+          </th>
+          <th style="width: 12%; text-align: center" [ttSortableColumn]="'nilai'">Nilai
+            <span style="float: right">
+              <p-treeTableSortIcon [field]="'nilai'"></p-treeTableSortIcon>
+            </span>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+          <tr class="ui-selectable-row" [ttRow]="rowNode" [style.fontWeight]="rowData.level === 'sub_kegiatan' ? 'bold' : ''">
+            <td>
+              <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+              {{rowData.kode}}
+            </td>
+            <td>{{rowData.uraian}}</td>
+            <td style="text-align: right">{{rowData.nilai | currency: 'IDR':'Rp. ': '0.2-4'}}</td>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage" let-columns>
+        <tr>
+          <td [attr.colspan]="3" style="text-align: center;">
+            Data tidak Tersedia
+          </td>
+        </tr>
+      </ng-template>
+   </p-treeTable>
+  </div>
+</div>

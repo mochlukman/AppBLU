@@ -1,0 +1,9 @@
+<div class="row mt-2" *ngIf="SkpSelected">
+  <div class="col-md-12">
+    <p-tabView [activeIndex]="tabIndex" (onChange)="onChangeTab($event)">
+      <p-tabPanel header="Rincian SKR">
+        <app-skr-rincian [SkpSelected]="SkpSelected"></app-skr-rincian>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</div>

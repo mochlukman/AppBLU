@@ -1,0 +1,66 @@
+<p-dialog class="forCalender" 
+    [(visible)]="showThis"
+    (onShow)="onShow()"
+    [style]="{width: '50vw'}"
+    [modal]="true"
+    (onHide)="onHide()"
+    [maximizable]="true"
+    [draggable]="false">
+    <app-ui-preloader [display]="loading_post"></app-ui-preloader>
+    <p-header>
+        {{title}}
+    </p-header>
+    <div class="row">
+      <div class="col-md-12">
+        <form [formGroup]="forms">
+          <div class="row mb-2">
+            <div class="col-md-2 text-left p-2">
+              Sub Kegiatan
+            </div>
+            <div class="col-md-2">
+              <input type="text" class="form-control" placeholder="Kode" [(ngModel)]="uiKeg.kode" [pTooltip]="uiKeg.kode" readonly [ngModelOptions]="{standalone: true}"/>
+            </div>
+            <div class="col-md-6">
+              <input type="text" class="form-control" placeholder="Uraian" [(ngModel)]="uiKeg.nama" [pTooltip]="uiKeg.nama" readonly [ngModelOptions]="{standalone: true}"/>
+            </div>
+            <div class="col-md-2" *ngIf="mode == 'add'">
+                <button type="button" class="btn btn-outline-info" (click)="lookKegiatan()"><i class="fa fa-search mr-1"></i></button>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-2 text-left p-2">
+              Rekening Belanja
+            </div>
+            <div class="col-md-2">
+              <input type="text" class="form-control" placeholder="Kode" [(ngModel)]="uiRek.kode" [pTooltip]="uiRek.kode" readonly [ngModelOptions]="{standalone: true}"/>
+            </div>
+            <div class="col-md-6">
+              <input type="text" class="form-control" placeholder="Uraian" [(ngModel)]="uiRek.nama" [pTooltip]="uiRek.nama" readonly [ngModelOptions]="{standalone: true}"/>
+            </div>
+            <div class="col-md-2" *ngIf="mode == 'add'">
+                <button type="button" class="btn btn-outline-info" (click)="lookRekening()"><i class="fa fa-search mr-1"></i></button>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-2">
+              Nilai
+            </div>
+            <div class="col-md-8">
+              <input type="text" appInputRupiah placeholder="Nilai" class="form-control" formControlName="nilai"/>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <p-messages [(value)]="msg"></p-messages>
+      </div>
+    </div>
+    <p-footer>
+      <button type="button" [disabled]="!forms.valid || loading_post" class="btn btn-success btn-sm mr-1" (click)="simpan()"><i class="fa fa-save mr-1"></i>Simpan</button>
+      <button type="button" [disabled]="loading_post" class="btn btn-secondary btn-sm" (click)="onHide()"><i class="fa fa-close"></i>Kembali</button>
+    </p-footer>
+</p-dialog>
+<app-look-dpakegiatan (callBack)="callBackKegiatan($event)"></app-look-dpakegiatan>
+<app-look-daftrek-for-stsdetr (callback)="callbackRekening($event)"></app-look-daftrek-for-stsdetr>

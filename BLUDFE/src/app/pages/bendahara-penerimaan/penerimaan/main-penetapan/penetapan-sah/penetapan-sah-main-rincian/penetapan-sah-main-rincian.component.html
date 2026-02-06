@@ -1,0 +1,9 @@
+<div class="row mt-2" *ngIf="TbpSelected">
+  <div class="col-md-12">
+    <p-tabView [activeIndex]="tabIndex" (onChange)="onChangeTab($event)">
+      <p-tabPanel header="Rincian TBP">
+        <app-penetapan-sah-rincian [TbpSelected]="TbpSelected"></app-penetapan-sah-rincian>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</div>

@@ -1,0 +1,63 @@
+<div class="row mt-2" *ngIf="bpkSelected">
+  <div class="col-md-12">
+    <p-table [value]="listdata" [lazy]="true" #dt (onLazyLoad)="get($event)" [paginator]="true" [rowHover]="true"
+              [rows]="12" [totalRecords]="totalRecords" [loading]="loading">
+      <ng-template pTemplate="caption">
+        <div class="row">
+          <div class="col-md-6 col-sm-12 text-left">
+
+          </div>
+          <div class="col-md-6 col-sm-12 text-right pr-0">
+            <span *ngIf="bpkSelected">
+              {{ bpkSelected.nobpk }}
+            </span>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 20%; text-align: center" [pSortableColumn]="'idrekNavigation.kdper'">Kode Rekening
+            <span style="float: right">
+              <p-sortIcon [field]="'idrekNavigation.kdper'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th style="width: 30%;text-align: center" [pSortableColumn]="'idrekNavigation.nmper'">Nama Rekening
+            <span style="float: right">
+              <p-sortIcon [field]="'idrekNavigation.nmper'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th style="text-align: center" [pSortableColumn]="'idjdanaNavigation.nmdana'">Sumber Dana
+            <span style="float: right">
+              <p-sortIcon [field]="'idjdanaNavigation.nmdana'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th style="text-align: center" [pSortableColumn]="'nilai'">Nilai
+            <span style="float: right">
+              <p-sortIcon [field]="'nilai'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-data>
+        <tr class="ui-selectable-row">
+          <td style="text-align: center">{{data.idrekNavigation ? data.idrekNavigation.kdper : '' }}</td>
+          <td style="text-align: left">{{data.idrekNavigation ? data.idrekNavigation.nmper : '' }}</td>
+          <td style="text-align: left">{{data.idjdanaNavigation ? data.idjdanaNavigation.nmdana : '' }}</td>
+          <td style="text-align: right">{{data.nilai | currency: 'IDR':'Rp. ': '0.2-4'}}</td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage" let-columns>
+        <tr>
+            <td [attr.colspan]="4" style="text-align: center;">
+              Data tidak Tersedia
+            </td>
+        </tr>
+      </ng-template>
+      <tr>
+        <td colspan="3" style="text-align: right;font-weight: bold;">Nilai Total</td>
+        <td style="text-align: right;font-weight: bold;">{{totalNilai | currency: 'IDR':'Rp. ': '0.2-4'}}</td>
+      </tr>
+    </p-table>
+  </div>
+</div>
+<app-look-dpar-by-bpkdetr></app-look-dpar-by-bpkdetr>

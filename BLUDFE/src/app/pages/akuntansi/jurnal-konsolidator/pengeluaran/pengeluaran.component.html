@@ -1,0 +1,167 @@
+<div class="container-fluid">
+  <div class="row mt-2 p-2">
+    <div class="card col-md-12">
+      <div class="card-title">
+        <span class="d-inline-block mt-2 mr-2"><i [attr.data-feather]="'home'" appFeatherIcon class="svg-size-custom"></i></span>
+<label class="position-absolute title-font-custom">{{title}}</label>
+      </div>
+    </div>
+  </div>
+  <div class="row p-2">
+    <div class="card col-md-12">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <fieldset class="border p-2">
+              <legend  class="w-auto">Filter</legend>
+              <form [formGroup]="formFilter">
+                <div class="row">
+                  <div class="col-md-1 text-left p-2">
+                    <label for="">Rekening BUD</label>
+                  </div>
+                  <div class="col-md-2">
+                    <input type="text" class="form-control" placeholder="Kode" [pTooltip]="uiBud.kode" [(ngModel)]="uiBud.kode" [ngModelOptions]="{standalone: true}" readonly/>
+                  </div>
+                  <div class="col-md-6">
+                    <input type="text" class="form-control" placeholder="Uraian" [pTooltip]="uiBud.nama" [(ngModel)]="uiBud.nama" [ngModelOptions]="{standalone: true}" readonly/>
+                  </div>
+                  <div class="col-md-3">
+                      <button type="button" class="btn btn-outline-info" (click)="lookBud()"><i class="fa fa-search"></i></button>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-1 text-left p-2">
+                    <label for="">Tanggal</label>
+                  </div>
+                  <div class="col-md-2">
+                    <p-calendar
+                      formControlName="tgl1"
+                      [showIcon]="true"
+                      [locale]="indoKalender"
+                      [monthNavigator]="true"
+                      yearRange="2000:2030"
+                      showButtonBar="true"
+                      [style]="{'width': '100%'}"
+                      [yearNavigator]="true"></p-calendar>
+                  </div>
+                  <div class="col-2 mt-2 text-center">
+                    Sampai Dengan
+                  </div>
+                  <div class="col-md-2">
+                    <p-calendar
+                      formControlName="tgl2"
+                      [showIcon]="true"
+                      [locale]="indoKalender"
+                      [monthNavigator]="true"
+                      yearRange="2000:2030"
+                      showButtonBar="true"
+                      [style]="{'width': '100%'}"
+                      [yearNavigator]="true"></p-calendar>
+                  </div>
+                  <div class="col-md-2">
+                    <button type="button" class="btn btn-outline-success" [disabled]="!formFilter.valid" (click)="gets()"><i class="fa fa-search mr-1"></i>Cari Data</button>
+                  </div>
+                </div>
+              </form>
+            </fieldset>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-md-12">
+            <p-table
+              [loading]="loading"
+              [value]="listdata"
+              [paginator]="true"
+              [rows]="10" #dt
+              [rowHover]="true"
+              [globalFilterFields]="['NOBUKAS','TGLSP2D', 'NOSP2D', 'TGLVALID', 'AFEKTASI','POTONGAN','DIBAYAR']"
+              [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+              [rowHover]="true"
+              currentPageReportTemplate="Menamplikan {first} Sampai {last} Dari {totalRecords} Data">
+              <ng-template pTemplate="caption">
+                <div class="row p-2">
+                  <div class="ui-g-6" style="text-align: left">
+
+                  </div>
+                  <div class="col-lg-6 col-md-12 text-right pr-0 pl-0">
+                    <div class="ui-inputgroup col-lg-6 col-md-12" style="float: right;">
+                      <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1.25;"></i></span>
+                      <input type="text" class="w-100" pInputText placeholder="Cari Data" (input)="dt.filterGlobal($event.target.value, 'contains')">
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+                  <th style="width: 20%; text-align: center" [pSortableColumn]="'NOSP2D'">No
+                    <span style="float: right">
+                      <p-sortIcon [field]="'NOSP2D'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </span>
+                  </th>
+                  <th style="width: 15%;text-align: center" [pSortableColumn]="'TGLSP2D'">Tgl. SP2D
+                    <span style="float: right">
+                      <p-sortIcon [field]="'TGLSP2D'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </span>
+                  </th>
+                  <th style="width: 20%;text-align: center" [pSortableColumn]="'NOSP2D'">No. SP2D
+                    <span style="float: right">
+                      <p-sortIcon [field]="'NOSP2D'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </span>
+                  </th>
+                  <th style="width: 15%;text-align: center" [pSortableColumn]="'TGLVALID'">Tgl. Valid
+                    <span style="float: right">
+                      <p-sortIcon [field]="'TGLVALID'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </span>
+                  </th>
+                  <th style="width: 20%;text-align: center" [pSortableColumn]="'AFEKTASI'">Afektasi
+                    <span style="float: right">
+                      <p-sortIcon [field]="'AFEKTASI'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </span>
+                  </th>
+                  <th style="width: 20%;text-align: center" [pSortableColumn]="'POTONGAN'">Potongan
+                    <span style="float: right">
+                      <p-sortIcon [field]="'POTONGAN'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </span>
+                  </th>
+                  <th style="width: 20%;text-align: center" [pSortableColumn]="'DIBAYAR'">Dibayar
+                    <span style="float: right">
+                      <p-sortIcon [field]="'DIBAYAR'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </span>
+                  </th>
+                  <th style="width: 10%; text-align: center">Pilihan</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-data>
+                <tr class="ui-selectable-row">
+                  <td style="text-align: center" (click)="detail(data)">
+                    <span style="text-decoration: underline; cursor: pointer;">
+                      {{data.NOBUKAS ? data.NOBUKAS : '' }}
+                    </span>
+                  </td>
+                  <td style="text-align: center">{{data.TGLSP2D | date: 'dd/MM/yyy'}}</td>
+                  <td style="text-align: center">{{data.NOSP2D}}</td>
+                  <td style="text-align: center">{{data.TGLVALID | date: 'dd/MM/yyy'}}</td>
+                  <td style="text-align: right;">{{data.AFEKTASI | currency: 'IDR':'Rp. ': '0.2-4'}}</td>
+                  <td style="text-align: right;">{{data.POTONGAN | currency: 'IDR':'Rp. ': '0.2-4'}}</td>
+                  <td style="text-align: right;">{{data.DIBAYAR | currency: 'IDR':'Rp. ': '0.2-4'}}</td>
+                  <td style="text-align: center" class="pl-0 pr-0">
+                    <button *ngIf="userInfo.Update === 'True'" type="button" class="btn btn-warning btn-sm mr-1" (click)="update(data)"><i class="fa fa-edit"></i></button>
+                    <button *ngIf="userInfo.Delete === 'True'" type="button" class="btn btn-danger btn-sm" (click)="delete(data)"><i class="fa fa-trash"></i></button>
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="8" style="text-align:center">Data Tidak Tersedia</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-look-rekening-bud (callBack)="callBackBud($event)"></app-look-rekening-bud>
+<app-form-jurnal-konsolidator (callback)="callback($event)"></app-form-jurnal-konsolidator>
+<app-jurnal-konsolidator-detail></app-jurnal-konsolidator-detail>

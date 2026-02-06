@@ -1,0 +1,78 @@
+<div class="row mt-2" *ngIf="SppSelected">
+  <app-ui-preloader [display]="loading_post"></app-ui-preloader>
+  <div class="col-md-12">
+    <p-table [loading]="loading" [value]="listdata" [rowHover]="true" [paginator]="true" [rows]="10" #dt [globalFilterFields]="['nospj','tglspj','tglbuku', 'keterangan', 'nilai']">
+      <ng-template pTemplate="caption">
+        <div class="row p-2">
+          <div class="ui-g-6" style="text-align: left">
+            <button *ngIf="userInfo.Insert === 'True' && !SppSelected.valid" type="button" class="btn btn-primary btn-sm mr-1" (click)="add()"><i class="fa fa-plus mr-1"></i>Tambah</button>
+            <span *ngIf="SppSelected">SPJ S-PPD : {{SppSelected.nospp}}</span>
+          </div>
+          <div class="col-lg-6 col-md-12 text-right pr-0 pl-0">
+            <div class="ui-inputgroup col-lg-6 col-md-12" style="float: right;">
+              <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1.25;"></i></span>
+              <input type="text" class="w-100" pInputText placeholder="Cari Data" (input)="dt.filterGlobal($event.target.value, 'contains')">
+            </div>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 25%; text-align: center" [pSortableColumn]="'nospj'">No. SPJ
+            <span style="float: right">
+              <p-sortIcon [field]="'nospj'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th style="width: 12%;text-align: center" [pSortableColumn]="'tglspj'">Tgl SPJ
+            <span style="float: right">
+              <p-sortIcon [field]="'tglspj'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th style="width: 12%;text-align: center" [pSortableColumn]="'tglbuku'">Tgl Buku
+            <span style="float: right">
+              <p-sortIcon [field]="'tglbuku'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th style="width: 29%;text-align: center" [pSortableColumn]="'keterangan'">Uraian
+            <span style="float: right">
+              <p-sortIcon [field]="'keterangan'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th style="width: 15%;text-align: center" [pSortableColumn]="'nilai'">Nilai
+            <span style="float: right">
+              <p-sortIcon [field]="'nilai'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th style="width: 7%; text-align: center">Pilihan</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-data>
+        <tr class="ui-selectable-row">
+          <td style="text-align: center">{{data.nospj}}</td>
+          <td style="text-align: center">{{data.tglspj | date: 'dd/MM/yyy'}}</td>
+          <td style="text-align: center">{{data.tglbuku | date: 'dd/MM/yyy'}}</td>
+          <td style="text-align: left">{{data.keterangan}}</td>
+          <td style="text-align: right">{{data.nilai | currency: 'IDR':'Rp. ': '0.2-4'}}</td>
+          <td style="text-align: center">
+            <button *ngIf="userInfo.Delete === 'True' && !SppSelected.valid" type="button" class="btn btn-danger btn-sm" (click)="delete(data)"><i class="fa fa-trash"></i></button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage" let-columns>
+        <tr>
+            <td [attr.colspan]="6" style="text-align: center;">
+              Data tidak Tersedia
+            </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="footer">
+        <tr>
+          <td colspan="4" style="text-align: right;font-weight: bold;">Total</td>
+          <td style="text-align: right;font-weight: bold;">{{totalNilai() | currency: 'IDR':'Rp. ': '0.2-4'}}</td>
+          <td></td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+<app-look-spj-for-spp-checkbox (callBack)="callbackSpj($event)"></app-look-spj-for-spp-checkbox>

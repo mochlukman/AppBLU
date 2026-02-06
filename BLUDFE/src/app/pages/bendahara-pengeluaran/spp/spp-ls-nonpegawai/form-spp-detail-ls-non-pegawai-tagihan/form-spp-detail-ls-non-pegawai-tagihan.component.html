@@ -1,0 +1,85 @@
+<p-dialog class="forCalender"
+          [(visible)]="showThis"
+          (onShow)="onShow()"
+          [style]="{width: '50vw'}"
+          [modal]="true"
+          (onHide)="onHide()"
+          [maximizable]="true"
+          [draggable]="false">
+  <app-ui-preloader [display]="loading_post"></app-ui-preloader>
+  <p-header>
+    {{title}}
+  </p-header>
+  <div class="row">
+    <div class="col-md-12">
+      <form [formGroup]="forms">
+        <div class="row mb-2">
+          <div class="col-md-12">
+            <p-table [value]="listdata" [paginator]="true" [rows]="10" #dt [globalFilterFields]="['notagihan','tgltagihan','uraiantagihan']">
+              <ng-template pTemplate="caption">
+                <div class="row">
+                  <div class="col-md-6" style="text-align: left">
+                    <button type="button" class="btn btn-soft-primary btn-sm" (click)="lookTagihan()" *ngIf="!isvalid"><i class="fa fa-plus mr-1"></i>Tambah</button>
+                  </div>
+                  <div class="col-md-6 col-sm-12 text-right pr-0">
+                    <div class="ui-inputgroup col-md-6 col-sm-12" style="float: right">
+                      <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1.25;"></i></span>
+                      <input type="text" pInputText placeholder="Cari Data" (input)="dt.filterGlobal($event.target.value, 'contains')">
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+                  <th style="text-align: center" [pSortableColumn]="'notagihan'">No. Tagihan
+                    <span style="float: right">
+                      <p-sortIcon [field]="'notagihan'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </span>
+                  </th>
+                  <th style="text-align: center" [pSortableColumn]="'tgltagihan'">Tgl. Tagihan
+                    <span style="float: right">
+                      <p-sortIcon [field]="'tgltagihan'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </span>
+                  </th>
+                  <th style="text-align: center" [pSortableColumn]="'uraiantagihan'">Uraian
+                    <span style="float: right">
+                      <p-sortIcon [field]="'uraiantagihan'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                    </span>
+                  </th>
+                  <th style="width: 12%; text-align: center">Pilih</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-data>
+                <tr class="ui-selectable-row">
+                  <td>{{data.notagihan}}</td>
+                  <td style="text-align: center">{{data.tgltagihan | date: 'dd/MM/yyy'}}</td>
+                  <td>{{data.uraiantagihan}}</td>
+                  <td style="text-align: center">
+                    <button type="button" class="btn btn-outline-danger btn-sm" (click)="HapusTagihan(data); dt.reset()"><i class="fa fa-trash"></i></button>
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage" let-columns>
+                <tr>
+                  <td [attr.colspan]="4" style="text-align: center;">
+                    Data tidak Tersedia
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <p-messages [(value)]="msg"></p-messages>
+    </div>
+  </div>
+  <p-footer>
+    <button type="button" [disabled]="!forms.valid || loading_post" class="btn btn-success btn-sm mr-1" (click)="simpan()" *ngIf="!isvalid"><i class="fa fa-save mr-1"></i>Simpan</button>
+    <button type="button" [disabled]="loading_post" class="btn btn-secondary btn-sm" (click)="onHide()"><i class="fa fa-close mr-1"></i>&nbsp;Kembali</button>
+  </p-footer>
+</p-dialog>
+<app-look-tagihan-checkbox (callBack)="callbackTagihan($event)"></app-look-tagihan-checkbox>

@@ -1,0 +1,27 @@
+<div class="container-fluid">
+  <div class="row mt-2 p-2">
+    <div class="card col-md-12">
+      <div class="card-title">
+        <span class="d-inline-block mt-2 mr-2"><i [attr.data-feather]="'home'" appFeatherIcon class="svg-size-custom"></i></span>
+<label class="position-absolute title-font-custom">{{title}}</label>
+      </div>
+    </div>
+  </div>
+  <div class="row p-2">
+    <div class="card col-md-12">
+      <div class="card-body">
+        <p-tabView [activeIndex]="tabIndex" (onChange)="onChangeTab($event)">
+          <p-tabPanel header="Pembuatan DBA">
+            <app-sk-dpa-pembuatan [tabIndex]="tabIndex"></app-sk-dpa-pembuatan>
+          </p-tabPanel>
+          <p-tabPanel header="Pengesahan DBA">
+            <app-sk-dpa-pengesahan [tabIndex]="tabIndex"></app-sk-dpa-pengesahan>
+          </p-tabPanel>
+          <p-tabPanel header="Validasi DBA">
+            <app-sk-dpa-validasi [tabIndex]="tabIndex"></app-sk-dpa-validasi>
+          </p-tabPanel>
+        </p-tabView>
+      </div>
+    </div>
+  </div>
+</div>

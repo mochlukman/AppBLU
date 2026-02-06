@@ -1,0 +1,42 @@
+import { IMkegiatan } from './imkegiatan';
+import { IPegawai } from './ipegawai';
+import { Isifatkeg } from './isifatkeg';
+
+export interface Ikegunit {
+  idkegunit: number;
+  idkegunitx: number;
+  idpgrmunit: number;
+  nukeg: string;
+  nmkegunit: string;
+  idkeg: number;
+  idprgrm: number;
+  noprior: number;
+  idsifatkeg: number;
+  idpeg: number;
+  tglakhir: null;
+  tglawal: null;
+  targetp: number;
+  lokasi: string;
+  pagumin1: number;
+  pagu: number;
+  pagupls1: number;
+  sasaran: string;
+  ketkeg: string;
+  idprioda: string;
+  idsas: string;
+  target: string;
+  targetif: string;
+  targetsen: string;
+  volume: string;
+  volume1: string;
+  satuan: string;
+  paguplus: number;
+  pagutif: number;
+  tglvalid: null;
+  datecreate: null;
+  dateupdate: null;
+  idkegNavigation: IMkegiatan;
+  idpegNavigation: IPegawai;
+  idsifatkegNavigation: Isifatkeg;
+  kegunitx: Ikegunit;
+}

@@ -1,0 +1,12 @@
+<div class="row mt-2" *ngIf="SppSelected">
+  <div class="col-md-12">
+    <p-tabView [activeIndex]="tabIndex" (onChange)="onChangeTab($event)">
+      <p-tabPanel header="SPJ">
+        <app-detail-spp-gu-spjver [SppSelected]="SppSelected"></app-detail-spp-gu-spjver>
+      </p-tabPanel>
+      <p-tabPanel header="Rincian S-PPD">
+        <app-detail-spp-gu-rincianver [SppSelected]="SppSelected"></app-detail-spp-gu-rincianver>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</div>

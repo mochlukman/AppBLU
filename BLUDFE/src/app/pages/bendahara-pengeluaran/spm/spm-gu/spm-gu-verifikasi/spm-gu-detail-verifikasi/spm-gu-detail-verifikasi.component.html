@@ -1,0 +1,12 @@
+<div class="row mt-2" *ngIf="SpmSelected">
+  <div class="col-md-12">
+    <p-tabView [activeIndex]="tabIndex" (onChange)="onChangeTab($event)">
+      <p-tabPanel header="Rincian SPJ">
+        <app-spm-gu-detail-spj-verifikasi [SpmSelected]="SpmSelected"></app-spm-gu-detail-spj-verifikasi>
+      </p-tabPanel>
+      <p-tabPanel header="Rincian S-OPD">
+        <app-spm-gu-detail-rincian-verifikasi [SpmSelected]="SpmSelected"></app-spm-gu-detail-rincian-verifikasi>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</div>

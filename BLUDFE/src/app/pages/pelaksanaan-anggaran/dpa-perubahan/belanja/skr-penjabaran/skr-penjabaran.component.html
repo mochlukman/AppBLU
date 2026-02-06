@@ -1,0 +1,87 @@
+<div class="row p-2" *ngIf="rekSelected">
+  <div class="col-md-12">
+    <p-table [value]="listdata" [loading]="loading" [rowHover]="true" [paginator]="true" [rows]="10" #dtpenjabaran [globalFilterFields]="['kdjabar','uraian']" dataKey="kdjabar">
+      <ng-template pTemplate="caption">
+        <div class="row p-2">
+          <div class="ui-g-6" style="text-align: left">
+            <button *ngIf="userInfo.Insert === 'True'" type="button" class="btn btn-soft-primary btn-sm" (click)="add()"><i class="fa fa-plus mr-1"></i>Tambah</button>
+          </div>
+          <div class="col-lg-6 col-md-12 text-right pr-0 pl-0">
+            <span *ngIf="rekSelected"><b>{{rekSelected.rekening.nmper}}</b></span>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th [pSortableColumn]="'kdjabar'">Kode
+            <span style="float: right">
+              <p-sortIcon [field]="'kdjabar'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th [pSortableColumn]="'uraian'">Uraian
+            <span style="float: right">
+              <p-sortIcon [field]="'uraian'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th [pSortableColumn]="'ekspresi'">Ekspresi
+            <span style="float: right">
+              <p-sortIcon [field]="'ekspresi'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th [pSortableColumn]="'volume'">Volume
+            <span style="float: right">
+              <p-sortIcon [field]="'volume'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th [pSortableColumn]="'jsatuan.uraisatuan'">Satuan
+            <span style="float: right">
+              <p-sortIcon [field]="'jsatuan.uraisatuan'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th [pSortableColumn]="'tarif'">Tarif
+            <span style="float: right">
+              <p-sortIcon [field]="'tarif'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th [pSortableColumn]="'subtotal'">Total
+            <span style="float: right">
+              <p-sortIcon [field]="'subtotal'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th style="width: 90px; text-align: center" [pSortableColumn]="'type'">Type
+            <span style="float: right">
+              <p-sortIcon [field]="'type'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th style="width: 150px; text-align: center">Pilih</th>
+        </tr>
+       
+      </ng-template>
+      <ng-template pTemplate="body" let-penjabaran>
+        <tr class="ui-selectable-row">
+          <td>{{penjabaran.kdjabar}}</td>
+          <td>{{penjabaran.uraian}}</td>
+          <td style="text-align: center">{{penjabaran.ekspresi}}</td>
+          <td style="text-align: center">{{penjabaran.jumbyek}}</td>
+          <td style="text-align: center">{{penjabaran.jsatuan ? penjabaran.jsatuan.uraisatuan : ''}}</td>
+          <td style="text-align: right">{{penjabaran.tarif | currency: 'IDR':'Rp. ': '0.2-4'}}</td>
+          <td style="text-align: right">{{penjabaran.subtotal | currency: 'IDR':'Rp. ': '0.2-4'}}</td>
+          <td style="text-align: center">{{penjabaran.type}}</td>
+          <td style="text-align: center">
+            <button *ngIf="userInfo.Update === 'True'" type="button" class="btn btn-raired btn-outline-info btn-sm mr-1" (click)="addChild(penjabaran)"><i class="fa fa-level-down"></i></button>
+            <button *ngIf="userInfo.Update === 'True'" type="button" class="btn btn-raired btn-outline-warning btn-sm mr-1" (click)="edit(penjabaran)"><i class="fa fa-edit"></i></button>
+            <button *ngIf="userInfo.Delete === 'True'" type="button" class="btn btn-raired btn-outline-danger btn-sm" (click)="delete(penjabaran)"><i class="fa fa-trash"></i></button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage" let-columns>
+        <tr>
+            <td [attr.colspan]="9" style="text-align: center;">
+              Data tidak Tersedia
+            </td>
+        </tr>
+      </ng-template>
+    </p-table> 
+  </div>
+</div>
+<app-form-skr-penjabaran (callBack)="callBack($event)"></app-form-skr-penjabaran>

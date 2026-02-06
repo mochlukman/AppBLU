@@ -1,0 +1,14 @@
+<div class="card">
+  <p-tabView>
+    <p-tabPanel header="SP3B" leftIcon="pi pi-list" [cache]="false">
+      <ng-template pTemplate="content">
+        <app-tab-sp3b-rincian [rootSelected]="rootSelected"></app-tab-sp3b-rincian>
+      </ng-template>
+    </p-tabPanel>
+    <p-tabPanel header="Rincian SP2B" leftIcon="pi pi-list" [cache]="false">
+      <ng-template pTemplate="content">
+        <app-tab-sp2b-rincian [rootSelected]="rootSelected"></app-tab-sp2b-rincian>
+      </ng-template>
+    </p-tabPanel>
+  </p-tabView>
+</div>

@@ -1,0 +1,103 @@
+<p-dialog class="forCalender"
+          [(visible)]="showThis"
+          (onShow)="onShow()"
+          [style]="{width: '40vw'}"
+          [modal]="true"
+          (onHide)="onHide()"
+          [maximizable]="true"
+          [draggable]="false">
+  <app-ui-preloader [display]="loading_post"></app-ui-preloader>
+  <p-header>
+    {{title}} Pajak
+  </p-header>
+  <div class="row">
+    <div class="col-md-12">
+      <form [formGroup]="forms">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="row mb-2">
+              <div class="col-md-3">
+                Pajak
+              </div>
+              <div class="col-md-4">
+                <input type="text" class="form-control" placeholder="Kode" [pTooltip]="uiPajak.kode" [(ngModel)]="uiPajak.kode" readonly [ngModelOptions]="{standalone: true}"/>
+              </div>
+              <div class="col-md-4">
+                <input type="text" class="form-control" placeholder="Nama" [pTooltip]="uiPajak.nama" [(ngModel)]="uiPajak.nama" readonly [ngModelOptions]="{standalone: true}"/>
+              </div>
+              <div class="col-md-1 pl-0" *ngIf="mode == 'add'">
+                <button type="button" class="btn btn-outline-info" (click)="lookPajak()"><i class="fa fa-search"></i></button>
+              </div>
+            </div>
+            <div class="row mb-2">
+              <div class="col-md-3">
+                ID Billing
+              </div>
+              <div class="col-md-9">
+                <input type="text" formControlName="idbilling" placeholder="ID Billing" class="form-control"/>
+              </div>
+            </div>
+            <div class="row mb-2">
+              <div class="col-md-3">
+                Tgl. Billing
+              </div>
+              <div class="col-md-5">
+                <p-calendar
+                  formControlName="tglbilling"
+                  [showIcon]="true"
+                  [locale]="indoKalender"
+                  [monthNavigator]="true"
+                  yearRange="2000:2030"
+                  showButtonBar="true"
+                  [style]="{'width': '100%'}"
+                  [yearNavigator]="true"></p-calendar>
+              </div>
+            </div>
+            <div class="row mb-2">
+              <div class="col-md-3">
+                Nilai
+              </div>
+              <div class="col-md-5">
+                <input type="text" appInputRupiah placeholder="Nilai" class="form-control" formControlName="nilai" [readOnly]="true"/>
+              </div>
+            </div>
+            <div class="row mb-2">
+              <div class="col-md-3">
+                NTPN
+              </div>
+              <div class="col-md-9">
+                <input type="text" formControlName="ntpn" placeholder="NTPN" class="form-control"/>
+              </div>
+            </div>
+            <div class="row mb-2">
+              <div class="col-md-3">
+                No. Transaksi Bank
+              </div>
+              <div class="col-md-9">
+                <input type="text" formControlName="ntb" placeholder="Nomor Transaksi Bank" class="form-control"/>
+              </div>
+            </div>
+            <div class="row mb-2">
+              <div class="col-md-3">
+                Keterangan
+              </div>
+              <div class="col-md-9">
+                <textarea type="text" formControlName="keterangan" placeholder="Keterangan" class="form-control" [readOnly]="true"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <p-messages [(value)]="msg"></p-messages>
+    </div>
+  </div>
+  <p-footer>
+    <button type="button" [disabled]="!forms.valid || loading_post" class="btn btn-success btn-sm mr-1" (click)="simpan()"><i class="fa fa-save mr-1"></i>Simpan</button>
+    <button type="button" [disabled]="loading_post" class="btn btn-secondary btn-sm" (click)="onHide()"><i class="fa fa-close mr-1"></i>Kembali</button>
+  </p-footer>
+</p-dialog>
+<app-look-pajak (callBack)="callbackPajak($event)"></app-look-pajak>

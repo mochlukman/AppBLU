@@ -1,0 +1,71 @@
+<div class="row mt-2" *ngIf="bkpajakSelected">
+  <div class="col-md-12">
+    <p-table  
+      [loading]="loading" 
+      [value]="listdata" 
+      [paginator]="true" 
+      [rows]="10" #dt 
+      [rowHover]="true"
+      [globalFilterFields]="['idpajakNavigation.kdpajak','idpajakNavigation.nmpajak','idbilling','ntpn','ntb','nilai']">
+      <ng-template pTemplate="caption">
+        <div class="row p-2">
+          <div class="ui-g-6" style="text-align: left">
+            <button *ngIf="userInfo.Insert === 'True'" type="button" class="btn btn-primary btn-sm" (click)="add()"><i class="fa fa-plus"></i>&nbsp;Tambah</button>
+            &nbsp;<span *ngIf="bkpajakSelected">Detail : {{bkpajakSelected.nobkpajak}}</span>
+          </div>
+          <div class="col-lg-6 col-md-12 text-right pr-0 pl-0">
+            <div class="ui-inputgroup col-lg-6 col-md-12" style="float: right;">
+              <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1.25;"></i></span>
+              <input type="text" class="w-100" pInputText placeholder="Cari Data" (input)="dt.filterGlobal($event.target.value, 'contains')">         
+            </div>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 20%; text-align: center" [pSortableColumn]="'idpajakNavigation.kdpajak'">Kode Pajak
+            <span style="float: right">
+              <p-sortIcon [field]="'idpajakNavigation.kdpajak'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th style="width: 20%; text-align: center" [pSortableColumn]="'idpajakNavigation.nmpajak'">Nama Pajak
+            <span style="float: right">
+              <p-sortIcon [field]="'idpajakNavigation.nmpajak'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th style="width: 20%; text-align: center" [pSortableColumn]="'idbilling'">ID Billing
+            <span style="float: right">
+              <p-sortIcon [field]="'idbilling'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th style="width: 15%; text-align: center" [pSortableColumn]="'ntpn'">NTPN
+            <span style="float: right">
+              <p-sortIcon [field]="'ntpn'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th style="width: 15%; text-align: center" [pSortableColumn]="'ntb'">NTB
+            <span style="float: right">
+              <p-sortIcon [field]="'ntb'" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </span>
+          </th>
+          <th style="width: 10%; text-align: center">Pilihan</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-data>
+        <tr class="ui-selectable-row">
+          <td style="text-align: center">{{data.idpajakNavigation ? data.idpajakNavigation.kdpajak : '' }}</td>
+          <td style="text-align: left">{{data.idpajakNavigation ? data.idpajakNavigation.nmpajak : '' }}</td>
+          <td style="text-align: center">{{data.idbilling}}</td>
+          <td style="text-align: center">{{data.ntpn }}</td>
+          <td style="text-align: center">{{data.ntb }}</td>
+          <td style="text-align: center">
+            <button *ngIf="userInfo.Update === 'True'" type="button" class="btn btn-warning btn-sm" (click)="update(data)"><i class="fa fa-edit"></i></button>
+            &nbsp;
+            <button *ngIf="userInfo.Delete === 'True'" type="button" class="btn btn-danger btn-sm" (click)="delete(data)"><i class="fa fa-trash"></i></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+<app-tab-pajak-transfer-detail-rincian-form (callback)="callback($event)"></app-tab-pajak-transfer-detail-rincian-form>

@@ -1,0 +1,123 @@
+<p-dialog class="forCalender" 
+    [(visible)]="showThis"
+    (onShow)="onShow()"
+    [style]="{width: '50vw'}"
+    [modal]="true"
+    (onHide)="onHide()"
+    [draggable]="false">
+    <app-ui-preloader [display]="loading_post"></app-ui-preloader>
+    <p-header>
+        {{title}} SPD
+    </p-header>
+    <div class="row">
+      <div class="col-md-12">
+        <form [formGroup]="forms">
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Kode SPD
+            </div>
+            <div class="col-md-9">
+              <input type="text" formControlName="nospd" placeholder="Kode SPD" class="form-control" readonly/>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Tanggal SPD
+            </div>
+            <div class="col-md-9">
+              <p-calendar 
+                formControlName="tglspd"
+                [showIcon]="true" 
+                [locale]="indoKalender"
+                [monthNavigator]="true"
+                yearRange="2000:2030"
+                showButtonBar="true"
+                [yearNavigator]="true"></p-calendar>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Bulan Awal
+            </div>
+            <div class="col-md-9">
+              <p-dropdown [options]="bulan1" (onChange)="changeBulan1($event)" [(ngModel)]="bulan1Selected" [ngModelOptions]="{standalone: true}" [readonly]="true"></p-dropdown>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Bulan Akhir
+            </div>
+            <div class="col-md-9">
+              <p-dropdown [options]="bulan2" (onChange)="changeBulan2($event)" [(ngModel)]="bulan2Selected" [ngModelOptions]="{standalone: true}" [readonly]="true"></p-dropdown>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Penandatangan
+            </div>
+            <div class="col-md-9">
+              <p-dropdown
+                [options]="ttd"
+                (onChange)="changeTtd($event)" 
+                [(ngModel)]="ttdSelected"
+                [style]="{'width': '100%'}"
+                [filter]="true"
+                #ddttd
+                [ngModelOptions]="{standalone: true}" [readonly]="true">
+              </p-dropdown>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Keterangan
+            </div>
+            <div class="col-md-9">
+              <textarea type="text" formControlName="keterangan" placeholder="Keterangan" class="form-control" readonly></textarea>
+            </div>
+          </div>
+          <div class="row mb-4 mt-4">
+            <div class="col-md-3">
+              Pengesahan
+            </div>
+            <div class="col-md-9">
+              <p-radioButton name="type" [value]="true" label="Sah" formControlName="valid" inputId="opt1" class="mr-2"></p-radioButton>
+              <p-radioButton name="type" [value]="false" label="Tidak Sah" formControlName="valid" inputId="opt2"></p-radioButton>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Tanggal Pengesahan
+            </div>
+            <div class="col-md-5">
+              <p-calendar 
+                formControlName="tglvalid"
+                [showIcon]="true" 
+                [locale]="indoKalender"
+                [monthNavigator]="true"
+                yearRange="2000:2030"
+                showButtonBar="true"
+                [style]="{'width': '100%'}"
+                [yearNavigator]="true"></p-calendar>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Transfer
+            </div>
+            <div class="col-md-9">
+              <p-checkbox formControlName="transfer" binary="true" [readonly]="true"></p-checkbox>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <p-messages [(value)]="msg"></p-messages>
+      </div>
+    </div>
+    <p-footer>
+      <button type="button" [disabled]="!forms.valid" class="btn btn-success btn-sm mr-1" (click)="simpan()"><i class="fa fa-save mr-1"></i>Simpan</button>
+      <button type="button" class="btn btn-secondary btn-sm" (click)="onHide()"><i class="fa fa-close mr-1"></i>Kembali</button>
+    </p-footer>
+  </p-dialog>

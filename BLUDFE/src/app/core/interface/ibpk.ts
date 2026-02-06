@@ -1,0 +1,52 @@
+import { Ibend } from './ibend';
+import { IDaftphk3 } from './idaftphk3';
+import { IDaftunit } from './idaftunit';
+import { IJbayar } from './ijbayar';
+import { IJtransfer } from './ijtransfer';
+import { ISp2d } from './isp2d';
+import { ISp2dbpk } from './isp2dbpk';
+import { IStattrs } from './istattrs';
+import { ITagihan } from './itagihan';
+import { IZkode } from './izkode';
+
+export interface IBpk {
+  idbpk : number;
+  idkeg: number;
+  idunit : number;
+  idphk3 : number;
+  nobpk : string;
+  idtagihan : number;
+  kdstatus : string;
+  idjbayar : number;
+  idjtransfer : number;
+  idxkode : number;
+  idbend : number;
+  tglbpk : number;
+  penerima : string;
+  uraibpk : string;
+  tglvalid : null;
+  kdrilis : number;
+  stkirim : number;
+  stcair : number;
+  noref : string;
+  createdate : null;
+  createby : string;
+  updatedate : null;
+  updateby : string;
+  validby : string;
+  valid: boolean;
+  verifikasi: string;
+  idbendNavigation : Ibend;
+  idjbayarNavigation : IJbayar;
+  idphk3Navigation : IDaftphk3;
+  idtagihanNavigation : ITagihan;
+  idunitNavigation : IDaftunit;
+  idxkodeNavigation : IZkode;
+  stcairNavigation : null;
+  stkirimNavigation : null;
+  idjtransferNavigation: IJtransfer;
+  kdstatusNavigation: IStattrs
+  idsp2d: number;
+  idsp2dNavigation: ISp2d;
+  sp2dbpk: ISp2dbpk[];
+}

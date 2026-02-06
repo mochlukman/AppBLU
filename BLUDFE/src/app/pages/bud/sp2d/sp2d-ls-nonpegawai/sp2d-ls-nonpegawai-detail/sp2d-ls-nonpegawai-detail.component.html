@@ -1,0 +1,9 @@
+<div class="row mt-2" *ngIf="Sp2dSelected">
+  <div class="col-md-12">
+    <p-tabView [activeIndex]="tabIndex" (onChange)="onChangeTab($event)">
+      <p-tabPanel header="Pembebanan">
+        <app-sp2d-ls-nonpegewai-detail-pembebanan [tabIndex]="tabIndex" [KegSelected]="KegSelected" [Sp2dSelected]="Sp2dSelected"></app-sp2d-ls-nonpegewai-detail-pembebanan>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</div>

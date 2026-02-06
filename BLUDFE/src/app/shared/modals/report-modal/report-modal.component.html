@@ -1,0 +1,49 @@
+<p-dialog class="forCalender" 
+    [(visible)]="showThis"
+    (onShow)="onShow()"
+    [style]="{width: '25vw'}"
+    [modal]="true"
+    (onHide)="onHide()"
+    [draggable]="false">
+    <p-header>
+        Cetak Laporan
+    </p-header>
+    <div class="row">
+      <div class="col-md-12">
+        <form [formGroup]="forms">
+          <div class="row" *ngIf="useTgl">
+            <div class="col-md-2">
+              Tanggal Cetak
+            </div>
+            <div class="col-md-9">
+              <p-calendar 
+                formControlName="TGL"
+                [showIcon]="true" 
+                [locale]="indoKalender"
+                [monthNavigator]="true"
+                yearRange="2000:2030"
+                showButtonBar="true"
+                [yearNavigator]="true" dateFormat="dd/mm/yy"></p-calendar>
+            </div>
+          </div>
+          <div class="row" *ngIf="useHal">
+            <div class="col-md-2">
+              Halaman
+            </div>
+            <div class="col-md-9">
+              <input type="number" pInputText  placeholder="Halaman" class="ui-g-12" formControlName="halaman">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <p-messages [(value)]="msg"></p-messages>
+      </div>
+    </div>
+    <p-footer>
+      <button type="button" class="btn btn-soft-primary" (click)="change()"><i class="fa fa-print"></i>&nbsp;Cetak</button>
+      <button type="button" class="btn btn-soft-secondary" (click)="onHide()"><i class="fa fa-close"></i>&nbsp;Kembali</button>
+    </p-footer>
+  </p-dialog>

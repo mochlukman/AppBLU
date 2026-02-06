@@ -1,0 +1,9 @@
+<div class="row mt-2" *ngIf="StsSelected">
+  <div class="col-md-12" >
+    <p-tabView [activeIndex]="tabIndex" (onChange)="onChangeTab($event)">
+      <p-tabPanel header="Rincian STS">
+        <app-bpengesahan-rekening [StsSelected]="StsSelected"></app-bpengesahan-rekening>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</div>

@@ -1,0 +1,65 @@
+<div class="container-fluid">
+  <div class="row mt-2 p-2">
+    <div class="card col-md-12">
+      <div class="card-title">
+        <span class="d-inline-block mt-2 mr-2"><i [attr.data-feather]="'home'" appFeatherIcon class="svg-size-custom"></i></span>
+        <label class="position-absolute title-font-custom">{{title}}</label>
+      </div>
+    </div>
+  </div>
+  <div class="row p-2">
+    <div class="card col-md-12">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <fieldset class="border p-2">
+              <legend  class="w-auto">Filter</legend>
+              <form [formGroup]="forms">
+                <div class="row">
+                  <div class="col-md-1 text-left p-2">
+                    <label for="">Unit Organisasi</label>
+                  </div>
+                  <div class="col-md-2">
+                    <input type="text" class="form-control" placeholder="Kode" [pTooltip]="uiUnit.kode" tooltipPosition="top" [(ngModel)]="uiUnit.kode" readonly [ngModelOptions]="{standalone: true}"/>
+                  </div>
+                  <div class="col-md-6">
+                    <input type="text" class="form-control" placeholder="Uraian" [pTooltip]="uiUnit.nama" [(ngModel)]="uiUnit.nama" readonly [ngModelOptions]="{standalone: true}"/>
+                  </div>
+                  <div class="col-md-3" [hidden]="userInfo.Idunit != 0">
+                    <button type="button" class="btn btn-outline-info" (click)="lookDaftunit()"><i class="fa fa-search"></i>&nbsp;Cari Data</button>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-1 text-left p-2">
+                    <label for="">Nomor SP2T</label>
+                  </div>
+                  <div class="col-md-2">
+                    <input type="text" class="form-control" placeholder="Kode" [pTooltip]="uiSp2t.nama" [(ngModel)]="uiSp2t.kode" readonly [ngModelOptions]="{standalone: true}"/>
+                  </div>
+                  <div class="col-md-6">
+                    <input type="text" class="form-control" placeholder="Uraian" [pTooltip]="uiSp2t.nama" [(ngModel)]="uiSp2t.nama" readonly [ngModelOptions]="{standalone: true}"/>
+                  </div>
+                  <div class="col-md-3">
+                    <button type="button" class="btn btn-outline-info" (click)="lookSp2t()"><i class="fa fa-search"></i>&nbsp;Cari Data</button>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <p-splitButton label="Cetak"
+                                   icon="fa fa-print"
+                                   [model]="itemPrints"
+                                   [menuStyle]="{'width':'8em'}"
+                                   styleClass="ui-button-info"></p-splitButton>
+                  </div>
+                </div>
+              </form>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-look-daftunit (callBack)="callBackDaftunit($event)"></app-look-daftunit>
+<app-look-skp (callback)="callbackSp2t($event)"></app-look-skp>
+<app-report-modal (callBack)="callBackTanggal($event)"></app-report-modal>

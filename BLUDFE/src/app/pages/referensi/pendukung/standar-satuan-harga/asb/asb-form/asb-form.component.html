@@ -1,0 +1,87 @@
+<p-dialog class="forCalender" 
+    [(visible)]="showThis"
+    (onShow)="onShow()"
+    [style]="{width: '40vw'}"
+    [modal]="true"
+    (onHide)="onHide()"
+    [maximizable]="true"
+    [draggable]="false">
+    <app-ui-preloader [display]="loading_post"></app-ui-preloader>
+    <p-header>
+        {{title}}
+    </p-header>
+    <div class="row">
+      <div class="col-md-12">
+        <form [formGroup]="forms">
+          <div class="row mb-2">
+            <div class="col-md-2">
+              Kode Barang
+            </div>
+            <div class="col-md-4">
+              <input type="text" class="form-control" placeholder="Kode" [(ngModel)]="uiBarang.kode" [pTooltip]="uiBarang.kode" readonly [ngModelOptions]="{standalone: true}"/>
+            </div>
+            <div class="col-md-5">
+              <input type="text" class="form-control" placeholder="Uraian" [(ngModel)]="uiBarang.nama" [pTooltip]="uiBarang.nama" readonly [ngModelOptions]="{standalone: true}"/>
+            </div>
+            <div class="col-md-1 pl-0">
+                <button type="button" class="btn btn-outline-info" (click)="getBarang()"><i class="fa fa-search"></i></button>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-2">
+              Kode
+            </div>
+            <div class="col-md-10">
+              <input type="text" formControlName="kdssh" placeholder="Kode" class="form-control"/>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-2">
+              Uraian
+            </div>
+            <div class="col-md-10">
+              <textarea type="text" formControlName="uraian" placeholder="Uraian" class="form-control" ></textarea>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-2">
+              Spek
+            </div>
+            <div class="col-md-10">
+              <textarea type="text" formControlName="spek" placeholder="Spek" class="form-control" ></textarea>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-2">
+              Satuan
+            </div>
+            <div class="col-md-9">
+              <input type="text" placeholder="Uraian" class="form-control" [(ngModel)]="uiSatuan.nama" [ngModelOptions]="{standalone: true}" readonly/>
+            </div>
+            <div class="col-md-1">
+              <button type="button" class="btn btn-sm btn-soft-secondary" (click)="getSatuan()"><i class="fa fa-search"></i></button>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-2">
+              Nilai
+            </div>
+            <div class="col-md-10">
+              <input appInputRupiah type="text" placeholder="Harga" class="form-control" formControlName="harga"/>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <p-messages [(value)]="msg"></p-messages>
+      </div>
+    </div>
+    <p-footer>
+      <button type="button" [disabled]="!forms.valid || loading_post" class="btn btn-success btn-sm mr-1" (click)="simpan()"><i class="fa fa-save mr-1"></i>Simpan</button>
+      <button type="button" [disabled]="loading_post" class="btn btn-secondary btn-sm" (click)="onHide()"><i class="fa fa-close mr-1"></i>Kembali</button>
+    </p-footer>
+  </p-dialog>
+  <app-look-jsatuan (callBack)="callBackSatuan($event)"></app-look-jsatuan>
+  <app-look-daftbarang (callback)="callbackBarang($event)"></app-look-daftbarang>

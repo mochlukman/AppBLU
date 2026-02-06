@@ -1,0 +1,19 @@
+<p-dialog [(visible)]="showThis" [style]="{width: '50vw'}" [modal]="true" (onHide)="onHide()" [draggable]="false" [maximizable]="true">
+  <p-header>
+      {{title}}
+  </p-header>
+  <div class="row" style="overflow: auto;">
+    <div class="col-md-12">
+        <p-tree [value]="listdata" [loading]="loading" selectionMode="single" [(selection)]="dataselected" [style]="{'width': '100%'}"></p-tree>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <p-messages [(value)]="msgs"></p-messages>
+    </div>
+  </div>
+  <p-footer>
+    <button [disabled]="!dataselected" type="button" class="btn btn-soft-primary btn-sm" (click)="pilih()"><i class="fa fa-check mr-1"></i>Pilih</button>
+    <button type="button" class="btn btn-soft-secondary btn-sm" (click)="onHide();"><i class="fa fa-close mr-1"></i>Kembali</button>
+  </p-footer>
+</p-dialog>

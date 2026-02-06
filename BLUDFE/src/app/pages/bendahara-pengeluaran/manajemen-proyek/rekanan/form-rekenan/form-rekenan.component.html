@@ -1,0 +1,137 @@
+<app-ui-preloader [display]="loading_post"></app-ui-preloader>
+<p-dialog class="forCalender"
+    [(visible)]="showThis"
+    (onShow)="onShow()"
+    [style]="{width: '50vw'}"
+    [modal]="true"
+    (onHide)="onHide()"
+    [draggable]="false">
+    <p-header>
+        {{title}} Rekanan
+    </p-header>
+    <div class="row">
+      <div class="col-md-12">
+        <form [formGroup]="forms">
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Nama
+            </div>
+            <div class="col-md-9">
+              <input type="text" formControlName="nmphk3" placeholder="Nama" class="form-control"/>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Instansi
+            </div>
+            <div class="col-md-9">
+              <input type="text" formControlName="nminst" placeholder="Instansi" class="form-control"/>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Jenis Usaha
+            </div>
+            <div class="col-md-9">
+              <p-dropdown
+                [options]="usaha"
+                [style]="{'width': '100%'}"
+                placeholder="Pilih Jenis Usaha"
+                (onChange)="usahaChange($event)"
+                optionLabel="badanusaha"
+                [(ngModel)]="usahaSelected"
+                [ngModelOptions]="{standalone: true}">
+              </p-dropdown>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              No. Telp
+            </div>
+            <div class="col-md-9">
+              <input type="text" formControlName="telepon" placeholder="No Telepon" class="form-control"/>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Alamat
+            </div>
+            <div class="col-md-9">
+              <textarea type="text" formControlName="alamat" placeholder="Alamat" class="form-control" ></textarea>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              WNA / WNI
+            </div>
+            <div class="col-md-9">
+              <p-radioButton name="type" value="WNI" label="WNI" formControlName="warganegara" inputId="wni1"></p-radioButton> &nbsp;
+              <p-radioButton name="type" value="WNA" label="WNA" formControlName="warganegara" inputId="wni2"></p-radioButton>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              NPWP
+            </div>
+            <div class="col-md-9">
+              <input type="text" formControlName="npwp" placeholder="NN.NNN.NNN.N-NNN.NNN" class="form-control"/>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Bank
+            </div>
+            <div class="col-md-9">
+              <p-dropdown
+                [options]="bank"
+                [style]="{'width': '100%'}"
+                [filter]="true"
+                filterBy="label,value.name"
+                (onChange)="bankChange($event)"
+                [(ngModel)]="bankSelected"
+                placeholder="Pilih Bank"
+                optionLabel="akbank"
+                [ngModelOptions]="{standalone: true}">
+              </p-dropdown>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Alamat Bank
+            </div>
+            <div class="col-md-9">
+              <textarea type="text" formControlName="alamatbank" placeholder="Alamat Bank" class="form-control" ></textarea>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              No. Rekening
+            </div>
+            <div class="col-md-8">
+              <input type="text" formControlName="norekbank" placeholder="No Rekening Bank" class="form-control">
+            </div>
+            <div class="col-md-1 pt-2">
+              <p-checkbox formControlName="integrasibank" binary="true" [readonly]="true"></p-checkbox>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-3">
+              Nama Pemilik Rekening
+            </div>
+            <div class="col-md-9">
+              <input type="text" formControlName="namapemilik" placeholder="Nama Pemilik Rekening" class="form-control">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <p-messages [(value)]="msg"></p-messages>
+      </div>
+    </div>
+    <p-footer>
+      <button type="button" [disabled]="!forms.valid" class="btn btn-success btn-sm" (click)="simpan()"><i class="fa fa-save"></i>&nbsp;Simpan</button>
+      <button type="button" class="btn btn-secondary btn-sm" (click)="onHide()"><i class="fa fa-close"></i>&nbsp;Kembali</button>
+    </p-footer>
+  </p-dialog>

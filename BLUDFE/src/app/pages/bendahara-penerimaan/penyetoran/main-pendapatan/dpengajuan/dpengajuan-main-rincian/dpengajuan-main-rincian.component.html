@@ -1,0 +1,16 @@
+<div class="row mt-2" *ngIf="StsSelected">
+  <div class="col-md-12" >
+    <p-tabView [activeIndex]="tabIndex" (onChange)="onChangeTab($event)">
+      <p-tabPanel header="TBP" *ngIf="group2">
+        <ng-template pTemplate="content">
+          <app-dpengajuan-tbp [StsSelected]="StsSelected" [tabIndex]="tabIndex"></app-dpengajuan-tbp>
+        </ng-template>
+      </p-tabPanel>
+      <p-tabPanel header="Rekening Pendapatan">
+        <ng-template pTemplate="content">
+          <app-dpengajuan-rekening [StsSelected]="StsSelected" [tabIndex]="tabIndex"></app-dpengajuan-rekening>
+        </ng-template>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</div> 

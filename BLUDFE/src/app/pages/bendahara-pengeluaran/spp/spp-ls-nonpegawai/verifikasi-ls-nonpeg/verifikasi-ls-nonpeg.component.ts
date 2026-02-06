@@ -1,0 +1,333 @@
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { IDaftunit } from 'src/app/core/interface/idaftunit';
+import { IDisplayGlobal, ILookupTree } from 'src/app/core/interface/iglobal';
+import { ISpp } from 'src/app/core/interface/ispp';
+import { ITokenClaim } from 'src/app/core/interface/itoken-claim';
+import { AuthenticationService } from 'src/app/core/services/auth.service';
+import { DaftunitService } from 'src/app/core/services/daftunit.service';
+import { SppService } from 'src/app/core/services/spp.service';
+import { StattrsService } from 'src/app/core/services/stattrs.service';
+import { NotifService } from 'src/app/core/_commonServices/notif.service';
+import { LookDaftunitComponent } from 'src/app/shared/lookups/look-daftunit/look-daftunit.component';
+import { LookDpakegiatanComponent } from 'src/app/shared/lookups/look-dpakegiatan/look-dpakegiatan.component';
+import { VerifikasiLsNonpegCheckComponent } from './verifikasi-ls-nonpeg-check/verifikasi-ls-nonpeg-check.component';
+import { VerifikasiLsNonpegFormComponent } from './verifikasi-ls-nonpeg-form/verifikasi-ls-nonpeg-form.component';
+import { ReportModalComponent } from 'src/app/shared/modals/report-modal/report-modal.component';
+import { ReportService } from 'src/app/core/services/report.service';
+import {LazyLoadEvent} from 'primeng/api';
+
+@Component({
+  selector: 'app-verifikasi-ls-nonpeg',
+  templateUrl: './verifikasi-ls-nonpeg.component.html',
+  styleUrls: ['./verifikasi-ls-nonpeg.component.scss']
+})
+export class VerifikasiLsNonpegComponent implements OnInit, OnDestroy, OnChanges {
+  @Input() tabIndex: number = 0;
+  uiUnit: IDisplayGlobal;
+  unitSelected: IDaftunit;
+  uiKeg: IDisplayGlobal;
+  kegSelected: ILookupTree;
+  userInfo: ITokenClaim;
+  loading: boolean;
+  loading_rek: boolean;
+  listdata: ISpp[] = [];
+  totalRecords: number = 0;
+  dataSelected: ISpp = null;
+  @ViewChild(LookDaftunitComponent, {static: true}) Daftunit : LookDaftunitComponent;
+  @ViewChild(LookDpakegiatanComponent, {static: true}) Kegiatan : LookDpakegiatanComponent;
+  @ViewChild(VerifikasiLsNonpegFormComponent, {static: true}) Form : VerifikasiLsNonpegFormComponent;
+  @ViewChild(VerifikasiLsNonpegCheckComponent, {static: true}) Checks: VerifikasiLsNonpegCheckComponent;
+  @ViewChild('dt',{static:false}) dt: any;
+  @ViewChild(ReportModalComponent,{static: true}) showTanggal: ReportModalComponent;
+  sppSelected: ISpp;
+  formFilter: FormGroup;
+  initialForm: any;
+  constructor(
+    private auth: AuthenticationService,
+    private service: SppService,
+    private notif: NotifService,
+    private stattrsService: StattrsService,
+    private fb: FormBuilder,
+    private reportService: ReportService,
+    private unitService: DaftunitService
+  ) {
+    this.userInfo = this.auth.getTokenInfo();
+    this.uiUnit = {kode: '', nama: ''};
+    this.uiKeg = {kode: '', nama: ''};
+    this.formFilter = this.fb.group({
+      idunit: [0, [Validators.required, Validators.min(1)]],
+      kdstatus: '24',
+      kdtahap: '321',
+      idxkode: 2,
+      idkeg: [0, [Validators.required, Validators.min(1)]]
+    });
+    this.initialForm = this.formFilter.value;
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if(this.tabIndex == 1){
+      if(this.userInfo.Idunit != 0){
+        this.unitService.get(this.userInfo.Idunit).subscribe(resp => {
+          this.callBackDaftunit(resp);
+        },error => {
+          this.loading = false;
+          if(Array.isArray(error.error.error)){
+            for(var i = 0; i < error.error.error.length; i++){
+              this.notif.error(error.error.error[i]);
+            }
+          } else {
+            this.notif.error(error.error);
+          }
+        });
+      }
+    } else {
+      this.ngOnDestroy();
+    }
+  }
+
+  ngOnInit() {
+  }
+  lookDaftunit(){
+    this.Daftunit.title = 'Pilih Unit Organisasi';
+    this.Daftunit.gets('3,4');
+    this.Daftunit.showThis = true;
+  }
+  callBackDaftunit(e: IDaftunit){
+    this.unitSelected = e;
+    this.uiUnit = {kode: this.unitSelected.kdunit, nama: this.unitSelected.nmunit};
+    this.formFilter.patchValue({
+      idunit: this.unitSelected.idunit,
+      idkeg: 0
+    });
+    this.listdata = [];
+    this.dataSelected = null;
+    this.listdata = [];
+    this.uiKeg = {kode: '', nama: ''};
+    this.kegSelected = null;
+    if (this.dt) this.dt.reset();
+  }
+  lookKegiatan(){
+    if(this.unitSelected){
+      this.Kegiatan.title = 'Pilih Sub Kegiatan';
+      this.Kegiatan.get(this.formFilter.value.idunit, this.formFilter.value.kdtahap, false, 2); //parameter ke 4 = jnskeg, Non Pegawai SKPD
+      this.Kegiatan.showThis = true;
+    } else {
+      this.notif.warning('Pilih Unit Organisasi');
+    }
+  }
+  callBackKegiatan(e: ILookupTree){
+    this.kegSelected = e;
+    let split_label = this.kegSelected.label.split('-');
+    this.uiKeg = {kode: split_label[0], nama: split_label[1]};
+    this.formFilter.patchValue({
+      idkeg: this.kegSelected.data_id
+    });
+    if (this.dt) this.dt.reset();
+  }
+  gets(event: LazyLoadEvent) {
+    if (this.formFilter.valid && this.tabIndex == 1) {
+      this.loading = true;
+      this.listdata = [];
+      this.totalRecords = 0;
+      this.dataSelected = null;
+      const params = {
+        'Start': event.first,
+        'Rows': event.rows,
+        'GlobalFilter': event.globalFilter ? event.globalFilter : '',
+        'SortField': event.sortField ? event.sortField : null,
+        'SortOrder': event.sortOrder ? event.sortOrder : 1,
+  /*gets(event: LazyLoadEvent) {
+    console.log(event.globalFilter);
+    if (this.formFilter.valid && this.tabIndex == 1) {
+      this.loading = true;
+      this.listdata = [];
+      this.totalRecords = 0;
+      this.dataSelected = null;
+      const params = {
+        'Start': event.first,
+        'Rows': event.rows,
+        'GlobalFilter': event.globalFilter ? event.globalFilter : '',
+        'SortField': event.sortField,
+        'SortOrder': event.sortOrder,*/
+        'Parameters.Idunit': this.formFilter.value.idunit,
+        'Parameters.Kdstatus': this.formFilter.value.kdstatus,
+        'Parameters.Idxkode': this.formFilter.value.idxkode,
+        'Parameters.Idbend': 0,
+        'Parameters.Idkeg': this.formFilter.value.idkeg
+      };
+      this.service.paging(params).subscribe(resp => {
+        if (resp.totalrecords > 0) {
+          this.totalRecords = resp.totalrecords;
+          this.listdata = resp.data;
+        } else {
+          this.notif.info('Data Tidak Tersedia');
+        }
+        this.loading = false;
+      }, error => {
+        this.loading = false;
+        if (Array.isArray(error.error.error)) {
+          for (var i = 0; i < error.error.error.length; i++) {
+            this.notif.error(error.error.error[i]);
+          }
+        } else { 
+          this.notif.error(error.error);
+        }
+      });
+    }
+  }
+  /*callback(e: any){
+    if(e.added){
+      this.listdata.push(e.data);
+      if (this.dt) this.dt.reset();
+    } else if(e.edited){
+      let index = this.listdata.findIndex(f => f.idspp === e.data.idspp);
+      this.listdata = this.listdata.filter(f => f.idspp != e.data.idspp);
+      this.listdata.splice(index, 0, e.data);
+      if (this.dt) this.dt.reset();
+    }
+  }*/
+   callback(e: any){
+    if(e.added || e.edited){
+      if (this.dt) {
+        this.gets({ first: this.dt.first, rows: this.dt.rows });
+      }
+    }
+  }
+  print(e: ISpp){
+      this.sppSelected = e;
+      this.showTanggal.useTgl = true;
+      this.showTanggal.useHal = true;
+      this.showTanggal.showThis = true;
+    }
+    callBackTanggal(e: any){
+      let parameterReport = {
+        Type: 1,
+        FileName: 'sppd.rpt',
+        Params: {
+          '@idunit': this.unitSelected.idunit,
+          '@nospp' : this.sppSelected.nospp,
+          '@kdtahap': '321',
+        }
+      };
+      this.reportService.execPrint(parameterReport).subscribe((resp) => {
+        this.reportService.extractData(resp, 1, `laporan_${this.sppSelected.nospp}`);
+      });
+    }
+  update(e: ISpp){
+    this.Form.forms.patchValue({
+      idspp : e.idspp,
+      idunit : e.idunit,
+      nospp : e.nospp,
+      kdstatus : e.kdstatus,
+      idbulan : e.idbulan,
+      idbend : e.idbend,
+      idspd : e.idspd,
+      idphk3 : e.idphk3,
+      idxkode : e.idxkode,
+      noreg : e.noreg,
+      ketotor : e.ketotor,
+      idkontrak : e.idkontrak,
+      keperluan : e.keperluan,
+      tglspp : e.tglspp !== null ? new Date(e.tglspp) : new Date(),
+      status : e.status,
+      nilaiup: e.nilaiup,
+      idkeg: this.kegSelected ? this.kegSelected.data_id : 0,
+      tglvalid : e.tglvalid !== null ? new Date(e.tglvalid) : new Date(),
+      valid: e.valid,
+      validasi: e.validasi
+    });
+    if(e.idspdNavigation){
+      this.Form.uiSpd = {kode: e.idspdNavigation.nospd, nama: e.idspdNavigation.tglspd !== null ? new Date(e.idspdNavigation.tglspd).toLocaleDateString('en-US') : ''};
+      this.Form.spdSelected = e.idspdNavigation;
+    }
+    if(e.idbendNavigation){
+      this.Form.uiBend = {
+        kode: e.idbendNavigation.idpegNavigation.nip,
+        nama: e.idbendNavigation.idpegNavigation.nama + ',' + e.idbendNavigation.jnsbendNavigation.jnsbend.trim() + ' - ' + e.idbendNavigation.jnsbendNavigation.uraibend.trim()
+      }
+      this.Form.bendSelected = e.idbendNavigation;
+    }
+    if(e.idkontrakNavigation){
+      this.Form.kontrakSelected = e.idkontrakNavigation;
+      this.Form.uiKontrak = {kode: e.idkontrakNavigation.nokontrak, nama: e.idkontrakNavigation.uraian};
+    }
+    if(e.idphk3Navigation){
+      this.Form.phk3Selected = e.idphk3Navigation;
+      this.Form.uiPhk3 = {kode: e.idphk3Navigation.nmphk3, nama: e.idphk3Navigation.nminst};
+    }
+    this.stattrsService.get(e.kdstatus).subscribe(resp => {
+      this.Form.nmstatus = resp.lblstatus.trim();
+      this.Form.title = 'Pengesahan Data';
+      this.Form.mode = 'edit';
+      this.Form.isstatus = e.status;
+      this.Form.showThis = true;
+    },(error) => {
+      if(Array.isArray(error.error.error)){
+        for(var i = 0; i < error.error.error.length; i++){
+          this.notif.error(error.error.error[i]);
+        }
+      } else {
+        this.notif.error(error.error);
+      }
+    });
+  }
+  delete(e: ISpp){
+    let postBody = {
+      idspp: e.idspp,
+      nospp: e.nospp,
+      idbend: e.idbend,
+      kdstatus: e.kdstatus,
+      tglspp: e.tglspp,
+      tglvalid: null,
+      verifikasi: '',
+      valid: null,
+      validasi: ''
+    };
+    this.notif.confir({
+      message: `Batalkan Pengesahan ?`,
+      accept: () => {
+        this.service.pengesahan(postBody).subscribe(
+          (resp) => {
+            if (resp.ok) {
+              this.callback({
+                edited: true,
+                data: resp.body
+              });
+              this.notif.success('Pengesahan Berhasil Dibatalkan');
+            }
+          }, (error) => {
+            if (Array.isArray(error.error.error)) {
+              for (var i = 0; i < error.error.error.length; i++) {
+                this.notif.error(error.error.error[i]);
+              }
+            } else {
+              this.notif.error(error.error);
+            }
+          });
+      },
+      reject: () => {
+        return false;
+      }
+    });
+  }
+  dataKlick(e: ISpp){
+		this.dataSelected = e;
+	}
+  lookCheck(e: ISpp){
+    this.Checks.title = 'Check List Dokumen';
+    this.Checks._idspp = e.idspp;
+    this.Checks._idxkode = e.idxkode;
+    this.Checks.isstatus = e.status;
+    this.Checks.showThis = true;
+  }
+  ngOnDestroy(): void{
+    this.listdata = [];
+		this.uiUnit = { kode: '', nama: '' };
+    this.uiKeg = { kode: '', nama: '' };
+		this.unitSelected = null;
+    this.kegSelected = null;
+		this.dataSelected = null;
+    if(this.formFilter) this.formFilter.reset(this.initialForm);
+    this.totalRecords = 0;
+  }
+}

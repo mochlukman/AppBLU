@@ -1,0 +1,160 @@
+<p-dialog class="forCalender"
+    [(visible)]="showThis"
+    (onShow)="onShow()"
+    [style]="{width: '80vw'}"
+    [modal]="true"
+    (onHide)="onHide()"
+    [maximizable]="true"
+    [draggable]="false">
+    <app-ui-preloader [display]="loading_post"></app-ui-preloader>
+    <p-header>
+        {{title}}
+    </p-header>
+    <div class="row">
+      <div class="col-md-12">
+        <form [formGroup]="forms">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row mb-2">
+                <div class="col-md-3">
+                  Nomor
+                </div>
+                <div class="col-md-9">
+                  <input type="text" formControlName="nospm" placeholder="Nomor" class="form-control" readonly/>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-md-3">
+                  Tanggal
+                </div>
+                <div class="col-md-5">
+                  <p-calendar
+                    formControlName="tglspm"
+                    [showIcon]="true"
+                    [locale]="indoKalender"
+                    [monthNavigator]="true"
+                    yearRange="2000:2030"
+                    showButtonBar="true"
+                    [style]="{'width': '100%'}"
+                    [yearNavigator]="true"></p-calendar>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-md-3">
+                  Jenis Bukti
+                </div>
+                <div class="col-md-5">
+                  <input type="text" [(ngModel)]="nmstatus" placeholder="Nomor" class="form-control" [ngModelOptions]="{standalone: true}" readonly/>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-md-3">
+                  Bendahara
+                </div>
+                <div class="col-md-4">
+                  <input type="text" class="form-control" placeholder="Nip" [(ngModel)]="uiBend.kode" [pTooltip]="uiBend.kode" [ngModelOptions]="{standalone: true}" readonly/>
+                </div>
+                <div class="col-md-4">
+                  <input type="text" class="form-control" placeholder="Uraian" [(ngModel)]="uiBend.nama" [pTooltip]="uiBend.nama" [ngModelOptions]="{standalone: true}" readonly/>
+                </div>
+                <div class="col-md-1 pl-0">
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-md-3">
+                  No. S-PPD
+                </div>
+                <div class="col-md-4">
+                  <input type="text" class="form-control" placeholder="No" [(ngModel)]="uiSpp.kode" [pTooltip]="uiSpp.kode" readonly [ngModelOptions]="{standalone: true}"/>
+                </div>
+                <div class="col-md-4">
+                  <input type="text" class="form-control" placeholder="Tgl S-PPD" [(ngModel)]="uiSpp.nama" [pTooltip]="uiSpp.nama" readonly [ngModelOptions]="{standalone: true}"/>
+                </div>
+                <div class="col-md-1 pl-0">
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-md-3">
+                  No. SPD
+                </div>
+                <div class="col-md-4">
+                  <input type="text" class="form-control" placeholder="No" formControlName="nospd" [pTooltip]="forms.get('nospd').value" readonly/>
+                </div>
+                <div class="col-md-4">
+                  <input type="text" class="form-control" placeholder="Tgl SPD" formControlName="tglspd" [pTooltip]="forms.get('tglspd').value" readonly/>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row mb-2">
+                <div class="col-md-3">
+                  Dasar Pengeluaran
+                </div>
+                <div class="col-md-9">
+                  <textarea type="text" formControlName="ketotor" placeholder="Dasar Pengeluaran" class="form-control" readonly></textarea>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-md-3">
+                  Keperluan
+                </div>
+                <div class="col-md-9">
+                  <textarea type="text" formControlName="keperluan" placeholder="Keperluan" class="form-control" readonly></textarea>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-md-3">
+                  No. Registrasi
+                </div>
+                <div class="col-md-5">
+                  <input type="text" formControlName="noreg" placeholder="No. Reg" class="form-control" readonly/>
+                </div>
+              </div>
+              <div class="row mb-4 mt-4">
+                <div class="col-md-3">
+                  Persetujuan
+                </div>
+                <div class="col-md-9">
+                  <p-radioButton name="type" [value]="true" label="Disetujui" formControlName="valid" inputId="opt1" class="mr-2"></p-radioButton>
+                  <p-radioButton name="type" [value]="false" label="Tidak Disetujui" formControlName="valid" inputId="opt2"></p-radioButton>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-md-3">
+                  Verifikasi
+                </div>
+                <div class="col-md-9">
+                  <textarea type="text" formControlName="validasi" placeholder="Validasi" class="form-control" ></textarea>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-md-3">
+                  Tanggal Validasi
+                </div>
+                <div class="col-md-5">
+                  <p-calendar
+                    formControlName="tglvalid"
+                    [showIcon]="true"
+                    [locale]="indoKalender"
+                    [monthNavigator]="true"
+                    yearRange="2000:2030"
+                    showButtonBar="true"
+                    [style]="{'width': '100%'}"
+                    [yearNavigator]="true"></p-calendar>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <p-messages [(value)]="msg"></p-messages>
+      </div>
+    </div>
+    <p-footer>
+      <button type="button" [disabled]="!forms.valid || loading_post" class="btn btn-success btn-sm mr-1" (click)="simpan()" *ngIf="!isstatus"><i class="fa fa-save mr-1"></i>Simpan</button>
+      <button type="button" [disabled]="loading_post" class="btn btn-secondary btn-sm" (click)="onHide()"><i class="fa fa-close mr-1"></i>Kembali</button>
+    </p-footer>
+  </p-dialog>

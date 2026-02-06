@@ -1,0 +1,48 @@
+import { Ibend } from './ibend';
+import { IKontrak } from './ikontrak';
+import { ISpd } from './ispd';
+import { ISpm } from './ispm';
+import { IZkode } from './izkode';
+import {IBkbkas} from 'src/app/core/interface/ibkbkas';
+
+export interface ISp2d {
+  idsp2d : number;
+  nosp2d : string;
+  idunit : number;
+  kdstatus : string;
+  idspm : number;
+  nospm : string;
+  idbend : number;
+  idspd : number;
+  idphk3 : number;
+  idttd : number;
+  idxkode : number;
+  noreg : string;
+  ketotor : string;
+  idkontrak : number;
+  keperluan : string;
+  penolakan : string;
+  tglvalid : null;
+  createdate : null;
+  createby : string;
+  updatedate : null;
+  updateby : string;
+  validby : string;
+  valid: boolean;
+  validasi: string;
+  verifikasi: string;
+  tglsp2d : null;
+  tglspm : null;
+  nobbantu : string;
+  datecreate : number;
+  dateupdate : number;
+  idbendNavigation : Ibend;
+  idkontrakNavigation : IKontrak;
+  idspdNavigation : ISpd;
+  idspmNavigation : ISpm;
+  idxkodeNavigation : IZkode;
+  idkeg: number;
+  idppk: number;
+  idppkNavigation: any;
+  nobbantuNavigation: IBkbkas;
+}

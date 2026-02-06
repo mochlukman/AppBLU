@@ -1,0 +1,9 @@
+<div class="row mt-2" *ngIf="lpjSelected">
+  <div class="col-md-12">
+    <p-tabView [activeIndex]="tabIndex" (onChange)="onChangeTab($event)">
+      <p-tabPanel header="Rincian LPJ">
+        <app-lpj-pengajuan-rincian [lpjSelected]="lpjSelected"></app-lpj-pengajuan-rincian>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</div>

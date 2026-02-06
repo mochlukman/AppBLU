@@ -1,0 +1,82 @@
+<p-dialog class="forCalender" 
+    [(visible)]="showthis"
+    (onShow)="onShow()"
+    [style]="{width: '35vw'}"
+    [modal]="true"
+    (onHide)="onHide()"
+    [maximizable]="true"
+    [draggable]="false">
+    <app-ui-preloader [display]="loadingpost"></app-ui-preloader>
+    <p-header>
+        {{title}}
+    </p-header>
+    <div class="row">
+      <div class="col-md-12">
+        <fieldset class="border p-2">
+          <form [formGroup]="forms">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="row mb-2">
+                  <div class="col-md-12 mb-2 font-weight-bold">
+                      Jenis Rekening
+                  </div>
+                  <div class="col-md-12">
+                    <input type="text" [(ngModel)]="jenisakun" class="form-control" [ngModelOptions]="{standalone: true}" [readOnly]="true"/>
+                  </div>
+                </div>
+                <div class="row mb-2" *ngIf="jnsakunselected && jnsakunselected.idjnsakun == 5">
+                  <div class="col-md-12 mb-2 font-weight-bold">
+                    Sub Kegiatan
+                  </div>
+                  <div class="col-md-5">
+                    <input type="text" class="form-control" placeholder="Kode" [(ngModel)]="uiKeg.kode" [pTooltip]="uiKeg.kode" [ngModelOptions]="{standalone: true}" readonly/>
+                  </div>
+                  <div class="col-md-7">
+                    <input type="text" class="form-control" placeholder="Uraian" [(ngModel)]="uiKeg.nama" [pTooltip]="uiKeg.nama" [ngModelOptions]="{standalone: true}" readonly/>
+                  </div>
+                </div>
+                <div class="row mb-2">
+                  <div class="col-md-12 mb-2 font-weight-bold">
+                    Rekening
+                  </div>
+                  <div class="col-md-5">
+                    <input type="text" class="form-control" placeholder="Kode" [(ngModel)]="uiRek.kode" [pTooltip]="uiRek.kode" [ngModelOptions]="{standalone: true}" readonly/>
+                  </div>
+                  <div class="col-md-7">
+                    <input type="text" class="form-control" placeholder="Uraian" [(ngModel)]="uiRek.nama" [pTooltip]="uiRek.nama" [ngModelOptions]="{standalone: true}" readonly/>
+                  </div>
+                </div>
+                <div class="row mb-2">
+                  <div class="col-md-12 mb-2 font-weight-bold">
+                    Posisi
+                  </div>
+                  <div class="col-md-12">
+                    <p-radioButton name="posisi" value="D" label="Debit" formControlName="kdpers" class="pr-5"></p-radioButton>
+                    <p-radioButton name="posisi" value="K" label="Kredit" formControlName="kdpers"></p-radioButton>
+                  </div>
+                </div>
+                <div class="row mb-2">
+                  <div class="col-md-12 mb-2 font-weight-bold">
+                    Nilai
+                  </div>
+                  <div class="col-md-12">
+                    <input type="text" appInputRupiah placeholder="Nilai" class="form-control" formControlName="nilai"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </fieldset>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <p-messages [(value)]="msg"></p-messages>
+      </div>
+    </div>
+    <p-footer>
+      <button type="button" [disabled]="loadingpost" class="btn btn-dark btn-sm" (click)="onHide()"><i class="fa fa-undo mr-1"></i>Kembali</button>
+    </p-footer>
+  </p-dialog>
+  <app-look-dpakegiatan (callBack)="callbackKegiatan($event)"></app-look-dpakegiatan>
+  <app-lookup-rek-by-jnsakun (callback)="callbackRekening($event)"></app-lookup-rek-by-jnsakun>
